@@ -6,9 +6,12 @@ import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
+import eu.sequence.Sequence;
 import eu.sequence.SequencePlugin;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 
 public class PacketListener implements Listener {
     public PacketListener(final SequencePlugin plugin) {
@@ -44,5 +47,15 @@ public class PacketListener implements Listener {
 
     public void onPacketSend(Player player, PacketContainer packet) {
 
+    }
+
+    @EventHandler
+    public void onJoin(PlayerJoinEvent e) {
+        Sequence.getInstance().getPlayerDataManager().add(e.getPlayer());
+    }
+
+    @EventHandler
+    public void onQuit(PlayerJoinEvent e) {
+        Sequence.getInstance().getPlayerDataManager().remove(e.getPlayer());
     }
 }

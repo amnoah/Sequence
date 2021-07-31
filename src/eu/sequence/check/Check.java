@@ -13,6 +13,7 @@ public abstract class Check {
     public Check(final PlayerData playerData) {
         this.playerData = playerData;
 
+        /* get the annotation and extract the check info from it */
         if (this.getClass().isAnnotationPresent(CheckInfo.class)) {
             final CheckInfo checkInfo = this.getClass().getAnnotation(CheckInfo.class);
             this.name = checkInfo.name();
