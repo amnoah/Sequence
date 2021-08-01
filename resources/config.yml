@@ -1,0 +1,4 @@
+checks:
+  example:
+    max: 10
+    enabled: true

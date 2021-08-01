@@ -12,7 +12,8 @@ public class Example extends Check {
     }
 
     @Override
-    public void handle(PacketEvent e) {
+    public void handle(PacketEvent event)
+    {
 
     }
 }
