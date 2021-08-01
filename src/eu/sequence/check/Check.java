@@ -46,7 +46,7 @@ public abstract class Check {
     {
         vl++;
         /* TODO: add actual alerts */
-        Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', "&8[&eSequence&8] &e" + playerData.getPlayer().getName() + "&7 failed &e" + name + " &8(&ex" + ((int) Math.round(vl)) + "&8)"));
+        Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', "&7[&eSequence&7] &e" + playerData.getPlayer().getName() + "&f failed &e" + name + " &8(&ex" + ((int) Math.round(vl)) + "&8)"));
         if (Math.floor(vl + 1) > max) {
             vl = 0;
             punish();
@@ -60,7 +60,7 @@ public abstract class Check {
             @Override
             public void run()
             {
-                playerData.getPlayer().kickPlayer(ChatColor.translateAlternateColorCodes('&', "&8[&eSequence&8] &eUnfair Advantage"));
+                playerData.getPlayer().kickPlayer(ChatColor.translateAlternateColorCodes('&', "&7[&eSequence&7] &eUnfair Advantage"));
             }
         });
     }
