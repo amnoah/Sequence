@@ -4,8 +4,9 @@ import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketEvent;
 import eu.sequence.data.PlayerData;
 import eu.sequence.data.Processor;
+import lombok.Data;
 
-
+@Data
 public class RotationProcessor extends Processor {
 
     private PlayerData data;
