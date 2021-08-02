@@ -1,0 +1,5 @@
+
+*.xml
+*.iml
+*.class
+out/artifacts/Sequence_jar/Sequence.jar

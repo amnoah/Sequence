@@ -2,3 +2,10 @@ checks:
   example:
     max: 10
     enabled: true
+  motion:
+    gravity:
+      max: 15
+      enabled: true
+    jump:
+      max: 15
+      enabled: true
