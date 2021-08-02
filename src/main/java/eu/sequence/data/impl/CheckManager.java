@@ -6,6 +6,9 @@ import eu.sequence.check.Check;
 import eu.sequence.check.impl.Example;
 import eu.sequence.check.impl.movement.motion.MotionGravity;
 import eu.sequence.check.impl.movement.motion.MotionJump;
+
+import eu.sequence.check.impl.movement.speed.SpeedHorizontal;
+
 import eu.sequence.data.PlayerData;
 
 import java.util.Collection;
@@ -18,6 +21,9 @@ public class CheckManager {
                 .put(Example.class, new Example(playerData))
                 .put(MotionGravity.class,new MotionGravity(playerData))
                 .put(MotionJump.class,new MotionJump(playerData))
+
+                .put(SpeedHorizontal.class,new SpeedHorizontal(playerData))
+
                 .build();
     }
 
