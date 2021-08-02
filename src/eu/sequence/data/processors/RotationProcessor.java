@@ -1,5 +1,6 @@
 package eu.sequence.data.processors;
 
+import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketEvent;
 import eu.sequence.data.PlayerData;
 import eu.sequence.data.Processor;
@@ -19,16 +20,19 @@ public class RotationProcessor extends Processor {
     @Override
     public void handleReceive(PacketEvent event) {
 
-        /** Getting yaw one tick ago **/
-        double yaw = event.getPlayer().getLocation().getYaw();
-        deltaYaw = yaw - this.lastYaw;
-        this.lastYaw = yaw;
+        if(event.getPacketType() == PacketType.Play.Client.POSITION_LOOK || event.getPacketType() ==
+                PacketType.Play.Client.FLYING || event.getPacketType() == PacketType.Play.Client.LOOK) {
 
-        /** Getting pitch one tick ago **/
-        double pitch = event.getPlayer().getLocation().getPitch();
-        this.deltaPitch = pitch - this.lastPitch;
-        this.lastPitch = pitch;
+            /** Getting yaw one tick ago **/
+            double yaw = event.getPlayer().getLocation().getYaw();
+            deltaYaw = yaw - this.lastYaw;
+            this.lastYaw = yaw;
 
+            /** Getting pitch one tick ago **/
+            double pitch = event.getPlayer().getLocation().getPitch();
+            this.deltaPitch = pitch - this.lastPitch;
+            this.lastPitch = pitch;
+        }
 
     }
 

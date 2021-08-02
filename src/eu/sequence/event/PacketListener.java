@@ -26,7 +26,14 @@ public class PacketListener implements Listener {
                         @Override
                         public void onPacketReceiving(PacketEvent e)
                         {
+                            PlayerData data = Sequence.getInstance().getPlayerDataManager().getPlayerData(e.getPlayer());
+
                             onPacketReceive(e.getPlayer(), e.getPacket());
+                            //calling processors methods
+                            if(data != null) {
+                                data.getRotationProcessor().handleReceive(e);
+                                data.getMovementProcessor().handleReceive(e);
+                            }
                         }
                     });
                 }
@@ -36,12 +43,10 @@ public class PacketListener implements Listener {
             @Override
             public void onPacketSending(PacketEvent e)
             {
-                PlayerData data = Sequence.getInstance().getPlayerDataManager().getPlayerData(e.getPlayer());
+
                 onPacketSend(e.getPlayer(), e.getPacket());
 
-                //calling processors methods
-                data.getRotationProcessor().handleReceive(e);
-                data.getMovementProcessor().handleReceive(e);
+
             }
         });
         ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(plugin, ListenerPriority.NORMAL, PacketType.Play.Server.ENTITY_VELOCITY) {

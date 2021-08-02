@@ -5,6 +5,7 @@ import eu.sequence.check.CheckInfo;
 import eu.sequence.data.PlayerData;
 import eu.sequence.data.processors.MovementProcessor;
 import eu.sequence.event.PacketEvent;
+import org.bukkit.Bukkit;
 
 @CheckInfo(name = "Prediction",subName = "Gravity",experimental = true)
 public class PredictionGravity extends Check {
@@ -32,6 +33,8 @@ public class PredictionGravity extends Check {
 
             boolean exempt = movementProcessor.getAirTicks() < 5 || movementProcessor.isInLiquid() ||
                     movementProcessor.isInWeb() || movementProcessor.isOnClimbable() || Math.abs(predictionY) < 0.05;
+
+            Bukkit.broadcastMessage("d=" + difference);
 
             if(!exempt && difference > 0.01) {
                 if(++this.preVL > 2) {
