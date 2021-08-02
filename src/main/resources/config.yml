@@ -9,7 +9,8 @@ checks:
     jump:
       max: 15
       enabled: true
-    speed:
-      horizontal:
+  speed:
+    horizontal:
         max: 10
         enabled: true
+
