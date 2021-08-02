@@ -3,6 +3,7 @@ package eu.sequence;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class SequencePlugin extends JavaPlugin {
+
     @Override
     public void onEnable() {
         Sequence.createInstance();
@@ -12,6 +13,6 @@ public class SequencePlugin extends JavaPlugin {
     @Override
     public void onDisable()
     {
-        Sequence.getInstance().stop(this);
+        Sequence.getInstance().stop();
     }
 }

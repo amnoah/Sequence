@@ -5,19 +5,18 @@ import com.comphenix.protocol.events.PacketEvent;
 import eu.sequence.data.PlayerData;
 import eu.sequence.data.Processor;
 import eu.sequence.utilities.LocationUtils;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
+@Getter
+@RequiredArgsConstructor
 public class MovementProcessor extends Processor {
 
     private double deltaX,deltaZ,deltaXZ,deltaY,lastX,lastY,lastZ;;
     private int airTicks,edgeBlockTicks;
     private boolean isNearBoat,isInLiquid,isInWeb,isOnClimbable,isAtTheEdgeOfABlock,onGround;
 
-    private PlayerData data;
-
-    public MovementProcessor(PlayerData data) {
-        this.data = data;
-    }
-
+    private final PlayerData data;
 
     @Override
     public void handleReceive(PacketEvent event) {
@@ -69,75 +68,11 @@ public class MovementProcessor extends Processor {
             isOnClimbable = LocationUtils.isCollidingWithClimbable(event.getPlayer());
             isAtTheEdgeOfABlock = LocationUtils.isAtEdgeOfABlock(event.getPlayer());
             onGround = event.getPacket().getBooleans().read(0); //can be spoofed by the client
-
         }
-
-
     }
 
     @Override
     public void handleSending(PacketEvent event) {
 
-    }
-
-
-    public double getDeltaX() {
-        return deltaX;
-    }
-
-    public double getDeltaZ() {
-        return deltaZ;
-    }
-
-    public double getDeltaXZ() {
-        return deltaXZ;
-    }
-
-    public double getDeltaY() {
-        return deltaY;
-    }
-
-    public double getLastX() {
-        return lastX;
-    }
-
-    public double getLastY() {
-        return lastY;
-    }
-
-    public double getLastZ() {
-        return lastZ;
-    }
-
-    public int getAirTicks() {
-        return airTicks;
-    }
-
-    public int getEdgeBlockTicks() {
-        return edgeBlockTicks;
-    }
-
-    public boolean isNearBoat() {
-        return isNearBoat;
-    }
-
-    public boolean isInLiquid() {
-        return isInLiquid;
-    }
-
-    public boolean isInWeb() {
-        return isInWeb;
-    }
-
-    public boolean isOnClimbable() {
-        return isOnClimbable;
-    }
-
-    public boolean isAtTheEdgeOfABlock() {
-        return isAtTheEdgeOfABlock;
-    }
-
-    public boolean isOnGround() {
-        return onGround;
     }
 }

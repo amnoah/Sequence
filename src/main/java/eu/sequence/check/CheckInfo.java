@@ -7,6 +7,8 @@ import java.lang.annotation.RetentionPolicy;
 public @interface CheckInfo {
 
     String name();
+
     String subName() default "";
+
     boolean experimental() default false;
 }

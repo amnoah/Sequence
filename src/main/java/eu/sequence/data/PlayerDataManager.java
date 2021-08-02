@@ -9,28 +9,23 @@ import java.util.concurrent.ConcurrentHashMap;
 public class PlayerDataManager {
     private final Map<Player, PlayerData> playerDataMap = new ConcurrentHashMap<>();
 
-    public PlayerData getPlayerData(final Player player)
-    {
+    public PlayerData getPlayerData(final Player player) {
         return playerDataMap.getOrDefault(player, null);
     }
 
-    public void add(final Player player)
-    {
+    public void add(final Player player) {
         playerDataMap.put(player, new PlayerData(player));
     }
 
-    public boolean has(final Player player)
-    {
+    public boolean has(final Player player) {
         return this.playerDataMap.containsKey(player);
     }
 
-    public void remove(final Player player)
-    {
+    public void remove(final Player player) {
         playerDataMap.remove(player);
     }
 
-    public Collection<PlayerData> getAllData()
-    {
+    public Collection<PlayerData> getAllData() {
         return playerDataMap.values();
     }
 }

@@ -5,18 +5,17 @@ import com.comphenix.protocol.events.PacketEvent;
 import eu.sequence.data.PlayerData;
 import eu.sequence.data.Processor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Data
+@Getter
+@RequiredArgsConstructor
 public class RotationProcessor extends Processor {
 
-    private PlayerData data;
+    private final PlayerData data;
 
     private double deltaYaw,deltaPitch,lastYaw,lastPitch;
-
-    public RotationProcessor(PlayerData data) {
-        this.data = data;
-    }
-
 
     @Override
     public void handleReceive(PacketEvent event) {
@@ -41,6 +40,5 @@ public class RotationProcessor extends Processor {
     @Override
     public void handleSending(PacketEvent event) {
         return;
-
     }
 }
