@@ -1,5 +1,5 @@
 name: Sequence
-main: com.sequence.Sequence
+main: eu.sequence.SequencePlugin
 authors: [SalersFR, Orress, Sleepy]
 version: 0.1
 description: A minecraft anticheat
