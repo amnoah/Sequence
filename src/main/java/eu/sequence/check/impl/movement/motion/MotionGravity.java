@@ -35,8 +35,7 @@ public class MotionGravity extends Check {
 
                 boolean exempt = movementProcessor.getAirTicks() < 5 || movementProcessor.isInLiquid() ||
                         movementProcessor.isInWeb() || movementProcessor.isOnClimbable() || Math.abs(predictionY) < 0.05;
-
-                Bukkit.broadcastMessage("d=" + difference);
+                
 
                 if (!exempt && difference > 0.01) {
                     if (++this.preVL > 2) {

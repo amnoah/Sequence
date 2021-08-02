@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MovementProcessor extends Processor {
 
-    private double deltaX,deltaZ,deltaXZ,deltaY,lastX,lastY,lastZ;;
+    private double deltaX,deltaZ,deltaXZ,deltaY,lastX,lastY,lastZ,y;
     private int airTicks,edgeBlockTicks;
     private boolean isNearBoat,isInLiquid,isInWeb,isOnClimbable,isAtTheEdgeOfABlock,onGround;
 
@@ -36,7 +36,7 @@ public class MovementProcessor extends Processor {
              * Getting the Y one tick ago
              * And setting the deltaY with the current and last Y
              **/
-            double y = event.getPlayer().getLocation().getY();
+            y = event.getPlayer().getLocation().getY();
             deltaY = (y - this.lastY);
             this.lastY = y;
 
