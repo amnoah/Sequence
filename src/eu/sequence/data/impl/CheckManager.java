@@ -4,6 +4,7 @@ import com.google.common.collect.ClassToInstanceMap;
 import com.google.common.collect.ImmutableClassToInstanceMap;
 import eu.sequence.check.Check;
 import eu.sequence.check.impl.Example;
+import eu.sequence.check.impl.movement.prediction.PredictionGravity;
 import eu.sequence.data.PlayerData;
 
 import java.util.Collection;
@@ -15,6 +16,7 @@ public class CheckManager {
     {
         checks = new ImmutableClassToInstanceMap.Builder<Check>()
                 .put(Example.class, new Example(playerData))
+                .put(PredictionGravity.class,new PredictionGravity(playerData))
                 .build();
     }
 

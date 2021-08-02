@@ -10,21 +10,26 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public abstract class Check {
     protected final PlayerData playerData;
-    @Getter protected final String name;
-    @Getter protected final boolean experimental;
-    @Getter protected double max;
-    @Getter protected boolean enabled;
+    @Getter
+    protected final String name;
+    private String subName;
+    @Getter
+    protected final boolean experimental;
+    @Getter
+    protected double max;
+    @Getter
+    protected boolean enabled;
 
     protected double vl = 0;
 
-    public Check(final PlayerData playerData)
-    {
+    public Check(final PlayerData playerData) {
         this.playerData = playerData;
 
         /* get the annotation and extract the check info from it */
         if (this.getClass().isAnnotationPresent(CheckInfo.class)) {
             final CheckInfo checkInfo = this.getClass().getAnnotation(CheckInfo.class);
             this.name = checkInfo.name();
+            this.subName = checkInfo.subName();
             this.experimental = checkInfo.experimental();
         } else {
             Bukkit.getConsoleSender().sendMessage("No CheckInfo annotation found in class " + this.getClass().getSimpleName());
@@ -42,11 +47,17 @@ public abstract class Check {
         }
     }
 
-    protected void flag()
-    {
+    protected void flag() {
         vl++;
         /* TODO: add actual alerts */
-        Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', "&7[&eSequence&7] &e" + playerData.getPlayer().getName() + "&f failed &e" + name + " &8(&ex" + ((int) Math.round(vl)) + "&8)"));
+        if (subName.equalsIgnoreCase("")) {
+            Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', "&7[&eSequence&7] " +
+                    "&e" + playerData.getPlayer().getName() + "&f failed &e" + name + " &8(&ex" + ((int) Math.round(vl)) + "&8)"));
+        } else {
+            Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', "&7[&eSequence&7] " +
+                    "&e" + playerData.getPlayer().getName() + "&f failed &e" + name + "&f(&e" + this.subName + "&f)" +
+                    " &8(&ex" + ((int) Math.round(vl)) + "&8)"));
+        }
         if (Math.floor(vl + 1) > max) {
             vl = 0;
             punish();
@@ -54,19 +65,16 @@ public abstract class Check {
     }
 
     @SuppressWarnings("deprecation")
-    public void punish()
-    {
+    public void punish() {
         Bukkit.getScheduler().runTask(Sequence.getInstance().getPlugin(), new BukkitRunnable() {
             @Override
-            public void run()
-            {
+            public void run() {
                 playerData.getPlayer().kickPlayer(ChatColor.translateAlternateColorCodes('&', "&7[&eSequence&7] &eUnfair Advantage"));
             }
         });
     }
 
-    public void handle(PacketEvent event)
-    {
+    public void handle(PacketEvent event) {
 
     }
 }
