@@ -1,6 +1,7 @@
-package eu.sequence.check.impl.movement.prediction;
+package eu.sequence.check.impl.movement.motion;
 
 import eu.sequence.check.Check;
+import eu.sequence.check.CheckInfo;
 import eu.sequence.data.PlayerData;
 import eu.sequence.data.processors.MovementProcessor;
 import eu.sequence.data.processors.RotationProcessor;
@@ -10,12 +11,13 @@ import eu.sequence.utilities.PlayerUtils;
 import net.minecraft.server.v1_8_R3.MathHelper;
 import org.bukkit.potion.PotionEffectType;
 
-public class PredictionJump extends Check {
+@CheckInfo(name = "Motion",subName = "Jump")
+public class MotionJump extends Check {
 
     private boolean lastTickGround;
     private double lastDeltaX, lastDeltaZ;
 
-    public PredictionJump(PlayerData playerData) {
+    public MotionJump(PlayerData playerData) {
         super(playerData);
     }
 

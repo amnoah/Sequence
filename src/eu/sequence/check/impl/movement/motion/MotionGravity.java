@@ -1,4 +1,4 @@
-package eu.sequence.check.impl.movement.prediction;
+package eu.sequence.check.impl.movement.motion;
 
 import eu.sequence.check.Check;
 import eu.sequence.check.CheckInfo;
@@ -8,13 +8,13 @@ import eu.sequence.event.PacketEvent;
 import eu.sequence.event.PacketReceiveEvent;
 import org.bukkit.Bukkit;
 
-@CheckInfo(name = "Prediction",subName = "Gravity",experimental = true)
-public class PredictionGravity extends Check {
+@CheckInfo(name = "Motion",subName = "Gravity",experimental = true)
+public class MotionGravity extends Check {
 
     private double lastDeltaY;
     private int preVL;
 
-    public PredictionGravity(PlayerData playerData) {
+    public MotionGravity(PlayerData playerData) {
         super(playerData);
     }
 

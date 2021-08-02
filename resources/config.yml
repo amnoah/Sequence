@@ -2,7 +2,10 @@ checks:
   example:
     max: 10
     enabled: true
-  prediction:
+  motion:
     gravity:
+      max: 15
+      enabled: true
+    jump:
       max: 15
       enabled: true
