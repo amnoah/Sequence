@@ -2,3 +2,7 @@ checks:
   example:
     max: 10
     enabled: true
+  prediction:
+    gravity:
+      max: 15
+      enabled: true

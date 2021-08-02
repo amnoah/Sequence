@@ -8,6 +8,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.Locale;
+
 public abstract class Check {
     protected final PlayerData playerData;
     @Getter
@@ -38,7 +40,7 @@ public abstract class Check {
         }
         /* getting values from the config */
         if (name.contains(" ")) {
-            String s = name.toLowerCase().split(" ")[0], s2 = name.toLowerCase().split(" ")[1].replace("(", "").replace(")", "");
+            String s = name.toLowerCase().split(" ")[0], s2 = subName.toLowerCase();
             max = Sequence.getInstance().getPlugin().getConfig().getInt("checks." + s + "." + s2 + ".max");
             enabled = Sequence.getInstance().getPlugin().getConfig().getBoolean("checks." + s + "." + s2 + ".enabled");
         } else {
