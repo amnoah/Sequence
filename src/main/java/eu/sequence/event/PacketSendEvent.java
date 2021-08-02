@@ -8,6 +8,4 @@ public class PacketSendEvent extends PacketEvent {
     public PacketSendEvent(Player player, Packet packet) {
         super(player, packet);
     }
-
-
 }

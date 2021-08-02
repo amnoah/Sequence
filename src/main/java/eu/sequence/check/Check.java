@@ -1,9 +1,9 @@
 package eu.sequence.check;
 
 import eu.sequence.Sequence;
+import eu.sequence.data.PlayerData;
 import eu.sequence.event.PacketEvent;
 import lombok.Getter;
-import eu.sequence.data.PlayerData;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.scheduler.BukkitRunnable;

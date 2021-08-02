@@ -9,7 +9,6 @@ import com.comphenix.protocol.events.PacketEvent;
 import eu.sequence.Sequence;
 import eu.sequence.SequencePlugin;
 import eu.sequence.data.PlayerData;
-import eu.sequence.data.PlayerDataManager;
 import eu.sequence.packet.Packet;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,19 +16,17 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 public class PacketListener implements Listener {
-    public PacketListener(final SequencePlugin plugin)
-    {
-        for (PacketType packetType: PacketType.values()) {
+    public PacketListener(final SequencePlugin plugin) {
+        for (PacketType packetType : PacketType.values()) {
             if (packetType.isSupported()) {
                 if (packetType.isClient()) {
                     ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(plugin, ListenerPriority.NORMAL, packetType) {
                         @Override
-                        public void onPacketReceiving(PacketEvent e)
-                        {
+                        public void onPacketReceiving(PacketEvent e) {
                             PlayerData data = Sequence.getInstance().getPlayerDataManager().getPlayerData(e.getPlayer());
 
                             onPacketReceive(e.getPlayer(), e.getPacket());
-                            //calling processors methods
+                            // calling processors methods
                             if(data != null) {
                                 data.getRotationProcessor().handleReceive(e);
                                 data.getMovementProcessor().handleReceive(e);
@@ -41,12 +38,8 @@ public class PacketListener implements Listener {
         }
         ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(plugin, ListenerPriority.NORMAL, PacketType.Play.Server.POSITION) {
             @Override
-            public void onPacketSending(PacketEvent e)
-            {
-
+            public void onPacketSending(PacketEvent e) {
                 onPacketSend(e.getPlayer(), e.getPacket());
-
-
             }
         });
         ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(plugin, ListenerPriority.NORMAL, PacketType.Play.Server.ENTITY_VELOCITY) {
@@ -58,8 +51,7 @@ public class PacketListener implements Listener {
         });
     }
 
-    public void onPacketReceive(Player player, PacketContainer packet)
-    {
+    public void onPacketReceive(Player player, PacketContainer packet) {
         PlayerData data = Sequence.getInstance().getPlayerDataManager().getPlayerData(player);
         if (data == null)
             return;
@@ -67,8 +59,7 @@ public class PacketListener implements Listener {
 
     }
 
-    public void onPacketSend(Player player, PacketContainer packet)
-    {
+    public void onPacketSend(Player player, PacketContainer packet) {
         PlayerData data = Sequence.getInstance().getPlayerDataManager().getPlayerData(player);
         if (data == null)
             return;

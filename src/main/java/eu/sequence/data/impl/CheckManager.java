@@ -13,8 +13,7 @@ import java.util.Collection;
 public class CheckManager {
     private final ClassToInstanceMap<Check> checks;
 
-    public CheckManager(final PlayerData playerData)
-    {
+    public CheckManager(final PlayerData playerData) {
         checks = new ImmutableClassToInstanceMap.Builder<Check>()
                 .put(Example.class, new Example(playerData))
                 .put(MotionGravity.class,new MotionGravity(playerData))

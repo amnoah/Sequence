@@ -7,8 +7,7 @@ public class PacketEvent {
     private final Player player;
     private final Packet packet;
 
-    public PacketEvent(Player player, Packet packet)
-    {
+    public PacketEvent(Player player, Packet packet) {
         this.player = player;
         this.packet = packet;
     }

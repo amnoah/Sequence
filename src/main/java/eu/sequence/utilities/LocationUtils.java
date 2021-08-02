@@ -1,6 +1,5 @@
 package eu.sequence.utilities;
 
-import jdk.nashorn.internal.objects.NativeMath;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -27,7 +26,6 @@ public class LocationUtils {
      * @param location the location to check
      * @return if the location is close to ground
      */
-
     public static boolean isCloseToGround(Location location) {
         double distanceToGround = 0.31;
         for (double locX = -distanceToGround; locX <= distanceToGround; locX += distanceToGround) {
