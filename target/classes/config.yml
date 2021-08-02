@@ -1,0 +1,15 @@
+checks:
+  example:
+    max: 10
+    enabled: true
+  motion:
+    gravity:
+      max: 15
+      enabled: true
+    jump:
+      max: 15
+      enabled: true
+    speed:
+      horizontal:
+        max: 10
+        enabled: true
