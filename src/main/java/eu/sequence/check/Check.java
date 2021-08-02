@@ -8,8 +8,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.Locale;
-
 public abstract class Check {
     protected final PlayerData playerData;
     @Getter

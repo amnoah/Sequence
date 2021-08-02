@@ -10,8 +10,6 @@ import org.bukkit.entity.Player;
 
 public class LocationUtils {
 
-
-
     /**
      *
      * @param loc the location of the block to get
