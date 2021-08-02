@@ -8,21 +8,21 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class PlayerDataManager {
-    private final Map<UUID, PlayerData> playerDataMap = new ConcurrentHashMap<>();
+    private final Map<Player, PlayerData> playerDataMap = new ConcurrentHashMap<>();
 
     public PlayerData getPlayerData(final Player player)
     {
-        return playerDataMap.getOrDefault(player.getUniqueId(), null);
+        return playerDataMap.getOrDefault(player, null);
     }
 
     public void add(final Player player)
     {
-        playerDataMap.put(player.getUniqueId(), new PlayerData(player));
+        playerDataMap.put(player, new PlayerData(player));
     }
 
     public boolean has(final Player player)
     {
-        return this.playerDataMap.containsKey(player.getUniqueId());
+        return this.playerDataMap.containsKey(player);
     }
 
     public void remove(final Player player)

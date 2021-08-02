@@ -63,7 +63,7 @@ public class PacketListener implements Listener {
         PlayerData data = Sequence.getInstance().getPlayerDataManager().getPlayerData(player);
         if (data == null)
             return;
-        data.handle(new eu.sequence.event.PacketEvent(player, new Packet(packet)));
+        data.handle(new eu.sequence.event.PacketReceiveEvent(player, new Packet(packet)));
 
     }
 
@@ -72,7 +72,7 @@ public class PacketListener implements Listener {
         PlayerData data = Sequence.getInstance().getPlayerDataManager().getPlayerData(player);
         if (data == null)
             return;
-        data.handle(new eu.sequence.event.PacketEvent(player, new Packet(packet)));
+        data.handle(new eu.sequence.event.PacketSendEvent(player, new Packet(packet)));
     }
 
     @EventHandler
