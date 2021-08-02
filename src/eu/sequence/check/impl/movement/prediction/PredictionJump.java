@@ -23,7 +23,7 @@ public class PredictionJump extends Check {
         return MathHelper.sin(p_sin_0_);
     }
 
-    public static float cos(float p_cos_0_) {
+    private float cos(float p_cos_0_) {
         return MathHelper.cos(p_cos_0_);
     }
 
