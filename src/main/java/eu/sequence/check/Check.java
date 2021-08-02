@@ -42,8 +42,8 @@ public abstract class Check {
             max = Sequence.getInstance().getPlugin().getConfig().getInt("checks." + s + "." + s2 + ".max");
             enabled = Sequence.getInstance().getPlugin().getConfig().getBoolean("checks." + s + "." + s2 + ".enabled");
         } else {
-            max = Sequence.getInstance().getPlugin().getConfig().getInt("checks." + name.toLowerCase() + ".max");
-            enabled = Sequence.getInstance().getPlugin().getConfig().getBoolean("checks." + name.toLowerCase() + ".enabled");
+            max = Sequence.getInstance().getPlugin().getConfig().getInt("checks." + name.toLowerCase() + "." + subName.toLowerCase() + ".max");
+            enabled = Sequence.getInstance().getPlugin().getConfig().getBoolean("checks." + name.toLowerCase() + "." + subName.toLowerCase() + ".enabled");
         }
     }
 
