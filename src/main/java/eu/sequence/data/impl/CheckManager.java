@@ -1,6 +1,7 @@
 package eu.sequence.data.impl;
 
 import eu.sequence.check.Check;
+import eu.sequence.check.impl.combat.aim.AimBasicGCD;
 import eu.sequence.check.impl.combat.aim.AimSigma;
 import eu.sequence.check.impl.movement.flight.FlightAirJump;
 import eu.sequence.check.impl.movement.flight.FlightStable;
@@ -22,6 +23,7 @@ public class CheckManager {
                new MotionJump(playerData),
                new MotionGravity(playerData),
                new SpeedHorizontal(playerData),
+               new AimBasicGCD(playerData),
                new AimSigma(playerData));
     }
 

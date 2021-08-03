@@ -13,8 +13,19 @@ checks:
     horizontal:
       max: 10
       enabled: true
+  flight:
+    stable:
+      max: 5
+      enabled: true
+    airjump:
+      max: 10
+      enabled: true
   aim:
     sigma:
       max: 10
       enabled: true
+    basicgcd:
+      max: 5
+      enabled: true
+
 

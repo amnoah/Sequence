@@ -61,8 +61,7 @@ public class MovementProcessor extends Processor {
 
             this.deltaXZ = Math.hypot(deltaX, deltaZ);
 
-            data.getPlayer().sendMessage("DXZ: " + deltaXZ);
-            data.getPlayer().sendMessage("DY: " + deltaY);
+
 
             /* Getting since how many ticks player is in air */
             
