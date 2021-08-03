@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.github.steviebeenz:PacketWrapper:5a4fc344d5">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/github/steviebeenz/PacketWrapper/5a4fc344d5/PacketWrapper-5a4fc344d5.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/github/steviebeenz/PacketWrapper/5a4fc344d5/PacketWrapper-5a4fc344d5-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/github/steviebeenz/PacketWrapper/5a4fc344d5/PacketWrapper-5a4fc344d5-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

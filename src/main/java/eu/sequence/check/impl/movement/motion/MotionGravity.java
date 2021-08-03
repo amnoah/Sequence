@@ -14,6 +14,10 @@ public class MotionGravity extends Check {
     private double lastDeltaY;
     private int preVL;
 
+    /**
+     * @author Salers
+     **/
+
     public MotionGravity(PlayerData playerData) {
         super(playerData);
     }
