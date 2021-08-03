@@ -12,8 +12,10 @@ import eu.sequence.data.PlayerData;
 import eu.sequence.packet.Packet;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 public class PacketListener implements Listener {
     public PacketListener(final SequencePlugin plugin) {
@@ -23,14 +25,7 @@ public class PacketListener implements Listener {
                     ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(plugin, ListenerPriority.NORMAL, packetType) {
                         @Override
                         public void onPacketReceiving(PacketEvent e) {
-                            PlayerData data = Sequence.getInstance().getPlayerDataManager().getPlayerData(e.getPlayer());
-
                             onPacketReceive(e.getPlayer(), e.getPacket());
-                            // calling processors methods
-                            if(data != null) {
-                                data.getRotationProcessor().handleReceive(e);
-                                data.getMovementProcessor().handleReceive(e);
-                            }
                         }
                     });
                 }
@@ -56,7 +51,6 @@ public class PacketListener implements Listener {
         if (data == null)
             return;
         data.handle(new eu.sequence.event.PacketReceiveEvent(player, new Packet(packet)));
-
     }
 
     public void onPacketSend(Player player, PacketContainer packet) {
@@ -66,14 +60,14 @@ public class PacketListener implements Listener {
         data.handle(new eu.sequence.event.PacketSendEvent(player, new Packet(packet)));
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onJoin(PlayerJoinEvent e)
     {
         Sequence.getInstance().getPlayerDataManager().add(e.getPlayer());
     }
 
-    @EventHandler
-    public void onQuit(PlayerJoinEvent e)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    public void onQuit(PlayerQuitEvent e)
     {
         Sequence.getInstance().getPlayerDataManager().remove(e.getPlayer());
     }

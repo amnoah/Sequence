@@ -74,7 +74,5 @@ public abstract class Check {
         });
     }
 
-    public void handle(PacketEvent event) {
-
-    }
+    public abstract void handle(PacketEvent event);
 }

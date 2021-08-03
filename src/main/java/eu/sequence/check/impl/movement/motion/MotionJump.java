@@ -7,8 +7,8 @@ import eu.sequence.data.processors.MovementProcessor;
 import eu.sequence.data.processors.RotationProcessor;
 import eu.sequence.event.PacketEvent;
 import eu.sequence.event.PacketReceiveEvent;
+import eu.sequence.utilities.MathUtils;
 import eu.sequence.utilities.PlayerUtils;
-import net.minecraft.server.v1_8_R3.MathHelper;
 import org.bukkit.potion.PotionEffectType;
 
 @CheckInfo(name = "Motion", subName = "Jump")
@@ -17,16 +17,20 @@ public class MotionJump extends Check {
     private boolean lastTickGround;
     private double lastDeltaX, lastDeltaZ;
 
+    /**
+     * @author Salers
+     **/
+
     public MotionJump(PlayerData playerData) {
         super(playerData);
     }
 
     private float sin(float p_sin_0_) {
-        return MathHelper.sin(p_sin_0_);
+        return MathUtils.sin(p_sin_0_);
     }
 
     private float cos(float p_cos_0_) {
-        return MathHelper.cos(p_cos_0_);
+        return MathUtils.cos(p_cos_0_);
     }
 
     //skidded from mcp
@@ -53,19 +57,33 @@ public class MotionJump extends Check {
                 this.lastDeltaX = deltaX;
                 this.lastDeltaZ = deltaZ;
 
+                double predictionY = 0.42F + (double) ((float) (PlayerUtils.getPotionLevel(event.getPlayer(),
+                        PotionEffectType.JUMP) + 1) * 0.1F);
+
+                boolean invalidY = deltaY > predictionY;
+
+                boolean exempt = movementProcessor.isOnClimbable() || movementProcessor.isInLiquid() ||
+                        movementProcessor.isNearStairs() || movementProcessor.isNearSlabs();
+
+                if (exempt) return;
+
+                if(movementProcessor.getAirTicks() > 1) {
+                    if(invalidY) {
+                        flag();
+                    }
+                }
+
+
                 if (!ground && lastTickGround) {
 
                     //EntityLivingBase line 1556
-                    double predictionY = 0.42F + (double) ((float) (PlayerUtils.getPotionLevel(event.getPlayer(),
-                            PotionEffectType.JUMP) + 1) * 0.1F);
 
-                    boolean invalidY = deltaY > predictionY;
 
                     if (playerData.getPlayer().isSprinting()) {
 
 
                         float f = (float) (rotationProcessor.getDeltaYaw() * 0.017453292F);
-                        float friction = getBlockFriction();
+                        float friction = getBlockFriction() * 0.91F;
 
                         double predictionX = (lastDeltaX * friction) - (double) (sin(f) * 0.2F);
                         double predictionZ = (lastDeltaZ * friction) + (double) (cos(f) * 0.2F);
@@ -78,16 +96,13 @@ public class MotionJump extends Check {
                             flag();
                         }
 
-                    } else {
-                        if (invalidY) {
-                            flag();
-                        }
                     }
                 }
-
             }
+
         }
     }
+
 
     public float getBlockFriction() {
         String block = playerData.getPlayer().getLocation().add(0, -1, 0).getBlock().getType().name().toLowerCase();
