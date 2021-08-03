@@ -31,8 +31,6 @@ public class MovementProcessor extends Processor {
 
             Player player = event.getPlayer();
 
-            System.out.println("Handled Pos of " + player.getName());
-
             /*
              * Getting the X one tick ago
              * And setting the deltaX with the current X and last X
@@ -65,8 +63,8 @@ public class MovementProcessor extends Processor {
 
             this.deltaXZ = Math.hypot( deltaX, deltaZ );
 
-            System.out.println("DXZ: " + deltaXZ);
-            System.out.println("DY: " + deltaY);
+            player.sendMessage("DXZ: " + deltaXZ);
+            player.sendMessage("DY: " + deltaY);
 
             /* Getting since how many ticks player is in air **/
 

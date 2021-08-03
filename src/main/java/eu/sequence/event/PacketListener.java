@@ -48,10 +48,8 @@ public class PacketListener implements Listener {
 
     public void onPacketReceive(Player player, PacketContainer packet) {
         PlayerData data = Sequence.getInstance().getPlayerDataManager().getPlayerData(player);
-        if (data == null) {
-            System.out.println("No PlayerData for: " + player.getName());
+        if (data == null)
             return;
-        }
         data.handle(new eu.sequence.event.PacketReceiveEvent(player, new Packet(packet)));
     }
 
