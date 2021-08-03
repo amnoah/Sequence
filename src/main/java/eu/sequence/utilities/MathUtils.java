@@ -35,6 +35,10 @@ public class MathUtils {
         return b[(int)(var0 * 10430.378F + 16384.0F) & '\uffff'];
     }
 
+    public double hypot(double d,double d1) {
+        return (d * d) + (d1 * d1);
+    }
+
     public float sqrt(double var0) {
         return (float)Math.sqrt(var0);
     }
