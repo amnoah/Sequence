@@ -34,11 +34,15 @@ public class Packet extends PacketContainer {
     }
 
     public boolean isRotation() {
-        return isReceiving() && (getType() == PacketType.Play.Client.LOOK);
+        return isReceiving()
+                && (getType() == PacketType.Play.Client.LOOK
+                || getType() == PacketType.Play.Client.POSITION_LOOK);
     }
 
     public boolean isPosition() {
-        return isReceiving() && (getType() == PacketType.Play.Client.POSITION);
+        return isReceiving()
+                && (getType() == PacketType.Play.Client.POSITION
+                || getType() == PacketType.Play.Client.POSITION_LOOK);
     }
 
     public boolean isArmAnimation() {
