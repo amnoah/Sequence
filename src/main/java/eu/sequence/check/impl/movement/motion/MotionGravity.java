@@ -8,6 +8,8 @@ import eu.sequence.event.PacketEvent;
 import eu.sequence.event.PacketReceiveEvent;
 import org.bukkit.Bukkit;
 
+// Call this fly coz it is a fly check
+
 @CheckInfo(name = "Motion",subName = "Gravity",experimental = true)
 public class MotionGravity extends Check {
 

@@ -24,3 +24,5 @@ hs_err_pid*
 *.lst
 Sequence.iml
 .idea
+
+target
