@@ -27,5 +27,12 @@ checks:
     basicgcd:
       max: 5
       enabled: true
+  invalidpackets:
+    mathground:
+      max: 25
+      enabled: true
+    abilitiesflying:
+      max: 3
+      enabled: true
 
 

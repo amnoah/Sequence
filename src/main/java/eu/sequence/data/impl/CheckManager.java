@@ -8,6 +8,8 @@ import eu.sequence.check.impl.movement.flight.FlightStable;
 import eu.sequence.check.impl.movement.motion.MotionGravity;
 import eu.sequence.check.impl.movement.motion.MotionJump;
 import eu.sequence.check.impl.movement.speed.SpeedHorizontal;
+import eu.sequence.check.impl.player.invalidpackets.InvalidPacketsAbilitiesFlying;
+import eu.sequence.check.impl.player.invalidpackets.InvalidPacketsMathGround;
 import eu.sequence.data.PlayerData;
 
 import java.util.Arrays;
@@ -23,6 +25,8 @@ public class CheckManager {
                new MotionJump(playerData),
                new MotionGravity(playerData),
                new SpeedHorizontal(playerData),
+               new InvalidPacketsAbilitiesFlying(playerData),
+               new InvalidPacketsMathGround(playerData),
                new AimBasicGCD(playerData),
                new AimSigma(playerData));
     }
