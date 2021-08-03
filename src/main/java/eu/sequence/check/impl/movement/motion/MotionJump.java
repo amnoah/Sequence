@@ -9,6 +9,7 @@ import eu.sequence.event.PacketEvent;
 import eu.sequence.event.PacketReceiveEvent;
 import eu.sequence.utilities.PlayerUtils;
 import net.minecraft.server.v1_8_R3.MathHelper;
+import org.bukkit.Bukkit;
 import org.bukkit.potion.PotionEffectType;
 
 @CheckInfo(name = "Motion", subName = "Jump")
@@ -57,18 +58,18 @@ public class MotionJump extends Check {
                 this.lastDeltaX = deltaX;
                 this.lastDeltaZ = deltaZ;
 
-                double predictionY = 0.42F + (double) ((float) (PlayerUtils.getPotionLevel(event.getPlayer(),
-                        PotionEffectType.JUMP) + 1) * 0.1F);
+                double predictionY = 0.42F;
+                predictionY += PlayerUtils.getPotionLevel(event.getPlayer(),
+                        PotionEffectType.JUMP) * 0.1F;
 
-                boolean invalidY = deltaY > predictionY;
 
                 boolean exempt = movementProcessor.isOnClimbable() || movementProcessor.isInLiquid() ||
                         movementProcessor.isNearStairs() || movementProcessor.isNearSlabs();
 
                 if (exempt) return;
 
-                if(movementProcessor.getAirTicks() > 1) {
-                    if(invalidY) {
+                if(movementProcessor.getAirTicks() > 2 ) {
+                    if(deltaY > predictionY) {
                         flag();
                     }
                 }
@@ -83,7 +84,7 @@ public class MotionJump extends Check {
 
 
                         float f = (float) (rotationProcessor.getDeltaYaw() * 0.017453292F);
-                        float friction = getBlockFriction() * 0.91F;
+                        float friction = 0.91F;
 
                         double predictionX = (lastDeltaX * friction) - (double) (sin(f) * 0.2F);
                         double predictionZ = (lastDeltaZ * friction) + (double) (cos(f) * 0.2F);
@@ -92,7 +93,9 @@ public class MotionJump extends Check {
                         double diffX = Math.abs(deltaX - predictionX);
                         double diffZ = Math.abs(deltaZ - predictionZ);
 
-                        if ((diffX > 0.01 && diffZ > 0.01) || invalidY) {
+                        Bukkit.broadcastMessage("dX=" + diffX + " dZ=" + diffZ);
+
+                        if (diffX > 0.01 && diffZ > 0.01) {
                             flag();
                         }
 
@@ -104,8 +107,5 @@ public class MotionJump extends Check {
     }
 
 
-    public float getBlockFriction() {
-        String block = playerData.getPlayer().getLocation().add(0, -1, 0).getBlock().getType().name().toLowerCase();
-        return block.equals("blue ice") ? 0.989f : block.contains("ice") ? 0.98f : block.equals("slime") ? 0.8f : 0.6f;
-    }
+
 }

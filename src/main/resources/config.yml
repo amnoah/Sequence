@@ -10,7 +10,7 @@ checks:
       max: 15
       enabled: true
   speed:
-    horizontal:
+    friction:
         max: 10
         enabled: true
 

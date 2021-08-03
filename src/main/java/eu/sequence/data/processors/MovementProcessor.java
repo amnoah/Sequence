@@ -60,9 +60,9 @@ public class MovementProcessor extends Processor {
 
             // Deltas
 
-            this.deltaX = Math.abs( this.x - this.lastX );
-            this.deltaY = Math.abs( this.y - this.lastY );
-            this.deltaZ = Math.abs( this.z - this.lastZ );
+            this.deltaX = ( this.x - this.lastX );
+            this.deltaY = ( this.y - this.lastY );
+            this.deltaZ = ( this.z - this.lastZ );
 
             // DeltaXZ
 

@@ -8,7 +8,7 @@ import eu.sequence.check.impl.movement.flight.FlightStable;
 import eu.sequence.check.impl.movement.motion.MotionGravity;
 import eu.sequence.check.impl.movement.motion.MotionJump;
 
-import eu.sequence.check.impl.movement.speed.SpeedHorizontal;
+import eu.sequence.check.impl.movement.speed.SpeedFriction;
 
 import eu.sequence.data.PlayerData;
 
@@ -25,7 +25,7 @@ public class CheckManager {
                new FlightAirJump(playerData),
                new MotionJump(playerData),
                new MotionGravity(playerData),
-               new SpeedHorizontal(playerData));
+               new SpeedFriction(playerData));
     }
 
     public List<Check> getChecks()

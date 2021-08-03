@@ -8,7 +8,7 @@ import eu.sequence.event.PacketEvent;
 import eu.sequence.event.PacketReceiveEvent;
 import org.bukkit.Bukkit;
 
-@CheckInfo(name = "Motion",subName = "Gravity",experimental = true)
+@CheckInfo(name = "Motion", subName = "Gravity", experimental = true)
 public class MotionGravity extends Check {
 
     private double lastDeltaY;
@@ -38,8 +38,9 @@ public class MotionGravity extends Check {
                 double difference = Math.abs(deltaY - predictionY);
 
                 boolean exempt = movementProcessor.getAirTicks() < 5 || movementProcessor.isInLiquid() ||
-                        movementProcessor.isInWeb() || movementProcessor.isOnClimbable() || Math.abs(predictionY) < 0.05;
-                
+                        movementProcessor.isInWeb() || movementProcessor.isOnClimbable() || Math.abs(predictionY) < 0.05
+                        || playerData.getPlayer().getFallDistance() > 12 || movementProcessor.isOnGround();
+
 
                 if (!exempt && difference > 0.01) {
                     if (++this.preVL > 2) {
