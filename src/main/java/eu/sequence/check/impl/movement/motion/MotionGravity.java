@@ -40,7 +40,7 @@ public class MotionGravity extends Check {
             double difference = Math.abs(deltaY - predictionY);
 
             boolean exempt = movementProcessor.getAirTicks() < 5 || movementProcessor.isInLiquid() ||
-                    movementProcessor.isInWeb() || movementProcessor.isOnClimbable() || Math.abs(predictionY) < 0.05;
+                    movementProcessor.isInWeb() || movementProcessor.isOnClimbable() ;
 
             if (!exempt && difference > 0.01) {
                 if (++this.preVL > 2) {
