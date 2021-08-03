@@ -5,6 +5,10 @@ import org.bukkit.entity.Player;
 
 public class PacketSendEvent extends PacketEvent {
 
+    /**
+     * @author Salers
+     **/
+
     public PacketSendEvent(Player player, Packet packet) {
         super(player, packet);
     }

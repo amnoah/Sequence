@@ -11,8 +11,9 @@ public class SequencePlugin extends JavaPlugin {
     }
 
     @Override
-    public void onDisable()
-    {
+    public void onDisable() {
         Sequence.getInstance().stop();
+
+
     }
 }

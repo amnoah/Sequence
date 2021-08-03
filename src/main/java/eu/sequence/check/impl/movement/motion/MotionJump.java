@@ -17,6 +17,10 @@ public class MotionJump extends Check {
     private boolean lastTickGround;
     private double lastDeltaX, lastDeltaZ;
 
+    /**
+     * @author Salers
+     **/
+
     public MotionJump(PlayerData playerData) {
         super(playerData);
     }

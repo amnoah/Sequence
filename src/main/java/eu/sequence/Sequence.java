@@ -21,14 +21,26 @@ public class Sequence {
         return instance;
     }
 
+    //we call the method just down in the onEnable
+
     public void start(final SequencePlugin plugin) {
         this.plugin = plugin;
+
+        //config registering
         plugin.saveDefaultConfig();
+
+        //register events
         Bukkit.getPluginManager().registerEvents(new PacketListener(plugin), plugin);
     }
 
+    //we call the method just down in the onDisable
+
     public void stop() {
+
+        //doing that for preventing memory leaks
+
         this.plugin = null;
         instance = null;
+        this.playerDataManager.getAllData().clear();
     }
 }

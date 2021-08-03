@@ -13,6 +13,10 @@ public class FlightStable extends Check {
 
     //dumbass check but efficient
 
+    /**
+     * @author Salers
+     **/
+
     private double lastDeltaY;
     private int vl;
 
