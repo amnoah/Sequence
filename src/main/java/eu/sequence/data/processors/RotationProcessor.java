@@ -1,5 +1,6 @@
 package eu.sequence.data.processors;
 
+import com.comphenix.packetwrapper.WrapperPlayClientLook;
 import com.comphenix.protocol.PacketType;
 import eu.sequence.data.PlayerData;
 import eu.sequence.data.Processor;
@@ -22,13 +23,15 @@ public class RotationProcessor extends Processor {
 
         if(event.getPacket().isPosLook() || event.getPacket().isRotation()) {
 
+            WrapperPlayClientLook wrappedPacket = new WrapperPlayClientLook(event.getPacket());
+
             /** Getting yaw one tick ago **/
-            double yaw = event.getPlayer().getLocation().getYaw();
+            double yaw = wrappedPacket.getYaw();
             deltaYaw = yaw - this.lastYaw;
             this.lastYaw = yaw;
 
             /** Getting pitch one tick ago **/
-            double pitch = event.getPlayer().getLocation().getPitch();
+            double pitch = wrappedPacket.getPitch();
             this.deltaPitch = pitch - this.lastPitch;
             this.lastPitch = pitch;
         }
@@ -40,4 +43,6 @@ public class RotationProcessor extends Processor {
     public void handleSending(PacketEvent event) {
         return;
     }
+
+
 }

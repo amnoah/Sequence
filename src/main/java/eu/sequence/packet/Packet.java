@@ -2,6 +2,7 @@ package eu.sequence.packet;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.wrappers.EnumWrappers;
 
 public class Packet extends PacketContainer {
     public Packet(PacketContainer packet) {
@@ -98,6 +99,10 @@ public class Packet extends PacketContainer {
 
     public boolean isSendingTransaction() {
         return isSending() && getType() == PacketType.Play.Server.TRANSACTION;
+    }
+
+    public boolean isAttack() {
+        return isSending() && isUseEntity() && getEntityUseActions().read(0) == EnumWrappers.EntityUseAction.ATTACK;
     }
 
     public boolean isAcceptingTeleport() {

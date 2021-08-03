@@ -9,6 +9,7 @@ import eu.sequence.data.PlayerData;
 import eu.sequence.data.Processor;
 import eu.sequence.event.PacketEvent;
 import eu.sequence.utilities.LocationUtils;
+import eu.sequence.utilities.MathUtils;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.entity.Player;
@@ -55,13 +56,13 @@ public class MovementProcessor extends Processor {
 
             // Deltas
 
-            this.deltaX = Math.abs( this.x - this.lastX );
-            this.deltaY = Math.abs( this.y - this.lastY );
-            this.deltaZ = Math.abs( this.z - this.lastZ );
+            this.deltaX = ( this.x - this.lastX );
+            this.deltaY = ( this.y - this.lastY );
+            this.deltaZ = ( this.z - this.lastZ );
 
             // DeltaXZ
 
-            this.deltaXZ = Math.hypot( deltaX, deltaZ );
+            this.deltaXZ = MathUtils.hypot( deltaX, deltaZ );
 
             player.sendMessage("DXZ: " + deltaXZ);
             player.sendMessage("DY: " + deltaY);
@@ -78,7 +79,7 @@ public class MovementProcessor extends Processor {
 
 
             this.isNearBoat = LocationUtils.isNearBoat(player);
-            this. isInLiquid = LocationUtils.isInLiquid(player);
+            this.isInLiquid = LocationUtils.isInLiquid(player);
             this.isInWeb = LocationUtils.isCollidingWithWeb(player);
             this.isOnClimbable = LocationUtils.isCollidingWithClimbable(player);
             this.isAtTheEdgeOfABlock = LocationUtils.isAtEdgeOfABlock(player);

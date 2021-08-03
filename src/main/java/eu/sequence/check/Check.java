@@ -75,4 +75,8 @@ public abstract class Check {
     }
 
     public abstract void handle(PacketEvent event);
+
+    protected long now() {
+        return System.currentTimeMillis();
+    }
 }
