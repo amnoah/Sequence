@@ -1,9 +1,10 @@
 package eu.sequence.data.processors;
 
-import com.comphenix.packetwrapper.WrapperPlayClientLook;
 import eu.sequence.data.PlayerData;
 import eu.sequence.data.Processor;
 import eu.sequence.event.PacketEvent;
+import eu.sequence.packet.Packet;
+import io.github.retrooper.packetevents.packetwrappers.play.in.flying.WrappedPacketInFlying;
 import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -21,9 +22,9 @@ public class RotationProcessor extends Processor {
             lastDeltaYaw, lastDeltaPitch;
 
     @Override
-    public void handleReceive(PacketEvent event) {
-        if(event.getPacket().isRotation()) {
-            WrapperPlayClientLook wrapper = new WrapperPlayClientLook(event.getPacket());
+    public void handle(Packet packet) {
+        if(packet.isRotation()) {
+            WrappedPacketInFlying wrapper = new WrappedPacketInFlying(packet.getNmsPacket());
 
             /* Getting yaw one tick ago */
             lastYaw = yaw;
@@ -35,10 +36,5 @@ public class RotationProcessor extends Processor {
             pitch = wrapper.getPitch();
             deltaPitch = Math.abs(pitch - lastPitch);
         }
-    }
-
-
-    @Override
-    public void handleSending(PacketEvent event) {
     }
 }

@@ -41,6 +41,10 @@
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                             <minimizeJar>true</minimizeJar>
                             <finalName>Sequence-${project.version}</finalName>
+                            <relocations>
+                                <pattern>io.github.retrooper.packetevents</pattern>
+                                <shadedPattern>eu.sequence.shaded.packetevents</shadedPattern>
+                            </relocations>
                         </configuration>
                     </execution>
                 </executions>
@@ -87,17 +91,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.comphenix.protocol</groupId>
-            <artifactId>ProtocolLib</artifactId>
-            <version>4.6.0</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.steviebeenz</groupId>
-            <artifactId>PacketWrapper</artifactId>
-            <version>5a4fc344d5</version>
-            <scope>compile</scope>
+            <groupId>com.github.retrooper</groupId>
+            <artifactId>packetevents</artifactId>
+            <version>1.8-pre-17</version>
         </dependency>
     </dependencies>
 </project>

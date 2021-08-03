@@ -3,6 +3,7 @@ package eu.sequence.check;
 import eu.sequence.Sequence;
 import eu.sequence.data.PlayerData;
 import eu.sequence.event.PacketEvent;
+import eu.sequence.packet.Packet;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -74,5 +75,5 @@ public abstract class Check {
         });
     }
 
-    public abstract void handle(PacketEvent event);
+    public abstract void handle(Packet packet);
 }
