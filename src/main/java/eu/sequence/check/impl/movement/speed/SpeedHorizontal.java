@@ -4,11 +4,12 @@ import eu.sequence.check.Check;
 import eu.sequence.check.CheckInfo;
 import eu.sequence.data.PlayerData;
 import eu.sequence.event.PacketEvent;
-import eu.sequence.event.PacketReceiveEvent;
+import eu.sequence.utilities.PlayerUtils;
 import net.minecraft.server.v1_8_R3.BlockPosition;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.NumberConversions;
 
 @CheckInfo(name = "Speed",subName = "Horizontal")
@@ -16,8 +17,9 @@ public class SpeedHorizontal extends Check {
 
     // TODO: exempt on teleport & velocity because those aren't handled
 
+    private float lastFriction, friction;
     private double lastDeltaXZ;
-    private boolean lastClientOnGround;
+    private int ground, air;
 
     public SpeedHorizontal(PlayerData playerData) {
         super(playerData);
@@ -25,37 +27,68 @@ public class SpeedHorizontal extends Check {
 
     @Override
     public void handle(PacketEvent event) {
-        if (event instanceof PacketReceiveEvent) {
-            if (event.getPacket().isPosition()) {
-                EntityPlayer player = ((CraftPlayer) playerData.getPlayer()).getHandle();
+        if(event.getPacket().isFlying()) {
+            EntityPlayer player = ((CraftPlayer) playerData.getPlayer()).getHandle();
 
-                Location lastLocation = new Location(
-                        playerData.getPlayer().getWorld(),
-                        playerData.getMovementProcessor().getLastX(),
-                        NumberConversions.floor(playerData.getMovementProcessor().getLastY()) - 1,
-                        playerData.getMovementProcessor().getLastZ()
-                );
+            // ground values
+            boolean onGround = event.getPacket().getBooleans().read(0);
 
-                float f4 = lastClientOnGround ? getFriction(player, lastLocation) * 0.91F : 0.91F;
-                float f5 = lastClientOnGround ? player.bI() : player.aM;
+            air = onGround ? 0 : Math.min(air + 1, 20);
+            ground = onGround ? Math.min(ground + 1, 20) : 0;
 
-                double max = lastDeltaXZ * f4 + f5;
+            // deltas
+            double deltaXZ = playerData.getMovementProcessor().getDeltaXZ();
+            double lastDeltaXZ = this.lastDeltaXZ;
+            this.lastDeltaXZ = deltaXZ;
 
-                double deltaXZ = playerData.getMovementProcessor().getDeltaXZ();
+            // landMovementFactor
+            float speed = PlayerUtils.getPotionLevel(playerData.getPlayer(), PotionEffectType.SPEED);
+            float slow = PlayerUtils.getPotionLevel(playerData.getPlayer(), PotionEffectType.SLOW);
+            double d = 0.10000000149011612;
+            d += d * 0.20000000298023224 * speed;
+            d += d * -0.15000000596046448 * slow;
 
-                if (deltaXZ > max) {
-                    flag();
-                }
+            // Sprint desync big gay just assume they are sprinting
+            d += d * 0.30000001192092896;
 
-                lastDeltaXZ = deltaXZ;
-                lastClientOnGround = playerData.getMovementProcessor().isOnGround();
+            float landMovementFactor = (float) d;
+
+            // the check itself
+            double prediction;
+            if (ground > 2) {
+                prediction = lastDeltaXZ * 0.91f * getFriction(player, playerData.getPlayer().getLocation()) + landMovementFactor;
+            } else if (air == 1) {
+                prediction = lastDeltaXZ * 0.91f + 0.2f + landMovementFactor;
+            } else if (ground == 2) {
+                prediction = lastDeltaXZ * 0.91f + landMovementFactor;
+            } else {
+                prediction = lastDeltaXZ * 0.91f + 0.026f;
             }
+            if (prediction < playerData.getPlayer().getWalkSpeed() + 0.02 * (speed + 1))
+                prediction = playerData.getPlayer().getWalkSpeed() + 0.02 * (speed + 1);
+
+            // very lazy patch for a false flag
+            if (ground > 1) {
+                this.lastFriction = this.friction;
+                this.friction = getFriction(player, playerData.getPlayer().getLocation()) * 0.91f;
+            }
+
+            if (friction < lastFriction)
+                prediction += landMovementFactor * 1.25;
+
+            // flag
+            if (deltaXZ > prediction) {
+                flag();
+            }
+
         }
     }
 
     private float getFriction(EntityPlayer player, Location location) {
         return player.world.getType(
-                new BlockPosition(location.getX(), location.getY(), location.getZ())
+                new BlockPosition(location.getX(),
+                        NumberConversions.floor(location.getY()) - 1,
+                        location.getZ())
         ).getBlock().frictionFactor;
     }
 }
