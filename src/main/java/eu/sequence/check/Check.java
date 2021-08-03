@@ -76,7 +76,7 @@ public abstract class Check {
     }
 
     public abstract void handle(Packet packet);
-  
+
     protected long now() {
         return System.currentTimeMillis();
     }
