@@ -17,24 +17,27 @@ import org.bukkit.entity.Player;
 @RequiredArgsConstructor
 public class MovementProcessor extends Processor {
 
-    private double deltaX, deltaZ, deltaXZ, deltaY;
-    private double lastX, lastY, lastZ;
-    private double x = 0, y = 0, z = 0;
-    private int airTicks,edgeBlockTicks;
-    private boolean isNearBoat,isInLiquid,isInWeb,isOnClimbable,isAtTheEdgeOfABlock,onGround,isNearSlabs,isNearStairs;
+    private double x, y, z,
+                deltaX, deltaY, deltaZ, deltaXZ,
+                lastX, lastY, lastZ;
+
+    private int airTicks, edgeBlockTicks;
+    private boolean isNearBoat,isInLiquid,
+            isInWeb, isOnClimbable,
+            isAtTheEdgeOfABlock, onGround,
+            isNearSlabs, isNearStairs;
 
     private final PlayerData data;
 
     @Override
     public void handleReceive(PacketEvent event) {
         if (event.getPacket().isPosition() || event.getPacket().isPosLook()) {
-
             Player player = event.getPlayer();
 
             /*
              * Getting the X one tick ago
              * And setting the deltaX with the current X and last X
-             **/
+             */
             this.lastX = this.x;
 
             /*
@@ -54,19 +57,19 @@ public class MovementProcessor extends Processor {
             updatePos(event);
 
             // Deltas
-
-            this.deltaX = Math.abs( this.x - this.lastX );
-            this.deltaY = Math.abs( this.y - this.lastY );
-            this.deltaZ = Math.abs( this.z - this.lastZ );
+            // We don't need to do abs deltas for pos deltas
+            this.deltaX = this.x - this.lastX;
+            this.deltaY = this.y - this.lastY;
+            this.deltaZ = this.z - this.lastZ;
 
             // DeltaXZ
 
-            this.deltaXZ = Math.hypot( deltaX, deltaZ );
+            this.deltaXZ = Math.hypot(deltaX, deltaZ);
 
             player.sendMessage("DXZ: " + deltaXZ);
             player.sendMessage("DY: " + deltaY);
 
-            /* Getting since how many ticks player is in air **/
+            /* Getting since how many ticks player is in air */
 
             if (LocationUtils.isCloseToGround(player.getLocation())) {
                 this.airTicks = 0;
@@ -81,12 +84,10 @@ public class MovementProcessor extends Processor {
             this. isInLiquid = LocationUtils.isInLiquid(player);
             this.isInWeb = LocationUtils.isCollidingWithWeb(player);
             this.isOnClimbable = LocationUtils.isCollidingWithClimbable(player);
-            this.isAtTheEdgeOfABlock = LocationUtils.isAtEdgeOfABlock(player);
+            this.isAtTheEdgeOfABlock = edgeBlockTicks > 0; // We don't have to run this calculation again
             this.onGround = event.getPacket().getBooleans().read(0); //can be spoofed by the client
             this.isNearSlabs = LocationUtils.isNearSlabs(player);
             this.isNearStairs = LocationUtils.isNearStairs(player);
-
-
         }
     }
 
@@ -96,13 +97,9 @@ public class MovementProcessor extends Processor {
     }
 
     public void updatePos(PacketEvent packet) {
+        // We don't have to use PositionLook wrappers because the x, y, & z are in the same spot no matter what
         if (packet.getPacket().isPosition()) {
             WrapperPlayClientPosition wrapper = new WrapperPlayClientPosition(packet.getPacket());
-            this.x = wrapper.getX();
-            this.y = wrapper.getY();
-            this.z = wrapper.getZ();
-        } else if (packet.getPacket().isPosLook()) {
-            WrapperPlayClientPositionLook wrapper = new WrapperPlayClientPositionLook(packet.getPacket());
             this.x = wrapper.getX();
             this.y = wrapper.getY();
             this.z = wrapper.getZ();

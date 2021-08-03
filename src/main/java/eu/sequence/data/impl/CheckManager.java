@@ -32,6 +32,4 @@ public class CheckManager {
     {
         return checks;
     }
-
-
 }

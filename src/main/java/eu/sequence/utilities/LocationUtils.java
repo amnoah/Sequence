@@ -1,5 +1,6 @@
 package eu.sequence.utilities;
 
+import lombok.experimental.UtilityClass;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -7,13 +8,14 @@ import org.bukkit.entity.Boat;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
+@UtilityClass
 public class LocationUtils {
 
     /**
      * @param loc the location of the block to get
      * @return the block at the location
      */
-    private static Block getBlockAsync(final Location loc) {
+    private Block getBlockAsync(final Location loc) {
         if (loc.getWorld().isChunkLoaded(loc.getBlockX() >> 4, loc.getBlockZ() >> 4))
             return loc.getBlock();
         return null;
@@ -25,7 +27,7 @@ public class LocationUtils {
      * @param location the location to check
      * @return if the location is close to ground
      */
-    public static boolean isCloseToGround(Location location) {
+    public boolean isCloseToGround(Location location) {
         double distanceToGround = 0.31;
         for (double locX = -distanceToGround; locX <= distanceToGround; locX += distanceToGround) {
             for (double locZ = -distanceToGround; locZ <= distanceToGround; locZ += distanceToGround) {
@@ -44,7 +46,7 @@ public class LocationUtils {
      * @param player the player to check
      * @return if player is in liquid
      */
-    public static boolean isInLiquid(final Player player) {
+    public boolean isInLiquid(final Player player) {
         final double expand = 0.31;
         final Location location = player.getLocation();
         for (double x = -expand; x <= expand; x += expand) {
@@ -63,7 +65,7 @@ public class LocationUtils {
      * @param player the player to check
      * @return if player is near a boat
      */
-    public static boolean isNearBoat(final Player player) {
+    public boolean isNearBoat(final Player player) {
         for (final Entity entity : player.getNearbyEntities(3, 3, 3)) {
             if (entity instanceof Boat) return true;
         }
@@ -77,7 +79,7 @@ public class LocationUtils {
      * @return if player is colling with a climbable
      */
 
-    public static boolean isCollidingWithClimbable(final Player player) {
+    public boolean isCollidingWithClimbable(final Player player) {
         final Location location = player.getLocation();
         final int var1 = MathUtils.floor(location.getX());
         final int var2 = MathUtils.floor(location.getY());
@@ -93,7 +95,7 @@ public class LocationUtils {
      * @return if player is colling with web
      */
 
-    public static boolean isCollidingWithWeb(final Player player) {
+    public boolean isCollidingWithWeb(final Player player) {
         final Location location = player.getLocation();
         final int var1 = MathUtils.floor(location.getX());
         final int var2 = MathUtils.floor(location.getY());
@@ -108,7 +110,7 @@ public class LocationUtils {
      * @param player the player to check
      * @return if player is at the edge of a block
      */
-    public static boolean isAtEdgeOfABlock(final Player player) {
+    public boolean isAtEdgeOfABlock(final Player player) {
         Location b1 = player.getLocation().clone().add(0.3, -0.3, -0.3);
         Location b2 = player.getLocation().clone().add(-0.3, -0.3, -0.3);
         Location b3 = player.getLocation().clone().add(0.3, -0.3, 0.3);
@@ -125,7 +127,7 @@ public class LocationUtils {
      * @return if player is near slabs
      */
 
-    public static boolean isNearSlabs(final Player player) {
+    public boolean isNearSlabs(final Player player) {
         final double expand = 0.31;
         final Location location = player.getLocation();
         for (double x = -expand; x <= expand; x += expand) {
@@ -146,7 +148,7 @@ public class LocationUtils {
      */
 
 
-    public static boolean isNearStairs(final Player player) {
+    public boolean isNearStairs(final Player player) {
         final double expand = 0.31;
         final Location location = player.getLocation();
         for (double x = -expand; x <= expand; x += expand) {

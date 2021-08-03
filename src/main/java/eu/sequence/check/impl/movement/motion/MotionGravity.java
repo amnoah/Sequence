@@ -36,12 +36,14 @@ public class MotionGravity extends Check {
 
                 this.lastDeltaY = deltaY;
                 double predictionY = (lastDeltaY - 0.08) * 0.9800000190734863D; //EntityLivingBase lines 1666 and 1669
+                if (predictionY < 0.005) {
+                    predictionY = 0;
+                }
 
                 double difference = Math.abs(deltaY - predictionY);
 
                 boolean exempt = movementProcessor.getAirTicks() < 5 || movementProcessor.isInLiquid() ||
                         movementProcessor.isInWeb() || movementProcessor.isOnClimbable() || Math.abs(predictionY) < 0.05;
-                
 
                 if (!exempt && difference > 0.01) {
                     if (++this.preVL > 2) {
