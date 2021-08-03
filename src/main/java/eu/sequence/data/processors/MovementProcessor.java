@@ -2,11 +2,12 @@ package eu.sequence.data.processors;
 
 import com.comphenix.packetwrapper.WrapperPlayClientFlying;
 import com.comphenix.packetwrapper.WrapperPlayClientPosition;
+import com.comphenix.packetwrapper.WrapperPlayClientPositionLook;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.events.PacketEvent;
 import eu.sequence.data.PlayerData;
 import eu.sequence.data.Processor;
+import eu.sequence.event.PacketEvent;
 import eu.sequence.utilities.LocationUtils;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,7 @@ public class MovementProcessor extends Processor {
 
     private double deltaX, deltaZ, deltaXZ, deltaY;
     private double lastX, lastY, lastZ;
-    private double x, y, z;
+    private double x = 0, y = 0, z = 0;
     private int airTicks,edgeBlockTicks;
     private boolean isNearBoat,isInLiquid,isInWeb,isOnClimbable,isAtTheEdgeOfABlock,onGround,isNearSlabs,isNearStairs;
 
@@ -26,13 +27,11 @@ public class MovementProcessor extends Processor {
 
     @Override
     public void handleReceive(PacketEvent event) {
-
-        if (event.getPacketType() == PacketType.Play.Client.POSITION ||
-                event.getPacketType() == PacketType.Play.Client.POSITION_LOOK) {
+        if (event.getPacket().isPosition() || event.getPacket().isPosLook()) {
 
             Player player = event.getPlayer();
 
-            WrapperPlayClientPosition wrapper = new WrapperPlayClientPosition(event.getPacket());
+            System.out.println("Handled Pos of " + player.getName());
 
             /*
              * Getting the X one tick ago
@@ -54,9 +53,7 @@ public class MovementProcessor extends Processor {
 
             // Update the positions
 
-            this.x = wrapper.getX();
-            this.y = wrapper.getY();
-            this.z = wrapper.getZ();
+            updatePos(event);
 
             // Deltas
 
@@ -67,6 +64,9 @@ public class MovementProcessor extends Processor {
             // DeltaXZ
 
             this.deltaXZ = Math.hypot( deltaX, deltaZ );
+
+            System.out.println("DXZ: " + deltaXZ);
+            System.out.println("DY: " + deltaY);
 
             /* Getting since how many ticks player is in air **/
 
@@ -95,5 +95,19 @@ public class MovementProcessor extends Processor {
     @Override
     public void handleSending(PacketEvent event) {
 
+    }
+
+    public void updatePos(PacketEvent packet) {
+        if (packet.getPacket().isPosition()) {
+            WrapperPlayClientPosition wrapper = new WrapperPlayClientPosition(packet.getPacket());
+            this.x = wrapper.getX();
+            this.y = wrapper.getY();
+            this.z = wrapper.getZ();
+        } else if (packet.getPacket().isPosLook()) {
+            WrapperPlayClientPositionLook wrapper = new WrapperPlayClientPositionLook(packet.getPacket());
+            this.x = wrapper.getX();
+            this.y = wrapper.getY();
+            this.z = wrapper.getZ();
+        }
     }
 }

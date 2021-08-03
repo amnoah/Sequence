@@ -29,6 +29,15 @@ public class PlayerData {
     }
 
     public void handle(PacketEvent event) {
+
+        if (event.getPacket().isSending()) {
+            movementProcessor.handleSending(event);
+            rotationProcessor.handleSending(event);
+        } else if (event.getPacket().isReceiving()) {
+            movementProcessor.handleReceive(event);
+            rotationProcessor.handleReceive(event);
+        }
+
         for (Check check : checkManager.getChecks()) {
             if (check.isEnabled()) {
                 check.handle(event);

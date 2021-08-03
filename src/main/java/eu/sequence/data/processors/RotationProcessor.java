@@ -1,9 +1,9 @@
 package eu.sequence.data.processors;
 
 import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.events.PacketEvent;
 import eu.sequence.data.PlayerData;
 import eu.sequence.data.Processor;
+import eu.sequence.event.PacketEvent;
 import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -20,8 +20,7 @@ public class RotationProcessor extends Processor {
     @Override
     public void handleReceive(PacketEvent event) {
 
-        if(event.getPacketType() == PacketType.Play.Client.POSITION_LOOK || event.getPacketType() ==
-                PacketType.Play.Client.FLYING || event.getPacketType() == PacketType.Play.Client.LOOK) {
+        if(event.getPacket().isPosLook() || event.getPacket().isRotation()) {
 
             /** Getting yaw one tick ago **/
             double yaw = event.getPlayer().getLocation().getYaw();
