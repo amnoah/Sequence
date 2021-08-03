@@ -3,7 +3,6 @@ package eu.sequence.data.impl;
 import com.google.common.collect.ClassToInstanceMap;
 import com.google.common.collect.ImmutableClassToInstanceMap;
 import eu.sequence.check.Check;
-import eu.sequence.check.impl.Example;
 import eu.sequence.check.impl.movement.flight.FlightStable;
 import eu.sequence.check.impl.movement.motion.MotionGravity;
 import eu.sequence.check.impl.movement.motion.MotionJump;

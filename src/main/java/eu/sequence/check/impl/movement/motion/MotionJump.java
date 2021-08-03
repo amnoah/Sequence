@@ -53,19 +53,33 @@ public class MotionJump extends Check {
                 this.lastDeltaX = deltaX;
                 this.lastDeltaZ = deltaZ;
 
+                double predictionY = 0.42F + (double) ((float) (PlayerUtils.getPotionLevel(event.getPlayer(),
+                        PotionEffectType.JUMP) + 1) * 0.1F);
+
+                boolean invalidY = deltaY > predictionY;
+
+                boolean exempt = movementProcessor.isOnClimbable() || movementProcessor.isInLiquid() ||
+                        movementProcessor.isNearStairs() || movementProcessor.isNearSlabs();
+
+                if (exempt) return;
+
+                if(movementProcessor.getAirTicks() > 1) {
+                    if(invalidY) {
+                        flag();
+                    }
+                }
+
+
                 if (!ground && lastTickGround) {
 
                     //EntityLivingBase line 1556
-                    double predictionY = 0.42F + (double) ((float) (PlayerUtils.getPotionLevel(event.getPlayer(),
-                            PotionEffectType.JUMP) + 1) * 0.1F);
 
-                    boolean invalidY = deltaY > predictionY;
 
                     if (playerData.getPlayer().isSprinting()) {
 
 
                         float f = (float) (rotationProcessor.getDeltaYaw() * 0.017453292F);
-                        float friction = getBlockFriction();
+                        float friction = getBlockFriction() * 0.91F;
 
                         double predictionX = (lastDeltaX * friction) - (double) (sin(f) * 0.2F);
                         double predictionZ = (lastDeltaZ * friction) + (double) (cos(f) * 0.2F);
@@ -78,16 +92,13 @@ public class MotionJump extends Check {
                             flag();
                         }
 
-                    } else {
-                        if (invalidY) {
-                            flag();
-                        }
                     }
                 }
-
             }
+
         }
     }
+
 
     public float getBlockFriction() {
         String block = playerData.getPlayer().getLocation().add(0, -1, 0).getBlock().getType().name().toLowerCase();

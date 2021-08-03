@@ -22,3 +22,19 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 *.lst
+.idea/libraries/Maven__net_bytebuddy_byte_buddy_1_10_16.xml
+Sequence.iml
+.idea/workspace.xml
+.idea/vcs.xml
+.idea/uiDesigner.xml
+.idea/runConfigurations.xml
+.idea/modules.xml
+.idea/misc.xml
+.idea/libraries/Maven__org_projectlombok_lombok_1_18_20.xml
+.idea/libraries/Maven__org_github_spigot_1_8_8_1_8_8.xml
+.idea/libraries/dependencies.xml
+.idea/jarRepositories.xml
+.idea/libraries/Maven__com_comphenix_protocol_ProtocolLib_4_6_0.xml
+.idea/artifacts/Sequence_jar.xml
+.idea/compiler.xml
+.idea/encodings.xml

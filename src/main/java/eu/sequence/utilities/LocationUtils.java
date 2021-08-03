@@ -10,7 +10,6 @@ import org.bukkit.entity.Player;
 public class LocationUtils {
 
     /**
-     *
      * @param loc the location of the block to get
      * @return the block at the location
      */
@@ -118,4 +117,46 @@ public class LocationUtils {
                 b3.getBlock().getType() != Material.AIR || b4.getBlock().getType() != Material.AIR;
 
     }
+
+    /**
+     * Checking if player is near slabs
+     *
+     * @param player the player to check
+     * @return if player is near slabs
+     */
+
+    public static boolean isNearSlabs(final Player player) {
+        final double expand = 0.31;
+        final Location location = player.getLocation();
+        for (double x = -expand; x <= expand; x += expand) {
+            for (double z = -expand; z <= expand; z += expand) {
+                if (getBlockAsync(location.clone().add(x, -0.5001, z)).toString().contains("slab")) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Checking if player is near stairs
+     *
+     * @param player the player to check
+     * @return if player is near stairs
+     */
+
+
+    public static boolean isNearStairs(final Player player) {
+        final double expand = 0.31;
+        final Location location = player.getLocation();
+        for (double x = -expand; x <= expand; x += expand) {
+            for (double z = -expand; z <= expand; z += expand) {
+                if (getBlockAsync(location.clone().add(x, -0.5001, z)).toString().contains("stair")) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 }
