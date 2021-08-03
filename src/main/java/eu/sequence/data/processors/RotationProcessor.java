@@ -1,6 +1,6 @@
 package eu.sequence.data.processors;
 
-import com.comphenix.protocol.PacketType;
+import com.comphenix.packetwrapper.WrapperPlayClientLook;
 import eu.sequence.data.PlayerData;
 import eu.sequence.data.Processor;
 import eu.sequence.event.PacketEvent;
@@ -15,29 +15,30 @@ public class RotationProcessor extends Processor {
 
     private final PlayerData data;
 
-    private double deltaYaw,deltaPitch,lastYaw,lastPitch;
+    private double yaw, pitch,
+            deltaYaw, deltaPitch,
+            lastYaw, lastPitch,
+            lastDeltaYaw, lastDeltaPitch;
 
     @Override
     public void handleReceive(PacketEvent event) {
+        if(event.getPacket().isRotation()) {
+            WrapperPlayClientLook wrapper = new WrapperPlayClientLook(event.getPacket());
 
-        if(event.getPacket().isPosLook() || event.getPacket().isRotation()) {
+            /* Getting yaw one tick ago */
+            lastYaw = yaw;
+            yaw = wrapper.getYaw() % 360;
+            deltaYaw = Math.abs(yaw - lastYaw) % 360;
 
-            /** Getting yaw one tick ago **/
-            double yaw = event.getPlayer().getLocation().getYaw();
-            deltaYaw = yaw - this.lastYaw;
-            this.lastYaw = yaw;
-
-            /** Getting pitch one tick ago **/
-            double pitch = event.getPlayer().getLocation().getPitch();
-            this.deltaPitch = pitch - this.lastPitch;
-            this.lastPitch = pitch;
+            /* Getting pitch one tick ago */
+            lastPitch = pitch;
+            pitch = wrapper.getPitch();
+            deltaPitch = Math.abs(pitch - lastPitch);
         }
-
     }
 
 
     @Override
     public void handleSending(PacketEvent event) {
-        return;
     }
 }
