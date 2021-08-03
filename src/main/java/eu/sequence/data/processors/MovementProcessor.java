@@ -7,6 +7,7 @@ import eu.sequence.data.Processor;
 import eu.sequence.utilities.LocationUtils;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.bukkit.entity.Player;
 
 @Getter
 @RequiredArgsConstructor
@@ -14,7 +15,7 @@ public class MovementProcessor extends Processor {
 
     private double deltaX,deltaZ,deltaXZ,deltaY,lastX,lastY,lastZ,y;
     private int airTicks,edgeBlockTicks;
-    private boolean isNearBoat,isInLiquid,isInWeb,isOnClimbable,isAtTheEdgeOfABlock,onGround;
+    private boolean isNearBoat,isInLiquid,isInWeb,isOnClimbable,isAtTheEdgeOfABlock,onGround,isNearSlabs,isNearStairs;
 
     private final PlayerData data;
 
@@ -24,50 +25,56 @@ public class MovementProcessor extends Processor {
         if(event.getPacketType() == PacketType.Play.Client.POSITION_LOOK || event.getPacketType() ==
                 PacketType.Play.Client.FLYING || event.getPacketType() == PacketType.Play.Client.LOOK) {
 
+            Player player = event.getPlayer();
+
             /**
              * Getting the X one tick ago
              * And setting the deltaX with the current X and last X
              **/
-            double x = event.getPlayer().getLocation().getX();
-            deltaX = (x - this.lastX);
+            double x = player.getLocation().getX();
+            this.deltaX = (x - this.lastX);
             this.lastX = x;
 
             /**
              * Getting the Y one tick ago
              * And setting the deltaY with the current and last Y
              **/
-            y = event.getPlayer().getLocation().getY();
-            deltaY = (y - this.lastY);
+            y = player.getLocation().getY();
+            this.deltaY = (y - this.lastY);
             this.lastY = y;
 
             /**
              * Getting the Z one tick ago
              * And setting the deltaZ with the current and last Z
              **/
-            double z = event.getPlayer().getLocation().getZ();
-            deltaZ = (z - this.lastZ);
+            double z = player.getLocation().getZ();
+            this.deltaZ = (z - this.lastZ);
             this.lastZ = z;
 
-            deltaXZ = (Math.hypot(deltaX, deltaZ));
+            this.deltaXZ = (this.deltaX * this.deltaX) + (this.deltaZ * this.deltaZ); //faster than dumbass Math#hypot
 
 
             /** Getting since how many ticks player is in air **/
 
-            if (LocationUtils.isCloseToGround(event.getPlayer().getLocation())) {
-                airTicks = 0;
-            } else airTicks++;
+            if (LocationUtils.isCloseToGround(player.getLocation())) {
+                this.airTicks = 0;
+            } else this.airTicks++;
 
-            if (LocationUtils.isAtEdgeOfABlock(event.getPlayer())) {
-                edgeBlockTicks++;
-            } else edgeBlockTicks = 0;
+            if (LocationUtils.isAtEdgeOfABlock(player)) {
+                this.edgeBlockTicks++;
+            } else this.edgeBlockTicks = 0;
 
 
-            isNearBoat = LocationUtils.isNearBoat(event.getPlayer());
-            isInLiquid = LocationUtils.isInLiquid(event.getPlayer());
-            isInWeb = LocationUtils.isCollidingWithWeb(event.getPlayer());
-            isOnClimbable = LocationUtils.isCollidingWithClimbable(event.getPlayer());
-            isAtTheEdgeOfABlock = LocationUtils.isAtEdgeOfABlock(event.getPlayer());
-            onGround = event.getPacket().getBooleans().read(0); //can be spoofed by the client
+            this.isNearBoat = LocationUtils.isNearBoat(player);
+            this. isInLiquid = LocationUtils.isInLiquid(player);
+            this.isInWeb = LocationUtils.isCollidingWithWeb(player);
+            this.isOnClimbable = LocationUtils.isCollidingWithClimbable(player);
+            this.isAtTheEdgeOfABlock = LocationUtils.isAtEdgeOfABlock(player);
+            this.onGround = event.getPacket().getBooleans().read(0); //can be spoofed by the client
+            this.isNearSlabs = LocationUtils.isNearSlabs(player);
+            this.isNearStairs = LocationUtils.isNearStairs(player);
+
+
         }
     }
 
