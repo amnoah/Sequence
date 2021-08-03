@@ -7,8 +7,8 @@ import eu.sequence.data.processors.MovementProcessor;
 import eu.sequence.data.processors.RotationProcessor;
 import eu.sequence.event.PacketEvent;
 import eu.sequence.event.PacketReceiveEvent;
+import eu.sequence.utilities.MathUtils;
 import eu.sequence.utilities.PlayerUtils;
-import net.minecraft.server.v1_8_R3.MathHelper;
 import org.bukkit.potion.PotionEffectType;
 
 @CheckInfo(name = "Motion", subName = "Jump")
@@ -26,11 +26,11 @@ public class MotionJump extends Check {
     }
 
     private float sin(float p_sin_0_) {
-        return MathHelper.sin(p_sin_0_);
+        return MathUtils.sin(p_sin_0_);
     }
 
     private float cos(float p_cos_0_) {
-        return MathHelper.cos(p_cos_0_);
+        return MathUtils.cos(p_cos_0_);
     }
 
     //skidded from mcp
