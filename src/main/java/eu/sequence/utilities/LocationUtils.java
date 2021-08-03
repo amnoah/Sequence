@@ -46,9 +46,8 @@ public class LocationUtils {
      * @param player the player to check
      * @return if player is in liquid
      */
-    public boolean isInLiquid(final Player player) {
+    public boolean isInLiquid(final Location location) {
         final double expand = 0.31;
-        final Location location = player.getLocation();
         for (double x = -expand; x <= expand; x += expand) {
             for (double z = -expand; z <= expand; z += expand) {
                 if (getBlockAsync(location.clone().add(x, -0.5001, z)).isLiquid()) {
@@ -79,8 +78,7 @@ public class LocationUtils {
      * @return if player is colling with a climbable
      */
 
-    public boolean isCollidingWithClimbable(final Player player) {
-        final Location location = player.getLocation();
+    public boolean isCollidingWithClimbable(final Location location) {
         final int var1 = MathUtils.floor(location.getX());
         final int var2 = MathUtils.floor(location.getY());
         final int var3 = MathUtils.floor(location.getZ());
@@ -95,8 +93,7 @@ public class LocationUtils {
      * @return if player is colling with web
      */
 
-    public boolean isCollidingWithWeb(final Player player) {
-        final Location location = player.getLocation();
+    public boolean isCollidingWithWeb(final Location location) {
         final int var1 = MathUtils.floor(location.getX());
         final int var2 = MathUtils.floor(location.getY());
         final int var3 = MathUtils.floor(location.getZ());
@@ -110,11 +107,11 @@ public class LocationUtils {
      * @param player the player to check
      * @return if player is at the edge of a block
      */
-    public boolean isAtEdgeOfABlock(final Player player) {
-        Location b1 = player.getLocation().clone().add(0.3, -0.3, -0.3);
-        Location b2 = player.getLocation().clone().add(-0.3, -0.3, -0.3);
-        Location b3 = player.getLocation().clone().add(0.3, -0.3, 0.3);
-        Location b4 = player.getLocation().clone().add(-0.3, -0.3, +0.3);
+    public boolean isAtEdgeOfABlock(final Location location) {
+        Location b1 = location.clone().add(0.3, -0.3, -0.3);
+        Location b2 = location.clone().add(-0.3, -0.3, -0.3);
+        Location b3 = location.clone().add(0.3, -0.3, 0.3);
+        Location b4 = location.clone().add(-0.3, -0.3, +0.3);
         return b1.getBlock().getType() != Material.AIR || b2.getBlock().getType() != Material.AIR ||
                 b3.getBlock().getType() != Material.AIR || b4.getBlock().getType() != Material.AIR;
 
@@ -127,9 +124,8 @@ public class LocationUtils {
      * @return if player is near slabs
      */
 
-    public boolean isNearSlabs(final Player player) {
+    public boolean isNearSlabs(final Location location) {
         final double expand = 0.31;
-        final Location location = player.getLocation();
         for (double x = -expand; x <= expand; x += expand) {
             for (double z = -expand; z <= expand; z += expand) {
                 if (getBlockAsync(location.clone().add(x, -0.5001, z)).toString().contains("slab")) {
@@ -148,9 +144,8 @@ public class LocationUtils {
      */
 
 
-    public boolean isNearStairs(final Player player) {
+    public boolean isNearStairs(final Location location) {
         final double expand = 0.31;
-        final Location location = player.getLocation();
         for (double x = -expand; x <= expand; x += expand) {
             for (double z = -expand; z <= expand; z += expand) {
                 if (getBlockAsync(location.clone().add(x, -0.5001, z)).toString().contains("stair")) {

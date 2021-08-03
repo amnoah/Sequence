@@ -11,6 +11,10 @@ checks:
       enabled: true
   speed:
     horizontal:
-        max: 10
-        enabled: true
+      max: 10
+      enabled: true
+  aim:
+    sigma:
+      max: 10
+      enabled: true
 

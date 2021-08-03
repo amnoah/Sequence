@@ -3,10 +3,7 @@ package eu.sequence.check.impl.movement.speed;
 import eu.sequence.check.Check;
 import eu.sequence.check.CheckInfo;
 import eu.sequence.data.PlayerData;
-import eu.sequence.event.PacketEvent;
-import eu.sequence.event.PacketReceiveEvent;
-import eu.sequence.utilities.PlayerUtils;
-import org.bukkit.potion.PotionEffectType;
+import eu.sequence.packet.Packet;
 
 @CheckInfo(name = "Speed",subName = "Friction")
 public class SpeedFriction extends Check {
@@ -23,32 +20,27 @@ public class SpeedFriction extends Check {
     }
 
     @Override
-    public void handle(PacketEvent event) {
-        if(event instanceof PacketReceiveEvent) {
-            if(event.getPacket().isFlying()) {
-                // ground values
-                final boolean onGround = event.getPacket().getBooleans().read(0);
-                final boolean wasOnGround = this.wasOnGround;
+    public void handle(Packet packet) {
+        if (packet.isPosition()) {
+            // ground values
+            final boolean onGround = playerData.getMovementProcessor().isOnGround();
+            final boolean wasOnGround = this.wasOnGround;
 
 
+            // deltas
+            final double deltaXZ = playerData.getMovementProcessor().getDeltaXZ();
+            final double lastDeltaXZ = this.lastDeltaXZ;
 
-                // deltas
-                final double deltaXZ = playerData.getMovementProcessor().getDeltaXZ();
-                final double lastDeltaXZ = this.lastDeltaXZ;
+            this.lastDeltaXZ = deltaXZ;
+            this.wasOnGround = onGround;
 
-                this.lastDeltaXZ = deltaXZ;
-                this.wasOnGround = onGround;
+            final double friction = getBlockFriction() * 0.91F;
+            final double prediction = this.lastDeltaXZ * friction;
 
-                final double friction = getBlockFriction() * 0.91F;
-                final double prediction = this.lastDeltaXZ * friction;
+            final double difference = Math.abs(prediction - deltaXZ);
 
-                final double difference = Math.abs(prediction - deltaXZ);
-
-                if(!wasOnGround && !onGround) {
-                    //TODO CHECK
-                }
-
-
+            if (!wasOnGround && !onGround) {
+                //TODO CHECK
             }
         }
     }

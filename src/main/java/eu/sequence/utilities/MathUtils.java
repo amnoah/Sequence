@@ -8,6 +8,7 @@ import java.util.Random;
 public class MathUtils {
 
     private final float[] b = new float[65536];
+    public final double EXPANDER = Math.pow(2,24);
 
     /** Credits to MCP **/
     public int floor(final double var0) {
@@ -41,5 +42,9 @@ public class MathUtils {
 
     public float sqrt(double var0) {
         return (float)Math.sqrt(var0);
+    }
+
+    public double gcd(final double limit, final double a, final double b) {
+        return b <= limit ? a : MathUtils.gcd(limit, b, a % b);
     }
 }

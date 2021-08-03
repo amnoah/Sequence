@@ -3,7 +3,7 @@ package eu.sequence.check.impl.movement.speed;
 import eu.sequence.check.Check;
 import eu.sequence.check.CheckInfo;
 import eu.sequence.data.PlayerData;
-import eu.sequence.event.PacketEvent;
+import eu.sequence.packet.Packet;
 import eu.sequence.utilities.PlayerUtils;
 import net.minecraft.server.v1_8_R3.BlockPosition;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
@@ -12,7 +12,7 @@ import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.NumberConversions;
 
-@CheckInfo(name = "Speed",subName = "Horizontal")
+@CheckInfo(name = "Speed", subName = "Horizontal")
 public class SpeedHorizontal extends Check {
 
     // TODO: exempt on teleport & velocity because those aren't handled
@@ -26,12 +26,12 @@ public class SpeedHorizontal extends Check {
     }
 
     @Override
-    public void handle(PacketEvent event) {
-        if(event.getPacket().isFlying()) {
+    public void handle(Packet packet) {
+        if(packet.isPosition()) {
             EntityPlayer player = ((CraftPlayer) playerData.getPlayer()).getHandle();
 
             // ground values
-            boolean onGround = event.getPacket().getBooleans().read(0);
+            boolean onGround = playerData.getMovementProcessor().isOnGround();
 
             air = onGround ? 0 : Math.min(air + 1, 20);
             ground = onGround ? Math.min(ground + 1, 20) : 0;
