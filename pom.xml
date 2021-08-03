@@ -41,10 +41,6 @@
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                             <minimizeJar>true</minimizeJar>
                             <finalName>Sequence-${project.version}</finalName>
-                            <relocations>
-                                <pattern>io.github.retrooper.packetevents</pattern>
-                                <shadedPattern>eu.sequence.shaded.packetevents</shadedPattern>
-                            </relocations>
                         </configuration>
                     </execution>
                 </executions>

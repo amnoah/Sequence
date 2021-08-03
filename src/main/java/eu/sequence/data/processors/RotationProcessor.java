@@ -16,7 +16,7 @@ public class RotationProcessor extends Processor {
 
     private final PlayerData data;
 
-    private double yaw, pitch,
+    private float yaw, pitch,
             deltaYaw, deltaPitch,
             lastYaw, lastPitch,
             lastDeltaYaw, lastDeltaPitch;

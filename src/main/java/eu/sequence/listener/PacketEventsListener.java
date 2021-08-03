@@ -21,7 +21,7 @@ public class PacketEventsListener extends PacketListenerAbstract {
         if (data != null) {
             Packet packet = new Packet(event.getPacketId(), event.getNMSPacket(), true);
 
-            data.handle(packet);
+            data.handle(event, packet);
         }
     }
 
@@ -32,7 +32,7 @@ public class PacketEventsListener extends PacketListenerAbstract {
         if (data != null) {
             Packet packet = new Packet(event.getPacketId(), event.getNMSPacket(), true);
 
-            data.handle(packet);
+            data.handle(event, packet);
         }
     }
 }
