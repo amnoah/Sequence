@@ -5,6 +5,7 @@ import eu.sequence.data.impl.CheckManager;
 import eu.sequence.data.processors.MovementProcessor;
 import eu.sequence.data.processors.RotationProcessor;
 import eu.sequence.event.PacketEvent;
+import eu.sequence.packet.Packet;
 import org.bukkit.entity.Player;
 
 public class PlayerData {
@@ -28,19 +29,13 @@ public class PlayerData {
         this.movementProcessor = new MovementProcessor(this);
     }
 
-    public void handle(PacketEvent event) {
-
-        if (event.getPacket().isSending()) {
-            movementProcessor.handleSending(event);
-            rotationProcessor.handleSending(event);
-        } else if (event.getPacket().isReceiving()) {
-            movementProcessor.handleReceive(event);
-            rotationProcessor.handleReceive(event);
-        }
+    public void handle(Packet packet) {
+        movementProcessor.handle(packet);
+        rotationProcessor.handle(packet);
 
         for (Check check : checkManager.getChecks()) {
             if (check.isEnabled()) {
-                check.handle(event);
+                check.handle(packet);
             }
         }
     }

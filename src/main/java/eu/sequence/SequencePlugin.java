@@ -5,15 +5,18 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class SequencePlugin extends JavaPlugin {
 
     @Override
-    public void onEnable() {
+    public void onLoad() {
         Sequence.createInstance();
-        Sequence.getInstance().start(this);
+        Sequence.getInstance().load(this);
+    }
+
+    @Override
+    public void onEnable() {
+        Sequence.getInstance().start();
     }
 
     @Override
     public void onDisable() {
         Sequence.getInstance().stop();
-
-
     }
 }

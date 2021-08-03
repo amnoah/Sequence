@@ -4,8 +4,7 @@ import eu.sequence.check.Check;
 import eu.sequence.check.CheckInfo;
 import eu.sequence.data.PlayerData;
 import eu.sequence.data.processors.MovementProcessor;
-import eu.sequence.event.PacketEvent;
-import eu.sequence.event.PacketReceiveEvent;
+import eu.sequence.packet.Packet;
 
 @CheckInfo(name = "Flight", subName = "AirJump")
 public class FlightAirJump extends Check {
@@ -23,27 +22,23 @@ public class FlightAirJump extends Check {
     }
 
     @Override
-    public void handle(PacketEvent event) {
-        if (event instanceof PacketReceiveEvent) {
-            if (event.getPacket().isFlying()) {
+    public void handle(Packet packet) {
+        if (packet.isPosition()) {
+            final MovementProcessor movementProcessor = playerData.getMovementProcessor();
 
-                final MovementProcessor movementProcessor = playerData.getMovementProcessor();
+            final double deltaY = movementProcessor.getDeltaY();
+            final double lastDeltaY = this.lastDeltaY;
 
-                final double deltaY = movementProcessor.getDeltaY();
-                final double lastDeltaY = this.lastDeltaY;
+            this.lastDeltaY = deltaY;
 
-                this.lastDeltaY = deltaY;
+            boolean exempt = movementProcessor.getAirTicks() < 5 || movementProcessor.isInLiquid() ||
+                    movementProcessor.isInWeb() || movementProcessor.isOnClimbable();
 
-                boolean exempt = movementProcessor.getAirTicks() < 5 || movementProcessor.isInLiquid() ||
-                        movementProcessor.isInWeb() || movementProcessor.isOnClimbable();
-
-                if (!exempt && deltaY > lastDeltaY) {
-                    if (++this.vl > 3) {
-                        flag();
-                    }
-                } else this.vl -= this.vl > 0 ? 0.05 : 0;
-
-            }
+            if (!exempt && deltaY > lastDeltaY) {
+                if (++this.vl > 3) {
+                    flag();
+                }
+            } else this.vl -= this.vl > 0 ? 0.05 : 0;
         }
     }
 }

@@ -1,7 +1,10 @@
 package eu.sequence;
 
 import eu.sequence.data.PlayerDataManager;
-import eu.sequence.event.PacketListener;
+import eu.sequence.listener.BukkitListener;
+import eu.sequence.listener.PacketEventsListener;
+import io.github.retrooper.packetevents.PacketEvents;
+import io.github.retrooper.packetevents.utils.server.ServerVersion;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 
@@ -23,14 +26,27 @@ public class Sequence {
 
     //we call the method just down in the onEnable
 
-    public void start(final SequencePlugin plugin) {
+    public void load(final SequencePlugin plugin) {
         this.plugin = plugin;
 
+        PacketEvents.create(plugin).getSettings()
+                .bStats(true)
+                .checkForUpdates(false)
+                .compatInjector(false)
+                .fallbackServerVersion(ServerVersion.v_1_8_8);
+
+        PacketEvents.get().load();
+    }
+
+    public void start() {
         //config registering
         plugin.saveDefaultConfig();
 
+        PacketEvents.get().init();
+        PacketEvents.get().registerListener(new PacketEventsListener());
+
         //register events
-        Bukkit.getPluginManager().registerEvents(new PacketListener(plugin), plugin);
+        Bukkit.getPluginManager().registerEvents(new BukkitListener(), plugin);
     }
 
     //we call the method just down in the onDisable
@@ -42,5 +58,7 @@ public class Sequence {
         this.plugin = null;
         instance = null;
         this.playerDataManager.getAllData().clear();
+
+        PacketEvents.get().terminate();
     }
 }

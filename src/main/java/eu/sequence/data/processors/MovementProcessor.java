@@ -1,41 +1,38 @@
 package eu.sequence.data.processors;
 
-import com.comphenix.packetwrapper.WrapperPlayClientFlying;
-import com.comphenix.packetwrapper.WrapperPlayClientPosition;
-import com.comphenix.packetwrapper.WrapperPlayClientPositionLook;
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.events.PacketContainer;
 import eu.sequence.data.PlayerData;
 import eu.sequence.data.Processor;
-import eu.sequence.event.PacketEvent;
+import eu.sequence.packet.Packet;
 import eu.sequence.utilities.LocationUtils;
-import eu.sequence.utilities.MathUtils;
+import io.github.retrooper.packetevents.packetwrappers.play.in.flying.WrappedPacketInFlying;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.bukkit.entity.Player;
+import org.bukkit.Location;
 
 @Getter
 @RequiredArgsConstructor
 public class MovementProcessor extends Processor {
 
-    private double deltaX, deltaZ, deltaXZ, deltaY;
-    private double lastX, lastY, lastZ;
-    private double x = 0, y = 0, z = 0;
-    private int airTicks,edgeBlockTicks;
-    private boolean isNearBoat,isInLiquid,isInWeb,isOnClimbable,isAtTheEdgeOfABlock,onGround,isNearSlabs,isNearStairs;
+    private double x, y, z,
+                deltaX, deltaY, deltaZ, deltaXZ,
+                lastX, lastY, lastZ;
+
+    private int airTicks, edgeBlockTicks;
+    private boolean isNearBoat,isInLiquid,
+            isInWeb, isOnClimbable,
+            isAtTheEdgeOfABlock, onGround,
+            isNearSlabs, isNearStairs;
 
     private final PlayerData data;
 
     @Override
-    public void handleReceive(PacketEvent event) {
-        if (event.getPacket().isPosition() || event.getPacket().isPosLook()) {
-
-            Player player = event.getPlayer();
-
+    public void handle(Packet packet) {
+        if (packet.isFlying()) {
+            WrappedPacketInFlying wrapper = new WrappedPacketInFlying(packet.getNmsPacket());
             /*
              * Getting the X one tick ago
              * And setting the deltaX with the current X and last X
-             **/
+             */
             this.lastX = this.x;
 
             /*
@@ -52,58 +49,48 @@ public class MovementProcessor extends Processor {
 
             // Update the positions
 
-            updatePos(event);
+            updatePos(wrapper);
 
             // Deltas
-
-            this.deltaX = ( this.x - this.lastX );
-            this.deltaY = ( this.y - this.lastY );
-            this.deltaZ = ( this.z - this.lastZ );
+            // We don't need to do abs deltas for pos deltas
+            this.deltaX = this.x - this.lastX;
+            this.deltaY = this.y - this.lastY;
+            this.deltaZ = this.z - this.lastZ;
 
             // DeltaXZ
 
-            this.deltaXZ = MathUtils.hypot( deltaX, deltaZ );
+            this.deltaXZ = Math.hypot(deltaX, deltaZ);
 
-            player.sendMessage("DXZ: " + deltaXZ);
-            player.sendMessage("DY: " + deltaY);
+            data.getPlayer().sendMessage("DXZ: " + deltaXZ);
+            data.getPlayer().sendMessage("DY: " + deltaY);
 
-            /* Getting since how many ticks player is in air **/
-
-            if (LocationUtils.isCloseToGround(player.getLocation())) {
+            /* Getting since how many ticks player is in air */
+            
+            Location location = new Location(data.getPlayer().getWorld(), x, y, z);
+            
+            if (LocationUtils.isCloseToGround(location)) {
                 this.airTicks = 0;
             } else this.airTicks++;
 
-            if (LocationUtils.isAtEdgeOfABlock(player)) {
+            if (LocationUtils.isAtEdgeOfABlock(location)) {
                 this.edgeBlockTicks++;
             } else this.edgeBlockTicks = 0;
 
 
-            this.isNearBoat = LocationUtils.isNearBoat(player);
-            this.isInLiquid = LocationUtils.isInLiquid(player);
-            this.isInWeb = LocationUtils.isCollidingWithWeb(player);
-            this.isOnClimbable = LocationUtils.isCollidingWithClimbable(player);
-            this.isAtTheEdgeOfABlock = LocationUtils.isAtEdgeOfABlock(player);
-            this.onGround = event.getPacket().getBooleans().read(0); //can be spoofed by the client
-            this.isNearSlabs = LocationUtils.isNearSlabs(player);
-            this.isNearStairs = LocationUtils.isNearStairs(player);
-
-
+            this.isNearBoat = LocationUtils.isNearBoat(data.getPlayer());
+            this. isInLiquid = LocationUtils.isInLiquid(location);
+            this.isInWeb = LocationUtils.isCollidingWithWeb(location);
+            this.isOnClimbable = LocationUtils.isCollidingWithClimbable(location);
+            this.isAtTheEdgeOfABlock = edgeBlockTicks > 0; // We don't have to run this calculation again
+            this.onGround = wrapper.isOnGround(); //can be spoofed by the client
+            this.isNearSlabs = LocationUtils.isNearSlabs(location);
+            this.isNearStairs = LocationUtils.isNearStairs(location);
         }
     }
 
-    @Override
-    public void handleSending(PacketEvent event) {
-
-    }
-
-    public void updatePos(PacketEvent packet) {
-        if (packet.getPacket().isPosition()) {
-            WrapperPlayClientPosition wrapper = new WrapperPlayClientPosition(packet.getPacket());
-            this.x = wrapper.getX();
-            this.y = wrapper.getY();
-            this.z = wrapper.getZ();
-        } else if (packet.getPacket().isPosLook()) {
-            WrapperPlayClientPositionLook wrapper = new WrapperPlayClientPositionLook(packet.getPacket());
+    public void updatePos(WrappedPacketInFlying wrapper) {
+        // We don't have to use PositionLook wrappers because the x, y, & z are in the same spot no matter what
+        if (wrapper.isPosition()) {
             this.x = wrapper.getX();
             this.y = wrapper.getY();
             this.z = wrapper.getZ();

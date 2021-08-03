@@ -1,130 +1,127 @@
 package eu.sequence.packet;
 
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.wrappers.EnumWrappers;
+import io.github.retrooper.packetevents.packettype.PacketType;
+import io.github.retrooper.packetevents.packetwrappers.NMSPacket;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-public class Packet extends PacketContainer {
-    public Packet(PacketContainer packet) {
-        super(packet.getType(), packet.getHandle(), packet.getModifier());
-    }
+@Getter
+@RequiredArgsConstructor
+public class Packet {
+
+    private final byte id;
+    private final NMSPacket nmsPacket;
+    private final boolean receiving;
 
     public boolean isSending() {
-        return this.getType().isServer();
+        return !receiving;
     }
 
     public boolean isReceiving() {
-        return this.getType().isClient();
+        return receiving;
     }
 
     public boolean isFlying() {
-        return isReceiving()
-                && (getType() == PacketType.Play.Client.FLYING
-                || getType() == PacketType.Play.Client.POSITION
-                || getType() == PacketType.Play.Client.LOOK
-                || getType() == PacketType.Play.Client.POSITION_LOOK);
+        return isReceiving() &&
+                PacketType.Play.Client.Util.isInstanceOfFlying(id);
     }
 
     public boolean isUseEntity() {
-        return isReceiving() && getType() == PacketType.Play.Client.USE_ENTITY;
+        return isReceiving() && id == PacketType.Play.Client.USE_ENTITY;
     }
 
     public boolean isExplosion() {
-        return isSending() && getType() == PacketType.Play.Server.EXPLOSION;
+        return isSending() && id == PacketType.Play.Server.EXPLOSION;
     }
 
     public boolean isRotation() {
         return isReceiving()
-                && (getType() == PacketType.Play.Client.LOOK
-                || getType() == PacketType.Play.Client.POSITION_LOOK);
+                && (id == PacketType.Play.Client.LOOK
+                || id == PacketType.Play.Client.POSITION_LOOK);
     }
 
     public boolean isPosition() {
         return isReceiving()
-                && (getType() == PacketType.Play.Client.POSITION
-                || getType() == PacketType.Play.Client.POSITION_LOOK);
+                && (id == PacketType.Play.Client.POSITION
+                || id == PacketType.Play.Client.POSITION_LOOK);
     }
 
     public boolean isArmAnimation() {
-        return isReceiving() && getType() == PacketType.Play.Client.ARM_ANIMATION;
+        return isReceiving() && id == PacketType.Play.Client.ARM_ANIMATION;
     }
 
     public boolean isAbilities() {
-        return isReceiving() && getType() == PacketType.Play.Client.ABILITIES;
+        return isReceiving() && id == PacketType.Play.Client.ABILITIES;
     }
 
     public boolean isBlockPlace() {
-        return isReceiving() && getType() == PacketType.Play.Client.BLOCK_PLACE;
+        return isReceiving() && id == PacketType.Play.Client.BLOCK_PLACE;
     }
 
     public boolean isBlockDig() {
-        return isReceiving() && getType() == PacketType.Play.Client.BLOCK_DIG;
+        return isReceiving() && id == PacketType.Play.Client.BLOCK_DIG;
     }
 
     public boolean isWindowClick() {
-        return isReceiving() && getType() == PacketType.Play.Client.WINDOW_CLICK;
+        return isReceiving() && id == PacketType.Play.Client.WINDOW_CLICK;
     }
 
     public boolean isEntityAction() {
-        return isReceiving() && getType() == PacketType.Play.Client.ENTITY_ACTION;
+        return isReceiving() && id == PacketType.Play.Client.ENTITY_ACTION;
     }
 
     public boolean isPosLook() {
-        return isReceiving() && getType() == PacketType.Play.Client.POSITION_LOOK;
+        return isReceiving() && id == PacketType.Play.Client.POSITION_LOOK;
     }
 
     public boolean isCloseWindow() {
-        return isReceiving() && getType() == PacketType.Play.Client.CLOSE_WINDOW;
+        return isReceiving() && id == PacketType.Play.Client.CLOSE_WINDOW;
     }
 
     public boolean isKeepAlive() {
-        return isReceiving() && getType() == PacketType.Play.Client.KEEP_ALIVE;
+        return isReceiving() && id == PacketType.Play.Client.KEEP_ALIVE;
     }
 
     public boolean isSteerVehicle() {
-        return isReceiving() && getType() == PacketType.Play.Client.STEER_VEHICLE;
+        return isReceiving() && id == PacketType.Play.Client.STEER_VEHICLE;
     }
 
     public boolean isHeldItemSlot() {
-        return isReceiving() && getType() == PacketType.Play.Client.HELD_ITEM_SLOT;
+        return isReceiving() && id == PacketType.Play.Client.HELD_ITEM_SLOT;
     }
 
     public boolean isClientCommand() {
-        return isReceiving() && getType() == PacketType.Play.Client.CLIENT_COMMAND;
+        return isReceiving() && id == PacketType.Play.Client.CLIENT_COMMAND;
     }
 
     public boolean isCustomPayload() {
-        return isReceiving() && getType() == PacketType.Play.Client.CUSTOM_PAYLOAD;
+        return isReceiving() && id == PacketType.Play.Client.CUSTOM_PAYLOAD;
     }
 
     public boolean isIncomingTransaction () {
-        return isReceiving() && getType() == PacketType.Play.Client.TRANSACTION;
+        return isReceiving() && id == PacketType.Play.Client.TRANSACTION;
     }
 
     public boolean isSendingTransaction() {
-        return isSending() && getType() == PacketType.Play.Server.TRANSACTION;
-    }
-
-    public boolean isAttack() {
-        return isSending() && isUseEntity() && getEntityUseActions().read(0) == EnumWrappers.EntityUseAction.ATTACK;
+        return isSending() && id == PacketType.Play.Server.TRANSACTION;
     }
 
     public boolean isAcceptingTeleport() {
-        return isReceiving() && getType() == PacketType.Play.Client.TELEPORT_ACCEPT;
+        return isReceiving() && id == PacketType.Play.Client.TELEPORT_ACCEPT;
     }
     public boolean isTeleport() {
-        return isSending() && getType() == PacketType.Play.Server.ENTITY_TELEPORT;
+        return isSending() && id == PacketType.Play.Server.ENTITY_TELEPORT;
     }
 
     public boolean isOutPosition() {
-        return isSending() && getType() == PacketType.Play.Server.POSITION;
+        return isSending() && id == PacketType.Play.Server.POSITION;
     }
 
     public boolean isVelocity() {
-        return isSending() && getType() == PacketType.Play.Server.ENTITY_VELOCITY;
+        return isSending() && id == PacketType.Play.Server.ENTITY_VELOCITY;
     }
 
     public boolean isRelEntityMove() {
-        return isSending() && getType() == PacketType.Play.Server.REL_ENTITY_MOVE;
+        return isSending() && id == PacketType.Play.Server.REL_ENTITY_MOVE;
     }
 }

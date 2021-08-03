@@ -5,10 +5,11 @@ import eu.sequence.check.CheckInfo;
 import eu.sequence.data.PlayerData;
 import eu.sequence.data.processors.MovementProcessor;
 import eu.sequence.data.processors.RotationProcessor;
-import eu.sequence.event.PacketEvent;
-import eu.sequence.event.PacketReceiveEvent;
+import eu.sequence.packet.Packet;
 import eu.sequence.utilities.MathUtils;
 import eu.sequence.utilities.PlayerUtils;
+import io.github.retrooper.packetevents.packetwrappers.NMSPacket;
+import io.github.retrooper.packetevents.packetwrappers.play.in.flying.WrappedPacketInFlying;
 import org.bukkit.potion.PotionEffectType;
 
 @CheckInfo(name = "Motion", subName = "Jump")
@@ -36,29 +37,27 @@ public class MotionJump extends Check {
     //skidded from mcp
 
     @Override
-    public void handle(PacketEvent event) {
-        if (event instanceof PacketReceiveEvent) {
-            if (event.getPacket().isFlying()) {
+    public void handle(Packet packet) {
+        if (packet.isPosition()) {
+            MovementProcessor movementProcessor = playerData.getMovementProcessor();
+            RotationProcessor rotationProcessor = playerData.getRotationProcessor();
 
-                MovementProcessor movementProcessor = playerData.getMovementProcessor();
-                RotationProcessor rotationProcessor = playerData.getRotationProcessor();
+            boolean ground = playerData.getMovementProcessor().isOnGround();
+            boolean lastTickGround = this.lastTickGround;
+            this.lastTickGround = ground;
 
-                boolean ground = event.getPacket().getBooleans().read(0);
-                boolean lastTickGround = this.lastTickGround;
-                this.lastTickGround = ground;
+            double deltaX = movementProcessor.getDeltaX();
+            double deltaY = movementProcessor.getDeltaY();
+            double deltaZ = movementProcessor.getDeltaZ();
 
-                double deltaX = movementProcessor.getDeltaX();
-                double deltaY = movementProcessor.getDeltaY();
-                double deltaZ = movementProcessor.getDeltaZ();
+            double lastDeltaX = this.lastDeltaX;
+            double lastDeltaZ = this.lastDeltaZ;
 
-                double lastDeltaX = this.lastDeltaX;
-                double lastDeltaZ = this.lastDeltaZ;
+            this.lastDeltaX = deltaX;
+            this.lastDeltaZ = deltaZ;
 
-                this.lastDeltaX = deltaX;
-                this.lastDeltaZ = deltaZ;
-
-                double predictionY = 0.42F + (double) ((float) (PlayerUtils.getPotionLevel(event.getPlayer(),
-                        PotionEffectType.JUMP) + 1) * 0.1F);
+            double predictionY = 0.42F + (double) ((float) (PlayerUtils.getPotionLevel(playerData.getPlayer(),
+                    PotionEffectType.JUMP) + 1) * 0.1F);
 
                 boolean invalidY = deltaY > predictionY;
 
@@ -99,8 +98,6 @@ public class MotionJump extends Check {
                     }
                 }
             }
-
-        }
     }
 
 
