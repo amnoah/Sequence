@@ -4,7 +4,6 @@ import eu.sequence.check.Check;
 import eu.sequence.data.impl.CheckManager;
 import eu.sequence.data.processors.MovementProcessor;
 import eu.sequence.data.processors.RotationProcessor;
-import eu.sequence.event.PacketEvent;
 import eu.sequence.packet.Packet;
 import org.bukkit.entity.Player;
 

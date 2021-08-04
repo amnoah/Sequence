@@ -2,7 +2,6 @@ package eu.sequence.data.processors;
 
 import eu.sequence.data.PlayerData;
 import eu.sequence.data.Processor;
-import eu.sequence.event.PacketEvent;
 import eu.sequence.packet.Packet;
 import io.github.retrooper.packetevents.packetwrappers.play.in.flying.WrappedPacketInFlying;
 import lombok.Data;

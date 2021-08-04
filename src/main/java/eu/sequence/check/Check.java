@@ -2,7 +2,6 @@ package eu.sequence.check;
 
 import eu.sequence.Sequence;
 import eu.sequence.data.PlayerData;
-import eu.sequence.event.PacketEvent;
 import eu.sequence.packet.Packet;
 import lombok.Getter;
 import org.bukkit.Bukkit;
