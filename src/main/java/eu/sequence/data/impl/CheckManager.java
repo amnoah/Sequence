@@ -2,6 +2,7 @@ package eu.sequence.data.impl;
 
 import eu.sequence.check.Check;
 import eu.sequence.check.impl.combat.aim.AimBasicGCD;
+import eu.sequence.check.impl.combat.aim.AimSensivityGCD;
 import eu.sequence.check.impl.combat.aim.AimSigma;
 import eu.sequence.check.impl.combat.aura.AuraPost;
 import eu.sequence.check.impl.combat.aura.AuraSwing;
@@ -13,6 +14,7 @@ import eu.sequence.check.impl.movement.step.StepHeight;
 import eu.sequence.check.impl.movement.speed.SpeedHorizontal;
 import eu.sequence.check.impl.player.invalidpackets.InvalidPacketsAbilitiesFlying;
 import eu.sequence.check.impl.player.invalidpackets.InvalidPacketsMathGround;
+import eu.sequence.check.impl.player.invalidpackets.InvalidPacketsPitch;
 import eu.sequence.data.PlayerData;
 
 import java.util.Arrays;
@@ -23,17 +25,25 @@ public class CheckManager {
 
     public CheckManager(final PlayerData playerData) {
        checks = Arrays.asList(
-               new AuraPost(playerData),
-               new AuraSwing(playerData),
+               // MOVEMENT
                new FlightStable(playerData),
                new FlightAirJump(playerData),
                new MotionJump(playerData),
                new MotionGravity(playerData),
                new SpeedHorizontal(playerData),
                new StepHeight(playerData),
+
+               //PLAYER
                new InvalidPacketsAbilitiesFlying(playerData),
                new InvalidPacketsMathGround(playerData),
+               new InvalidPacketsPitch(playerData),
+
+               //COMBAT
+
+               new AuraPost(playerData),
+               new AuraSwing(playerData),
                new AimBasicGCD(playerData),
+               new AimSensivityGCD(playerData),
                new AimSigma(playerData));
     }
 
