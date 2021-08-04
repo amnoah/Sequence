@@ -29,7 +29,7 @@ public class InvalidPacketsMathGround extends Check {
               **/
             final boolean isFlyingPacketGround = movementProcessor.isOnGround();
 
-            if(isFlyingPacketGround != isMathGround) /** doing that to also catch NoGround hacks**/ {
+            if(isFlyingPacketGround && !isMathGround && movementProcessor.getAirTicks() > 10 && !movementProcessor.isAtTheEdgeOfABlock()) {
                 flag();
             }
         }

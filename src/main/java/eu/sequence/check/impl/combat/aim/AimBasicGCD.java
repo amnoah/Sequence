@@ -6,8 +6,9 @@ import eu.sequence.data.PlayerData;
 import eu.sequence.data.processors.RotationProcessor;
 import eu.sequence.packet.Packet;
 import eu.sequence.utilities.MathUtils;
+import org.bukkit.Bukkit;
 
-@CheckInfo(name = "Aim",subName = "BasicGCD")
+@CheckInfo(name = "Aim", subName = "BasicGCD")
 public class AimBasicGCD extends Check {
 
     //totally not from me, a friend helped me - Salers
@@ -31,15 +32,14 @@ public class AimBasicGCD extends Check {
             final double to = rotationProcessor.getPitch();
             final double gcd = MathUtils.gcd(0x4000, (absDeltaPitch * MathUtils.EXPANDER), (absLastDeltaPitch * Math.pow(2.0, 24.0)));
 
+
+            // TODO : EXEMPT FROM CINEMATIC
             if (Math.min(this.last, Math.atan(to)) == this.result && gcd < 0x20000 && gcd > 0) {
                 if (this.vl < 15) this.vl++;
 
-                if (this.vl > 1)
+                if (this.vl > 0.75)
                     flag();
-            } else {
-                if (this.vl > 0)
-                    this.vl -= 0.5;
-            }
+            }else this.vl -= this.vl > 0 ? 0.05 : 0;
 
 
             this.result = Math.min(this.last, Math.atan(to));

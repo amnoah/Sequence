@@ -1,3 +1,5 @@
+alert-permission: sequence.alerts
+
 checks:
   example:
     max: 10

@@ -19,7 +19,7 @@ public class SpeedHorizontal extends Check {
 
     private float lastFriction, friction;
     private double lastDeltaXZ;
-    private int ground, air;
+    private int ground, air,vl;
 
     public SpeedHorizontal(PlayerData playerData) {
         super(playerData);
@@ -78,8 +78,9 @@ public class SpeedHorizontal extends Check {
 
             // flag
             if (deltaXZ > prediction) {
+                if(this.vl++ > 3)
                 flag();
-            }
+            }else this.vl -= this.vl > 0 ? 0.025 : 0;
 
         }
     }
