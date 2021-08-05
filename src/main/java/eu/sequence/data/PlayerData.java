@@ -1,5 +1,6 @@
 package eu.sequence.data;
 
+import eu.sequence.Sequence;
 import eu.sequence.check.Check;
 import eu.sequence.data.impl.CheckManager;
 import eu.sequence.data.processors.ClickingProcessor;
@@ -24,7 +25,6 @@ public class PlayerData {
     private final MovementProcessor movementProcessor;
     private final ClickingProcessor clickingProcessor;
     private final VelocityProcessor velocityProcessor;
-
     private final ExemptProcessor exemptProcessor;
     private final ClientVersion clientVersion;
     private final Channel channel;
@@ -47,6 +47,11 @@ public class PlayerData {
         this.channel = (Channel) PacketEvents.get().getPlayerUtils().getChannel(player);
 
         this.exemptProcessor = new ExemptProcessor(this);
+
+        if (Sequence.getInstance().getMainConfig().isAlertsOnJoin()
+                && player.hasPermission(Sequence.getInstance().getMainConfig().getAlertPermission())) {
+            Sequence.getInstance().getAlerting().add(this);
+        }
     }
 
     public void handle(Packet packet) {
@@ -71,5 +76,9 @@ public class PlayerData {
         if (flush) {
             channel.flush();
         }
+    }
+
+    public void delete() {
+        Sequence.getInstance().getAlerting().remove(this);
     }
 }
