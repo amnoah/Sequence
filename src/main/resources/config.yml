@@ -32,6 +32,12 @@ checks:
     sigma:
       max: 10
       enabled: true
+
+  reach:
+    a:
+      max: 10
+      enabled: true
+
     basicgcd:
       max: 5
       enabled: true
