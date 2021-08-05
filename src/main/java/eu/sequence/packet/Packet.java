@@ -2,6 +2,7 @@ package eu.sequence.packet;
 
 import io.github.retrooper.packetevents.packettype.PacketType;
 import io.github.retrooper.packetevents.packetwrappers.NMSPacket;
+import io.github.retrooper.packetevents.packetwrappers.play.in.abilities.WrappedPacketInAbilities;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -98,7 +99,7 @@ public class Packet {
         return isReceiving() && id == PacketType.Play.Client.CUSTOM_PAYLOAD;
     }
 
-    public boolean isIncomingTransaction () {
+    public boolean isIncomingTransaction() {
         return isReceiving() && id == PacketType.Play.Client.TRANSACTION;
     }
 
@@ -109,6 +110,7 @@ public class Packet {
     public boolean isAcceptingTeleport() {
         return isReceiving() && id == PacketType.Play.Client.TELEPORT_ACCEPT;
     }
+
     public boolean isTeleport() {
         return isSending() && id == PacketType.Play.Server.ENTITY_TELEPORT;
     }
@@ -123,5 +125,15 @@ public class Packet {
 
     public boolean isRelEntityMove() {
         return isSending() && id == PacketType.Play.Server.REL_ENTITY_MOVE;
+    }
+
+    //TODO : move that somewhere
+    public boolean spoofingAbilities() {
+        if (isAbilities()) {
+            WrappedPacketInAbilities wrappedPacketInAbilities = new WrappedPacketInAbilities(nmsPacket);
+            return wrappedPacketInAbilities.isFlying() && !wrappedPacketInAbilities.isFlightAllowed().get();
+        }
+        return false;
+
     }
 }

@@ -1,7 +1,7 @@
+alert-permission: sequence.alerts
+
 checks:
-  example:
-    max: 10
-    enabled: true
+#MOVMEMENT
   motion:
     gravity:
       max: 15
@@ -13,12 +13,52 @@ checks:
     horizontal:
       max: 10
       enabled: true
+  flight:
+    stable:
+      max: 5
+      enabled: true
+    airjump:
+      max: 10
+      enabled: true
+    velocity:
+      max: 20
+      enabled: true
+  step:
+    height:
+      max: 10
+      enabled: true
+#COMBAT
   aim:
     sigma:
       max: 10
       enabled: true
+
   reach:
     a:
       max: 10
       enabled: true
+
+    basicgcd:
+      max: 5
+      enabled: true
+    sensivitygcd:
+      max: 25
+      enabled: true
+  aura:
+    post:
+      max: 25
+      enabled: true
+    swing:
+      max: 5
+      enabled: true
+#OTHERS
+  invalidpackets:
+    mathground:
+      max: 25
+      enabled: true
+    abilitiesflying:
+      max: 3
+      enabled: true
+
+
 

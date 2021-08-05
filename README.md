@@ -1,3 +1,0 @@
-# Sequence
-
-A minecraft anticheat

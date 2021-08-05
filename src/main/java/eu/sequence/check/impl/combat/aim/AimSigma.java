@@ -28,6 +28,14 @@ public class AimSigma extends Check {
 
             final double yawAcceleration = Math.abs(deltaYaw - lastDeltaYaw);
 
+            /**
+             *
+             The logic behind this check is :
+             a human cannot make a perfect straight line while moving,
+             so we check that.
+
+             **/
+
             if (deltaPitch == 0.0D && yawAcceleration > 29.5D) {
                 if (++this.vl > 8) {
                     flag();
