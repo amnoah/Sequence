@@ -4,7 +4,6 @@ import eu.sequence.check.Check;
 import eu.sequence.data.impl.CheckManager;
 import eu.sequence.data.processors.MovementProcessor;
 import eu.sequence.data.processors.RotationProcessor;
-import eu.sequence.data.tracker.EntityTracker;
 import eu.sequence.event.PacketReceiveEvent;
 import eu.sequence.packet.Packet;
 import io.github.retrooper.packetevents.PacketEvents;
@@ -25,7 +24,6 @@ public class PlayerData {
     private final CheckManager checkManager = new CheckManager(this);
     private final RotationProcessor rotationProcessor = new RotationProcessor(this);
     private final MovementProcessor movementProcessor = new MovementProcessor(this);
-    private final EntityTracker entityTracker = new EntityTracker(this);
     private final Channel channel;
 
     private int tick;
@@ -44,13 +42,8 @@ public class PlayerData {
             ++tick;
         }
 
-        entityTracker.handle(packet);
         movementProcessor.handle(packet);
         rotationProcessor.handle(packet);
-
-        if (event instanceof PacketPlaySendEvent) {
-            entityTracker.onPacketPlaySend((PacketPlaySendEvent) event);
-        }
 
         for (Check check : checkManager.getChecks()) {
             if (check.isEnabled()) {

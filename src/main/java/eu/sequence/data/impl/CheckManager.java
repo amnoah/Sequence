@@ -2,7 +2,6 @@ package eu.sequence.data.impl;
 
 import eu.sequence.check.Check;
 import eu.sequence.check.impl.combat.aim.AimSigma;
-import eu.sequence.check.impl.combat.reach.ReachA;
 import eu.sequence.check.impl.movement.flight.FlightAirJump;
 import eu.sequence.check.impl.movement.flight.FlightStable;
 import eu.sequence.check.impl.movement.motion.MotionGravity;
@@ -23,8 +22,7 @@ public class CheckManager {
                new MotionJump(playerData),
                new MotionGravity(playerData),
                new SpeedHorizontal(playerData),
-               new AimSigma(playerData),
-               new ReachA(playerData));
+               new AimSigma(playerData));
     }
 
     public List<Check> getChecks()
