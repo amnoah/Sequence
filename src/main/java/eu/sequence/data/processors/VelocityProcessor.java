@@ -8,6 +8,7 @@ import io.github.retrooper.packetevents.packetwrappers.play.out.entityvelocity.W
 import io.github.retrooper.packetevents.utils.vector.Vector3d;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 @Getter
 @RequiredArgsConstructor
@@ -17,6 +18,7 @@ public class VelocityProcessor extends Processor {
     private double x,y,z,lastX,lastY,lastZ;
     private Vector3d velocityVector;
     private int ticks,maxTicks;
+    private long lastVelocityTimeBukkit;
 
     @Override
     public void handle(Packet packet) {
@@ -44,4 +46,10 @@ public class VelocityProcessor extends Processor {
             this.ticks++;
         }
     }
+
+    public void handleEDBE(EntityDamageByEntityEvent event) {
+        if(this.data.getPlayer() == event.getEntity()) {
+            this.lastVelocityTimeBukkit = System.currentTimeMillis();
+        }
+     }
 }

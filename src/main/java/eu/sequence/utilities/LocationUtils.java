@@ -40,6 +40,7 @@ public class LocationUtils {
         return true;
     }
 
+
     /**
      * Check if player is in liquid
      *
@@ -155,5 +156,14 @@ public class LocationUtils {
         }
         return false;
     }
+
+    public boolean blockNearHead(final Location location) {
+        if (getBlockAsync(location.clone().add(0, 0.5001, 0)).getType() != Material.AIR) {
+            return true;
+
+        }
+        return false;
+    }
+
 
 }

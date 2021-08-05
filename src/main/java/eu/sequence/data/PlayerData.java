@@ -6,6 +6,7 @@ import eu.sequence.data.processors.ClickingProcessor;
 import eu.sequence.data.processors.MovementProcessor;
 import eu.sequence.data.processors.RotationProcessor;
 import eu.sequence.data.processors.VelocityProcessor;
+import eu.sequence.exempt.ExemptProcessor;
 import eu.sequence.packet.Packet;
 import io.github.retrooper.packetevents.PacketEvents;
 import io.github.retrooper.packetevents.packetwrappers.api.SendableWrapper;
@@ -26,7 +27,6 @@ public class PlayerData {
     private final ClientVersion clientVersion;
     private final Channel channel;
 
-
     public PlayerData(final Player player) {
 
         //associating a player to playerData
@@ -43,6 +43,8 @@ public class PlayerData {
 
         this.clientVersion = PacketEvents.get().getPlayerUtils().getClientVersion(player);
         this.channel = (Channel) PacketEvents.get().getPlayerUtils().getChannel(player);
+
+        this.exemptProcessor = new ExemptProcessor(this);
     }
 
     public void handle(Packet packet) {

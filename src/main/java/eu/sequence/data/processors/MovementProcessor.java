@@ -21,7 +21,9 @@ public class MovementProcessor extends Processor {
     private boolean isNearBoat,isInLiquid,
             isInWeb, isOnClimbable,
             isAtTheEdgeOfABlock, onGround,
-            isNearSlabs, isNearStairs;
+            isNearSlabs, isNearStairs,underABlock;
+
+    private long lastSlimeTime;
 
     private final PlayerData data;
 
@@ -64,7 +66,7 @@ public class MovementProcessor extends Processor {
 
             /* Getting since how many ticks player is in air */
             
-            Location location = new Location(data.getPlayer().getWorld(), x, y, z);
+            final Location location = new Location(data.getPlayer().getWorld(), x, y, z);
             
             if (LocationUtils.isCloseToGround(location)) {
                 this.airTicks = 0;
@@ -76,13 +78,16 @@ public class MovementProcessor extends Processor {
 
 
             this.isNearBoat = LocationUtils.isNearBoat(data.getPlayer());
-            this. isInLiquid = LocationUtils.isInLiquid(location);
+            this.isInLiquid = LocationUtils.isInLiquid(location);
             this.isInWeb = LocationUtils.isCollidingWithWeb(location);
             this.isOnClimbable = LocationUtils.isCollidingWithClimbable(location);
+            this.underABlock = LocationUtils.blockNearHead(location);
             this.isAtTheEdgeOfABlock = edgeBlockTicks > 0; // We don't have to run this calculation again
             this.onGround = wrapper.isOnGround(); //can be spoofed by the client
             this.isNearSlabs = LocationUtils.isNearSlabs(location);
             this.isNearStairs = LocationUtils.isNearStairs(location);
+            this.lastSlimeTime = System.currentTimeMillis();
+
         }
     }
 
