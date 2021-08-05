@@ -28,12 +28,12 @@ public class PlayerData {
 
     private int tick;
 
-    private final CheckManager checkManager;
-    private final RotationProcessor rotationProcessor;
-    private final MovementProcessor movementProcessor;
-    private final ClickingProcessor clickingProcessor;
-    private final VelocityProcessor velocityProcessor;
-    private final ExemptProcessor exemptProcessor;
+    private  CheckManager checkManager;
+    private  RotationProcessor rotationProcessor;
+    private  MovementProcessor movementProcessor;
+    private  ClickingProcessor clickingProcessor;
+    private  VelocityProcessor velocityProcessor;
+    private  ExemptProcessor exemptProcessor;
 
 
 
