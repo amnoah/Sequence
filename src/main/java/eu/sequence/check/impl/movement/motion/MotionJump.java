@@ -60,7 +60,7 @@ public class MotionJump extends Check {
 
                 if(movementProcessor.getAirTicks() > 1) {
                     if(invalidY) {
-                        flag();
+                        flag("deltaY=" + deltaY + " max=" + predictionY);
                     }
                 }
 

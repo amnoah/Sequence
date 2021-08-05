@@ -9,48 +9,28 @@ import eu.sequence.data.processors.VelocityProcessor;
 import eu.sequence.exempt.ExemptProcessor;
 import eu.sequence.packet.Packet;
 import io.github.retrooper.packetevents.PacketEvents;
-import io.github.retrooper.packetevents.event.PacketEvent;
-import io.github.retrooper.packetevents.event.impl.PacketPlaySendEvent;
-import io.github.retrooper.packetevents.packetwrappers.WrappedPacket;
 import io.github.retrooper.packetevents.packetwrappers.api.SendableWrapper;
-import io.github.retrooper.packetevents.packetwrappers.play.out.transaction.WrappedPacketOutTransaction;
+import io.github.retrooper.packetevents.utils.player.ClientVersion;
 import io.netty.channel.Channel;
 import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.entity.Player;
 
 @Getter
 public class PlayerData {
 
     private final Player player;
-
+    private final CheckManager checkManager;
+    private final RotationProcessor rotationProcessor;
+    private final MovementProcessor movementProcessor;
+    private final ClickingProcessor clickingProcessor;
+    private final VelocityProcessor velocityProcessor;
+    private final ClientVersion clientVersion;
     private final Channel channel;
-
-    private int tick;
-
-    private  CheckManager checkManager;
-    private  RotationProcessor rotationProcessor;
-    private  MovementProcessor movementProcessor;
-    private  ClickingProcessor clickingProcessor;
-    private  VelocityProcessor velocityProcessor;
-    private  ExemptProcessor exemptProcessor;
-
-
 
     public PlayerData(final Player player) {
 
         //associating a player to playerData
         this.player = player;
-
-
-        this.channel = (Channel) PacketEvents.get().getPlayerUtils().getChannel(player);
-    }
-
-    public void handle(PacketEvent event, Packet packet) {
-        if (packet.isFlying()) {
-            ++tick;
-        }
-
 
         //init checkManager
         this.checkManager = new CheckManager(this);
@@ -60,13 +40,16 @@ public class PlayerData {
         this.movementProcessor = new MovementProcessor(this);
         this.clickingProcessor = new ClickingProcessor(this);
         this.velocityProcessor = new VelocityProcessor(this);
+
+        this.clientVersion = PacketEvents.get().getPlayerUtils().getClientVersion(player);
+        this.channel = (Channel) PacketEvents.get().getPlayerUtils().getChannel(player);
+
         this.exemptProcessor = new ExemptProcessor(this);
     }
 
     public void handle(Packet packet) {
 
         //handling processors
-
         movementProcessor.handle(packet);
         rotationProcessor.handle(packet);
         clickingProcessor.handle(packet);
@@ -80,19 +63,11 @@ public class PlayerData {
         }
     }
 
-    public void sendTransaction(WrappedPacketOutTransaction wrapper, boolean flush) {
-        PacketEvents.get().getPlayerUtils().sendPacket(player, wrapper);
+    public void sendPacket(SendableWrapper packet, boolean flush) {
+        PacketEvents.get().getPlayerUtils().sendPacket(player, packet);
 
         if (flush) {
             channel.flush();
         }
-    }
-
-    public ClickingProcessor getClickingProcessor() {
-        return clickingProcessor;
-    }
-
-    public VelocityProcessor getVelocityProcessor() {
-        return velocityProcessor;
     }
 }

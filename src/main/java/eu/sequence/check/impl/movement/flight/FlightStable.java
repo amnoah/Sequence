@@ -41,7 +41,7 @@ public class FlightStable extends Check {
 
             if (accelerationYAxis < 0.001 && !exempt) {
                 if (++this.vl > 4)
-                    flag();
+                    flag("accel=" + accelerationYAxis);
             }else this.vl -= this.vl > 0 ? 0.05 : 0;
 
 

@@ -7,6 +7,7 @@ public class SequencePlugin extends JavaPlugin {
     @Override
     public void onLoad() {
         Sequence.createInstance();
+
         Sequence.getInstance().load(this);
     }
 

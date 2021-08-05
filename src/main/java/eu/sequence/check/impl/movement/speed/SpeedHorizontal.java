@@ -79,7 +79,7 @@ public class SpeedHorizontal extends Check {
             // flag
             if (deltaXZ > prediction) {
                 if(this.vl++ > 3)
-                flag();
+                flag("deltaXZ=" + deltaXZ + " max=" + prediction);
             }else this.vl -= this.vl > 0 ? 0.025 : 0;
 
         }

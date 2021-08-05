@@ -29,7 +29,7 @@ public class AimSensivityGCD extends Check {
 
             if (gcd < 131072L && absDeltaPitch != 0.0 && absLastDeltaPitch != 0.0) {
                 if (++this.vl > 10) {
-                    flag();
+                    flag("gcd=" + gcd);
                 }
 
             } else this.vl -= this.vl > 0 ? 1 : 0;

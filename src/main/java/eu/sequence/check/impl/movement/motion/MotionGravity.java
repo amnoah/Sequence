@@ -45,7 +45,7 @@ public class MotionGravity extends Check {
 
             if (!exempt && difference > 0.01) {
                 if (++this.preVL > 2) {
-                    flag();
+                    flag("diff=" + difference);
                 }
 
             } else this.preVL -= this.preVL > 0 ? 0.5 : 0;

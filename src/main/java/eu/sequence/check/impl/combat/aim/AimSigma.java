@@ -38,7 +38,7 @@ public class AimSigma extends Check {
 
             if (deltaPitch == 0.0D && yawAcceleration > 29.5D) {
                 if (++this.vl > 8) {
-                    flag();
+                    flag("deltaPitch= " + deltaPitch + " acceleration=" + yawAcceleration);
                 }
             } else this.vl -= this.vl > 0 ? 0.25 : 0;
         }

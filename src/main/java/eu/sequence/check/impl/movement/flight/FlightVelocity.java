@@ -32,7 +32,7 @@ public class FlightVelocity extends Check {
 
             if(!exempt) {
                 if(result < - 0.5D || result > 1.0D) {
-                    flag();
+                    flag("result=" + result);
                 }
             }
         }

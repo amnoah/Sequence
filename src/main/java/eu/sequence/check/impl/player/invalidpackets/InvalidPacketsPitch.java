@@ -21,7 +21,7 @@ public class InvalidPacketsPitch extends Check {
             final double pitch = playerData.getRotationProcessor().getPitch();
 
             if(Math.abs(pitch) > 90.0D) {
-                flag();
+                flag("pitch=" + pitch);
             }
 
         }
