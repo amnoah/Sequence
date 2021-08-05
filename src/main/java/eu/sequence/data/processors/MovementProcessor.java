@@ -62,7 +62,6 @@ public class MovementProcessor extends Processor {
             this.deltaXZ = Math.hypot(deltaX, deltaZ);
 
 
-
             /* Getting since how many ticks player is in air */
             
             Location location = new Location(data.getPlayer().getWorld(), x, y, z);
