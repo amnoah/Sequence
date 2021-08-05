@@ -2,7 +2,12 @@ package eu.sequence.check;
 
 import eu.sequence.Sequence;
 import eu.sequence.data.PlayerData;
+<<<<<<< Updated upstream
 import eu.sequence.event.PacketEvent;
+=======
+import eu.sequence.exempt.ExemptType;
+import eu.sequence.packet.Packet;
+>>>>>>> Stashed changes
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -21,6 +26,15 @@ public abstract class Check {
     protected boolean enabled;
 
     protected double vl = 0;
+
+    protected boolean isExempt(final ExemptType exemptType) {
+        return playerData.getExemptProcessor().isExempt(exemptType);
+    }
+
+    protected boolean isExempt(final ExemptType...exemptTypes) {
+        return playerData.getExemptProcessor().isExempt(exemptTypes);
+    }
+
 
     public Check(final PlayerData playerData) {
         this.playerData = playerData;

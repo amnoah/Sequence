@@ -5,8 +5,14 @@ import eu.sequence.check.CheckInfo;
 import eu.sequence.data.PlayerData;
 import eu.sequence.data.processors.MovementProcessor;
 import eu.sequence.data.processors.RotationProcessor;
+<<<<<<< Updated upstream
 import eu.sequence.event.PacketEvent;
 import eu.sequence.event.PacketReceiveEvent;
+=======
+import eu.sequence.exempt.ExemptType;
+import eu.sequence.packet.Packet;
+import eu.sequence.utilities.MathUtils;
+>>>>>>> Stashed changes
 import eu.sequence.utilities.PlayerUtils;
 import net.minecraft.server.v1_8_R3.MathHelper;
 import org.bukkit.Bukkit;
@@ -15,8 +21,11 @@ import org.bukkit.potion.PotionEffectType;
 @CheckInfo(name = "Motion", subName = "Jump")
 public class MotionJump extends Check {
 
+<<<<<<< Updated upstream
     private boolean lastTickGround;
     private double lastDeltaX, lastDeltaZ;
+=======
+>>>>>>> Stashed changes
 
     /**
      * @author Salers
@@ -37,6 +46,7 @@ public class MotionJump extends Check {
     //skidded from mcp
 
     @Override
+<<<<<<< Updated upstream
     public void handle(PacketEvent event) {
         if (event instanceof PacketReceiveEvent) {
             if (event.getPacket().isFlying()) {
@@ -54,27 +64,50 @@ public class MotionJump extends Check {
 
                 double lastDeltaX = this.lastDeltaX;
                 double lastDeltaZ = this.lastDeltaZ;
+=======
+    public void handle(Packet packet) {
+        if (packet.isPosition()) {
+
+            final MovementProcessor movementProcessor = playerData.getMovementProcessor();
+
+
+            double deltaY = movementProcessor.getDeltaY();
+>>>>>>> Stashed changes
 
                 this.lastDeltaX = deltaX;
                 this.lastDeltaZ = deltaZ;
 
+<<<<<<< Updated upstream
                 double predictionY = 0.42F;
                 predictionY += PlayerUtils.getPotionLevel(event.getPlayer(),
                         PotionEffectType.JUMP) * 0.1F;
 
+=======
+            final double predictionY = 0.42F + (double) ((float) (PlayerUtils.getPotionLevel(playerData.getPlayer(),
+                    PotionEffectType.JUMP) + 1) * 0.1F);
 
-                boolean exempt = movementProcessor.isOnClimbable() || movementProcessor.isInLiquid() ||
-                        movementProcessor.isNearStairs() || movementProcessor.isNearSlabs();
+            final boolean invalidY = deltaY > predictionY;
+>>>>>>> Stashed changes
 
-                if (exempt) return;
+            final boolean exempt = isExempt(ExemptType.CLIMBABLE, ExemptType.NOTINAIR, ExemptType.SLIME, ExemptType.LIQUID, ExemptType.WEB);
 
+            if (exempt) return;
+
+<<<<<<< Updated upstream
                 if(movementProcessor.getAirTicks() > 2 ) {
                     if(deltaY > predictionY) {
                         flag();
                     }
+=======
+            if (movementProcessor.getAirTicks() > 1) {
+                if (invalidY) {
+                    flag();
+>>>>>>> Stashed changes
                 }
+            }
 
 
+<<<<<<< Updated upstream
                 if (!ground && lastTickGround) {
 
                     //EntityLivingBase line 1556
@@ -103,9 +136,10 @@ public class MotionJump extends Check {
                 }
             }
 
+=======
+>>>>>>> Stashed changes
         }
     }
-
 
 
 }

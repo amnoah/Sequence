@@ -4,8 +4,13 @@ import eu.sequence.check.Check;
 import eu.sequence.check.CheckInfo;
 import eu.sequence.data.PlayerData;
 import eu.sequence.data.processors.MovementProcessor;
+<<<<<<< Updated upstream
 import eu.sequence.event.PacketEvent;
 import eu.sequence.event.PacketReceiveEvent;
+=======
+import eu.sequence.exempt.ExemptType;
+import eu.sequence.packet.Packet;
+>>>>>>> Stashed changes
 
 
 @CheckInfo(name = "Flight", subName = "Stable")
@@ -29,8 +34,13 @@ public class FlightStable extends Check {
         if (event instanceof PacketReceiveEvent) {
             if (event.getPacket().isFlying()) {
 
+<<<<<<< Updated upstream
                 MovementProcessor movementProcessor = playerData.getMovementProcessor();
                 int streakY = 0,streakDeltaY = 0;
+=======
+            final MovementProcessor movementProcessor = playerData.getMovementProcessor();
+            final boolean exempt = isExempt(ExemptType.CLIMBABLE,ExemptType.NOTINAIR,ExemptType.SLIME,ExemptType.LIQUID,ExemptType.WEB);
+>>>>>>> Stashed changes
 
                 boolean exempt = movementProcessor.getAirTicks() < 5 || movementProcessor.isInLiquid() ||
                         movementProcessor.isInWeb() || movementProcessor.isOnClimbable() ;

@@ -28,7 +28,21 @@ public class PlayerData {
         this.movementProcessor = new MovementProcessor(this);
     }
 
+<<<<<<< Updated upstream
     public void handle(PacketEvent event) {
+=======
+    public void handle(Packet packet) {
+
+        //handling processors
+
+        movementProcessor.handle(packet);
+        rotationProcessor.handle(packet);
+        clickingProcessor.handle(packet);
+        velocityProcessor.handle(packet);
+
+
+
+>>>>>>> Stashed changes
         for (Check check : checkManager.getChecks()) {
             if (check.isEnabled()) {
                 check.handle(event);
