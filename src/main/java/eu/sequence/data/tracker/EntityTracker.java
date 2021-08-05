@@ -56,64 +56,65 @@ public class EntityTracker extends Processor {
     public void onPacketPlaySend(PacketPlaySendEvent event) {
         byte packetId = event.getPacketId();
 
-
         if (packetId == PacketType.Play.Server.REL_ENTITY_MOVE
                 || packetId == PacketType.Play.Server.REL_ENTITY_MOVE_LOOK) {
             WrappedPacketOutEntity.WrappedPacketOutRelEntityMove relEntityMove = new WrappedPacketOutEntity.WrappedPacketOutRelEntityMove(event.getNMSPacket());
 
-            TrackedEntity.Update update = new TrackedEntity.Update(
-                    relEntityMove.getDeltaX(),
-                    relEntityMove.getDeltaY(),
-                    relEntityMove.getDeltaY(),
-                    relEntityMove.getEntityId(),
-                    (short) ThreadLocalRandom.current().nextInt(32767),
-                    TrackedEntity.UpdateType.REL_MOVE
-            );
+            if (relEntityMove.getEntity() instanceof Player) {
 
-            updates.put(update.getId(), update);
+                TrackedEntity.Update update = new TrackedEntity.Update(
+                        relEntityMove.getDeltaX(),
+                        relEntityMove.getDeltaY(),
+                        relEntityMove.getDeltaY(),
+                        relEntityMove.getEntityId(),
+                        (short) ThreadLocalRandom.current().nextInt(32767),
+                        TrackedEntity.UpdateType.REL_MOVE
+                );
 
-            WrappedPacketOutTransaction transaction = new WrappedPacketOutTransaction(
-                    0, update.getId(), false
-            );
+                updates.put(update.getId(), update);
 
-            data.sendPacket(transaction, false);
+                WrappedPacketOutTransaction transaction = new WrappedPacketOutTransaction(
+                        0, update.getId(), false
+                );
 
-            event.setPostTask(() ->
-                    data.sendPacket(transaction, true)
-            );
+                data.sendTransaction(transaction, false);
+
+                event.setPostTask(() ->
+                        data.sendTransaction(transaction, true)
+                );
+            }
         } else if (packetId == PacketType.Play.Server.ENTITY_TELEPORT) {
             WrappedPacketOutEntityTeleport entityTeleport = new WrappedPacketOutEntityTeleport(event.getNMSPacket());
 
-            Vector3d pos = entityTeleport.getPosition();
+            if (entityTeleport.getEntity() instanceof Player){
 
-            TrackedEntity.Update update = new TrackedEntity.Update(
-                    pos.getX(),
-                    pos.getY(),
-                    pos.getZ(),
-                    entityTeleport.getEntityId(),
-                    (short) ThreadLocalRandom.current().nextInt(32767),
-                    TrackedEntity.UpdateType.SPAWN
-            );
+                Vector3d pos = entityTeleport.getPosition();
 
-            updates.put(update.getId(), update);
+                TrackedEntity.Update update = new TrackedEntity.Update(
+                        pos.getX(),
+                        pos.getY(),
+                        pos.getZ(),
+                        entityTeleport.getEntityId(),
+                        (short) ThreadLocalRandom.current().nextInt(32767),
+                        TrackedEntity.UpdateType.SPAWN
+                );
 
-            WrappedPacketOutTransaction transaction = new WrappedPacketOutTransaction(
-                    0, update.getId(), false
-            );
+                updates.put(update.getId(), update);
 
-            data.sendPacket(transaction, false);
+                WrappedPacketOutTransaction transaction = new WrappedPacketOutTransaction(
+                        0, update.getId(), false
+                );
 
-            event.setPostTask(() ->
-                    data.sendPacket(transaction, true)
-            );
+                data.sendTransaction(transaction, false);
+
+                event.setPostTask(() ->
+                        data.sendTransaction(transaction, true)
+                );
+            }
         } else if (packetId == PacketType.Play.Server.NAMED_ENTITY_SPAWN) {
             WrappedPacketOutNamedEntitySpawn namedEntitySpawn = new WrappedPacketOutNamedEntitySpawn(event.getNMSPacket());
 
-            boolean player = namedEntitySpawn.getEntity() instanceof Player;
-
-            Bukkit.broadcastMessage("spawn player=" + player);
-
-            if (player) {
+            if (namedEntitySpawn.getEntity() instanceof Player) {
                 Vector3d pos = namedEntitySpawn.getPosition();
 
                 TrackedEntity.Update update = new TrackedEntity.Update(
@@ -131,20 +132,16 @@ public class EntityTracker extends Processor {
                         0, update.getId(), false
                 );
 
-                data.sendPacket(transaction, false);
+                data.sendTransaction(transaction, false);
 
                 event.setPostTask(() ->
-                        data.sendPacket(transaction, true)
+                        data.sendTransaction(transaction, true)
                 );
             }
         } else if (packetId == PacketType.Play.Server.ENTITY_DESTROY) {
             WrappedPacketOutEntityDestroy entityDestroy = new WrappedPacketOutEntityDestroy(event.getNMSPacket());
 
-            boolean player = entityDestroy.getEntity() instanceof Player;
-
-            Bukkit.broadcastMessage("destory player=" + player);
-
-            if (player) {
+            if (entityDestroy.getEntity() instanceof Player) {
                 TrackedEntity.Update update = new TrackedEntity.Update(
                         -1,
                         -1,
@@ -160,10 +157,10 @@ public class EntityTracker extends Processor {
                         0, update.getId(), false
                 );
 
-                data.sendPacket(transaction, false);
+                data.sendTransaction(transaction, false);
 
                 event.setPostTask(() ->
-                        data.sendPacket(transaction, true)
+                        data.sendTransaction(transaction, true)
                 );
             }
         }
@@ -190,26 +187,53 @@ public class EntityTracker extends Processor {
                             if (trackedEntities.containsKey(update.getEntityId())) {
                                 TrackedEntity trackedEntity = trackedEntities.get(update.getEntityId());
 
-                                trackedEntity.handleMove(update.getX(), update.getY(), update.getZ(), false);
+                                trackedEntity.handleMove(update.getX(), update.getY(), update.getZ(), false, false);
+
+                                trackedEntities.replace(update.getEntityId(), trackedEntity);
                             } else {
                                 TrackedEntity trackedEntity = new TrackedEntity();
 
-                                trackedEntity.handleMove(update.getX(), update.getY(), update.getZ(), false);
+                                trackedEntity.handleMove(update.getX(), update.getY(), update.getZ(), false, false);
 
                                 trackedEntities.put(update.getEntityId(), trackedEntity);
+
+                                Bukkit.broadcastMessage("size=" + trackedEntities.size());
                             }
                             break;
                         case REL_MOVE:
                             if (trackedEntities.containsKey(update.getEntityId())) {
                                 TrackedEntity trackedEntity = trackedEntities.get(update.getEntityId());
 
-                                trackedEntity.handleMove(update.getX(), update.getY(), update.getZ(), true);
+                                trackedEntity.handleMove(update.getX(), update.getY(), update.getZ(), true, false);
+
+                                trackedEntities.replace(update.getEntityId(), trackedEntity);
                             }
                             break;
-                        case REMOVE:
-                            trackedEntities.remove(update.getEntityId());
                     }
                 } else {
+                    switch (update.getType()) {
+                        case SPAWN:
+                            if (trackedEntities.containsKey(update.getEntityId())) {
+                                TrackedEntity trackedEntity = trackedEntities.get(update.getEntityId());
+
+                                trackedEntity.handleMove(update.getX(), update.getY(), update.getZ(), false, true);
+
+                                trackedEntities.replace(update.getEntityId(), trackedEntity);
+                            }
+                            break;
+                        case REL_MOVE:
+                            if (trackedEntities.containsKey(update.getEntityId())) {
+                                TrackedEntity trackedEntity = trackedEntities.get(update.getEntityId());
+
+                                trackedEntity.handleMove(update.getX(), update.getY(), update.getZ(), true, true);
+
+                                trackedEntities.replace(update.getEntityId(), trackedEntity);
+                            }
+                        case REMOVE:
+                            trackedEntities.remove(update.getEntityId());
+                            break;
+                    }
+
                     updates.remove(id);
 
                     int delta = data.getTick() - update.getRespondedTick();

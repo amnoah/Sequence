@@ -30,35 +30,40 @@ public class TrackedEntity {
     // DO NOT TOUCH
 
     // Doesn't account for world changes but idc
-    private AxisAlignedBB aabb;
+    private AxisAlignedBB lastBoundingBox, confirmedBoundingBox;
     private double x, y, z, newX, newY, newZ;
-    private boolean relMove;
-    private int newPosRotationIncrements;
+    private int interpolationIncrements;
+    private boolean confirmed;
 
-    public void handleMove(double x, double y, double z, boolean relMove) {
-        if (relMove) {
-            this.newX = this.x + x;
-            this.newY = this.y + y;
-            this.newZ = this.z + z;
+    public void handleMove(double x, double y, double z, boolean relMove, boolean first) {
+        if (first) {
+            if (relMove) {
+                newX = this.x + x;
+                newY = this.y + y;
+                newZ = this.z + z;
+            } else {
+                newX = x;
+                newY = y;
+                newZ = z;
+            }
+
+            interpolationIncrements = 3;
+            lastBoundingBox = confirmedBoundingBox;
+            confirmed = false;
         } else {
-            this.newX = x;
-            this.newY = y;
-            this.newZ = z;
+            lastBoundingBox = null;
+            confirmed = true;
         }
-
-        this.newPosRotationIncrements = 3;
-        this.relMove = relMove;
     }
 
     public void onTick() {
-        if (newPosRotationIncrements > 0) {
-            this.x = x + (newX - x) / newPosRotationIncrements;
-            this.y = y + (newY - y) / newPosRotationIncrements;
-            this.z = z + (newZ - z) / newPosRotationIncrements;
+        if (interpolationIncrements > 0) {
+            x = (newX - x) / interpolationIncrements;
+            y = (newY - y) / interpolationIncrements;
+            z = (newZ - z) / interpolationIncrements;
 
-            --newPosRotationIncrements;
-
-            aabb = new AxisAlignedBB(new Vector(x, y, z));
+            --interpolationIncrements;
+            confirmedBoundingBox = new AxisAlignedBB(new Vector(x, y, z));
         }
     }
     
@@ -68,7 +73,7 @@ public class TrackedEntity {
         private final double x, y, z;
 
         @Setter
-        private boolean responded;
+        private boolean responded = false;
         private final int entityId;
 
         @Setter

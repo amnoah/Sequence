@@ -26,8 +26,7 @@ public class ReachA extends Check {
             if (wrapper.getAction() == WrappedPacketInUseEntity.EntityUseAction.ATTACK) {
                 int targetId = wrapper.getEntityId();
 
-                if (wrapper.getEntity() == null
-                        || !playerData.getEntityTracker().getTrackedEntities().containsKey(targetId)) {
+                if (!playerData.getEntityTracker().getTrackedEntities().containsKey(targetId)) {
 
                     Bukkit.broadcastMessage("return 1");
                     return;
@@ -41,9 +40,10 @@ public class ReachA extends Check {
                     return;
                 }
 
-                AxisAlignedBB targetBox = target.getAabb();
+                AxisAlignedBB lastBoundingBox = target.getLastBoundingBox();
+                AxisAlignedBB confirmedBoundingBox = target.getConfirmedBoundingBox();
 
-                if (targetBox == null) {
+                if (lastBoundingBox == null && confirmedBoundingBox == null) {
 
                     Bukkit.broadcastMessage("return 3");
                     return;
@@ -66,11 +66,36 @@ public class ReachA extends Check {
                         look.zCoord * 6.0
                 );
 
-                MovingObjectPosition collision = targetBox.calculateIntercept(origin, look);
+                double distance = -6.9;
 
-                if (collision != null) {
-                    double distance = origin.distanceTo(collision.hitVec);
+                if (target.isConfirmed()) {
+                    if (confirmedBoundingBox != null) {
+                        MovingObjectPosition collision = confirmedBoundingBox.calculateIntercept(origin, look);
 
+                        distance = origin.distanceTo(collision.hitVec);
+                    }
+                } else {
+                    double d1 = 99;
+                    double d2 = 99;
+
+                    if (lastBoundingBox != null) {
+                        MovingObjectPosition collision = lastBoundingBox.calculateIntercept(origin, look);
+
+                        d1 = origin.distanceTo(collision.hitVec);
+                    }
+
+                    if (confirmedBoundingBox != null) {
+                        MovingObjectPosition collision = confirmedBoundingBox.calculateIntercept(origin, look);
+
+                        d2 = origin.distanceTo(collision.hitVec);
+                    }
+
+                    if (d1 != 99 || d2 != 99) {
+                        distance = Math.min(d1, d2);
+                    }
+                }
+
+                if (distance != -6.9) {
                     Bukkit.broadcastMessage("distance=" + distance);
                 } else {
                     Bukkit.broadcastMessage("collision=null");

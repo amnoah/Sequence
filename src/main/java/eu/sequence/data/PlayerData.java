@@ -44,6 +44,7 @@ public class PlayerData {
             ++tick;
         }
 
+        entityTracker.handle(packet);
         movementProcessor.handle(packet);
         rotationProcessor.handle(packet);
 
@@ -58,7 +59,7 @@ public class PlayerData {
         }
     }
 
-    public void sendPacket(SendableWrapper wrapper, boolean flush) {
+    public void sendTransaction(WrappedPacketOutTransaction wrapper, boolean flush) {
         PacketEvents.get().getPlayerUtils().sendPacket(player, wrapper);
 
         if (flush) {
