@@ -14,11 +14,10 @@ public class InvalidPacketsAbilitiesFlying extends Check {
 
     @Override
     public void handle(Packet packet) {
-        if(packet.isAbilities()) {
-            if(packet.spoofingAbilities()) {
-                flag();
+        if (packet.isAbilities()) {
+            if (packet.spoofingAbilities()) {
+                flag("spoofing=true");
             }
-
         }
 
     }

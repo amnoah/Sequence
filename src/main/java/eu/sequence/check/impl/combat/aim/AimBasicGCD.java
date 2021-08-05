@@ -38,7 +38,7 @@ public class AimBasicGCD extends Check {
                 if (this.vl < 15) this.vl++;
 
                 if (this.vl > 0.75)
-                    flag();
+                    flag("gcd=" + gcd);
             }else this.vl -= this.vl > 0 ? 0.05 : 0;
 
 

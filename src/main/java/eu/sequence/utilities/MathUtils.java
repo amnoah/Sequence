@@ -2,6 +2,8 @@ package eu.sequence.utilities;
 
 import lombok.experimental.UtilityClass;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Collection;
 import java.util.Random;
 
@@ -37,12 +39,8 @@ public class MathUtils {
         return b[(int)(var0 * 10430.378F + 16384.0F) & '\uffff'];
     }
 
-    public double hypot(double d,double d1) {
-        return (d * d) + (d1 * d1);
-    }
-
     public float sqrt(double var0) {
-        return (float)Math.sqrt(var0);
+        return (float) Math.sqrt(var0);
     }
 
     public double gcd(final double limit, final double a, final double b) {
@@ -67,11 +65,6 @@ public class MathUtils {
     public double deviation(final Iterable<? extends Number> numbers) {
         return Math.sqrt(MathUtils.deviationSquared(numbers));
     }
-
-
-
-
-
 
     public double getStandardDeviation(final Collection<? extends Number> data) {
         final double variance = getVariance(data);
@@ -130,5 +123,15 @@ public class MathUtils {
         }
 
         return efficiencyFirst * (varianceSquared / Math.pow(variance / sum, 2.0)) - efficiencySecond;
+    }
+
+    public double round(double value, int places) {
+        if (places < 0) {
+            throw new IllegalArgumentException();
+        } else {
+            BigDecimal bd = new BigDecimal(value);
+            bd = bd.setScale(places, RoundingMode.HALF_UP);
+            return bd.doubleValue();
+        }
     }
 }

@@ -1,58 +1,24 @@
-alert-permission: sequence.alerts
+color:
+  main: '&e'
+  secondary: '&f'
 
-checks:
-#MOVMEMENT
-  motion:
-    gravity:
-      max: 15
-      enabled: true
-    jump:
-      max: 15
-      enabled: true
-  speed:
-    horizontal:
-      max: 10
-      enabled: true
-  flight:
-    stable:
-      max: 5
-      enabled: true
-    airjump:
-      max: 10
-      enabled: true
-    velocity:
-      max: 20
-      enabled: true
-  step:
-    height:
-      max: 10
-      enabled: true
-#COMBAT
-  aim:
-    sigma:
-      max: 10
-      enabled: true
-    basicgcd:
-      max: 5
-      enabled: true
-    sensivitygcd:
-      max: 25
-      enabled: true
-  aura:
-    post:
-      max: 25
-      enabled: true
-    swing:
-      max: 5
-      enabled: true
-#OTHERS
-  invalidpackets:
-    mathground:
-      max: 25
-      enabled: true
-    abilitiesflying:
-      max: 3
-      enabled: true
-
-
-
+# These are all placeholders that can be used in alert format and alert hover info
+# %player%, %check%, %subname%, %experimental%, %vl%, %info%, %description%, %keepaliveping%,
+# %transping%, %lagging%, %version%, %tps%, %client%, %max%
+alerts:
+  format: '&7[&eSequence&7] &e%player% &ffailed &e%check% &f(&e&subname%&f) &8(&ex%vl%&8)'
+  # In seconds
+  delay: 0.5
+  on-join: true
+  hover-info:
+    - '&eInfo: &f%info%'
+    - ' '
+    - '&eTPS: &f%tps%'
+    - '&ePing: &f%keepaliveping%'
+    - '&eLagging: &f%lagging%'
+    - '&efClient: &f%client%'
+    - ' '
+    - '&eClick to TP!'
+  # Only %player% works on click-command
+  click-command: '/tp %player%'
+  permission: 'sequence.alerts'

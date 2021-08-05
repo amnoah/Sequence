@@ -1,12 +1,22 @@
 package eu.sequence;
 
+import eu.sequence.config.impl.CheckConfig;
+import eu.sequence.config.impl.MainConfig;
+import eu.sequence.data.PlayerData;
 import eu.sequence.data.PlayerDataManager;
 import eu.sequence.listener.BukkitListener;
 import eu.sequence.listener.PacketEventsListener;
+import eu.sequence.tick.TickProcessor;
 import io.github.retrooper.packetevents.PacketEvents;
+import io.github.retrooper.packetevents.utils.list.ConcurrentList;
 import io.github.retrooper.packetevents.utils.server.ServerVersion;
 import lombok.Getter;
 import org.bukkit.Bukkit;
+
+import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Getter
 public class Sequence {
@@ -15,6 +25,12 @@ public class Sequence {
     private SequencePlugin plugin;
 
     private final PlayerDataManager playerDataManager = new PlayerDataManager();
+
+    private MainConfig mainConfig;
+    private CheckConfig checkConfig;
+    private final TickProcessor tickProcessor = new TickProcessor();
+
+    private final List<PlayerData> alerting = new ConcurrentList<>();
 
     public static void createInstance() {
         instance = new Sequence();
@@ -39,8 +55,10 @@ public class Sequence {
     }
 
     public void start() {
-        //config registering
-        plugin.saveDefaultConfig();
+        mainConfig = new MainConfig();
+        checkConfig = new CheckConfig();
+
+        tickProcessor.setup();
 
         PacketEvents.get().init();
         PacketEvents.get().registerListener(new PacketEventsListener());
@@ -58,6 +76,8 @@ public class Sequence {
         this.plugin = null;
         instance = null;
         this.playerDataManager.getAllData().clear();
+
+        tickProcessor.stop();
 
         PacketEvents.get().terminate();
     }

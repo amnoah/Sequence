@@ -40,7 +40,7 @@ public class StepHeight extends Check {
 
             if (wasOnGround && onGround) {
                 if(deltaY > 0.6) /** max vanilla step height is 0.6**/ {
-                    flag();
+                    flag("deltaY=" + deltaY);
                 }
 
 

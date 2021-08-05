@@ -1,0 +1,69 @@
+punish-command: 'ban %player% // Sequence'
+
+checks:
+  #MOVMEMENT
+  motion:
+    gravity:
+      max: 15
+      enabled: true
+      punish: true
+    jump:
+      max: 15
+      enabled: true
+      punish: true
+  speed:
+    horizontal:
+      max: 10
+      enabled: true
+      punish: true
+  flight:
+    stable:
+      max: 5
+      enabled: true
+      punish: true
+    airjump:
+      max: 10
+      enabled: true
+      punish: true
+    velocity:
+      max: 20
+      enabled: true
+      punish: true
+  step:
+    height:
+      max: 10
+      enabled: true
+      punish: true
+  #COMBAT
+  aim:
+    sigma:
+      max: 10
+      enabled: true
+      punish: true
+    basicgcd:
+      max: 5
+      enabled: true
+      punish: true
+    sensivitygcd:
+      max: 25
+      enabled: true
+      punish: true
+  aura:
+    post:
+      max: 25
+      enabled: true
+      punish: true
+    swing:
+      max: 5
+      enabled: true
+      punish: true
+  #OTHERS
+  invalidpackets:
+    mathground:
+      max: 25
+      enabled: true
+      punish: true
+    abilitiesflying:
+      max: 3
+      enabled: true
+      punish: true

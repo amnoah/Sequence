@@ -1,0 +1,31 @@
+package eu.sequence.config.impl;
+
+import eu.sequence.config.api.Config;
+import lombok.Getter;
+
+@Getter
+public class CheckConfig extends Config {
+
+    private String punishCommand;
+
+    public CheckConfig() {
+        super("checks.yml");
+    }
+
+    @Override
+    public void load() {
+        punishCommand = config.getString("punish-command");
+    }
+
+    public boolean isEnabled(String name, String subName) {
+        return config.getBoolean(name + "." + subName + ".enabled");
+    }
+
+    public boolean isPunish(String name, String subName) {
+        return config.getBoolean(name + "." + subName + ".punish");
+    }
+
+    public double getMax(String name, String subName) {
+        return config.getDouble(name + "." + subName + ".max");
+    }
+}

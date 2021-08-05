@@ -36,7 +36,7 @@ public class FlightAirJump extends Check {
 
             if (!exempt && deltaY > lastDeltaY) {
                 if (++this.vl > 3) {
-                    flag();
+                    flag("delta=" + deltaY + " ldelta=" + lastDeltaY);
                 }
             } else this.vl -= this.vl > 0 ? 0.05 : 0;
         }

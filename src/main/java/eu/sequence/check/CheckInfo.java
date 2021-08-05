@@ -10,5 +10,7 @@ public @interface CheckInfo {
 
     String subName() default "";
 
+    String description() default "";
+
     boolean experimental() default false;
 }
