@@ -24,6 +24,8 @@ public class PlayerData {
     private final MovementProcessor movementProcessor;
     private final ClickingProcessor clickingProcessor;
     private final VelocityProcessor velocityProcessor;
+
+    private final ExemptProcessor exemptProcessor;
     private final ClientVersion clientVersion;
     private final Channel channel;
 

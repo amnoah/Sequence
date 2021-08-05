@@ -4,6 +4,7 @@ import eu.sequence.check.Check;
 import eu.sequence.check.CheckInfo;
 import eu.sequence.data.PlayerData;
 import eu.sequence.data.processors.MovementProcessor;
+import eu.sequence.exempt.ExemptType;
 import eu.sequence.packet.Packet;
 import org.bukkit.Bukkit;
 
@@ -26,9 +27,9 @@ public class FlightVelocity extends Check {
 
             final double result = deltaY - velocityY;
 
-            final boolean exempt = movementProcessor.getAirTicks() < 5 || movementProcessor.isInLiquid() ||
-                    movementProcessor.isInWeb() || movementProcessor.isOnClimbable() || movementProcessor.
-                    isAtTheEdgeOfABlock() || movementProcessor.isOnGround() || playerData.getPlayer().getFallDistance() > 0.8;
+            final boolean exempt = isExempt(ExemptType.CLIMBABLE,ExemptType.WEB,ExemptType.LIQUID,ExemptType.NOTINAIR)
+            || playerData.getPlayer().getFallDistance() > 0.8;
+
 
             if(!exempt) {
                 if(result < - 0.5D || result > 1.0D) {

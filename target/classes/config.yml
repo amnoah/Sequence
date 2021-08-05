@@ -1,0 +1,24 @@
+color:
+  main: '&e'
+  secondary: '&f'
+
+# These are all placeholders that can be used in alert format and alert hover info
+# %player%, %check%, %subname%, %experimental%, %vl%, %info%, %description%, %keepaliveping%,
+# %transping%, %lagging%, %version%, %tps%, %client%, %max%
+alerts:
+  format: '&7[&eSequence&7] &e%player% &ffailed &e%check% &f(&e&subname%&f) &8(&ex%vl%&8)'
+  # In seconds
+  delay: 0.5
+  on-join: true
+  hover-info:
+    - '&eInfo: &f%info%'
+    - ' '
+    - '&eTPS: &f%tps%'
+    - '&ePing: &f%keepaliveping%'
+    - '&eLagging: &f%lagging%'
+    - '&efClient: &f%client%'
+    - ' '
+    - '&eClick to TP!'
+  # Only %player% works on click-command
+  click-command: '/tp %player%'
+  permission: 'sequence.alerts'

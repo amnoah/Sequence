@@ -7,6 +7,7 @@ import eu.sequence.packet.Packet;
 import eu.sequence.utilities.PlayerUtils;
 import net.minecraft.server.v1_8_R3.BlockPosition;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.potion.PotionEffectType;
@@ -76,11 +77,17 @@ public class SpeedHorizontal extends Check {
             if (friction < lastFriction)
                 prediction += landMovementFactor * 1.25;
 
+
             // flag
             if (deltaXZ > prediction) {
                 if(this.vl++ > 3)
                 flag("deltaXZ=" + deltaXZ + " max=" + prediction);
             }else this.vl -= this.vl > 0 ? 0.025 : 0;
+
+
+
+
+
 
         }
     }

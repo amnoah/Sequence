@@ -4,6 +4,8 @@ import eu.sequence.check.Check;
 import eu.sequence.check.CheckInfo;
 import eu.sequence.data.PlayerData;
 import eu.sequence.data.processors.MovementProcessor;
+import eu.sequence.exempt.ExemptType;
+
 import eu.sequence.packet.Packet;
 
 // Call this fly coz it is a fly check
@@ -39,9 +41,9 @@ public class MotionGravity extends Check {
 
             double difference = Math.abs(deltaY - predictionY);
 
-            boolean exempt = movementProcessor.getAirTicks() < 15 || movementProcessor.isInLiquid() ||
-                    movementProcessor.isInWeb() || movementProcessor.isOnClimbable() || movementProcessor.isOnGround()
-                    || movementProcessor.isAtTheEdgeOfABlock();
+
+            final boolean exempt = isExempt(ExemptType.CLIMBABLE,ExemptType.WEB,ExemptType.LIQUID,ExemptType.NOTINAIR);
+
 
             if (!exempt && difference > 0.01) {
                 if (++this.preVL > 2) {

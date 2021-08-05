@@ -4,6 +4,9 @@ import eu.sequence.check.Check;
 import eu.sequence.check.CheckInfo;
 import eu.sequence.data.PlayerData;
 import eu.sequence.data.processors.MovementProcessor;
+
+import eu.sequence.exempt.ExemptType;
+
 import eu.sequence.packet.Packet;
 
 
@@ -28,9 +31,9 @@ public class FlightStable extends Check {
         if (packet.isPosition()) {
 
             final MovementProcessor movementProcessor = playerData.getMovementProcessor();
-            final boolean exempt = movementProcessor.getAirTicks() < 5 || movementProcessor.isInLiquid() ||
-                    movementProcessor.isInWeb() || movementProcessor.isOnClimbable() || movementProcessor.
-                    isAtTheEdgeOfABlock() || movementProcessor.isOnGround();
+
+            final boolean exempt = isExempt(ExemptType.CLIMBABLE,ExemptType.WEB,ExemptType.LIQUID,ExemptType.NOTINAIR);
+
 
 
             final double deltaY = movementProcessor.getDeltaY();

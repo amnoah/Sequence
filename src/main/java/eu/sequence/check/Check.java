@@ -2,6 +2,10 @@ package eu.sequence.check;
 
 import eu.sequence.Sequence;
 import eu.sequence.data.PlayerData;
+
+
+import eu.sequence.exempt.ExemptType;
+
 import eu.sequence.packet.Packet;
 import eu.sequence.utilities.MathUtils;
 import eu.sequence.utilities.ServerUtils;
@@ -32,6 +36,10 @@ public abstract class Check {
 
     protected double vl = 0;
 
+
+
+
+
     public Check(final PlayerData playerData) {
         this.playerData = playerData;
 
@@ -56,6 +64,16 @@ public abstract class Check {
         max = Sequence.getInstance().getCheckConfig().getMax(nameLowerCase, subNameLowerCase);
         enabled = Sequence.getInstance().getCheckConfig().isEnabled(nameLowerCase, subNameLowerCase);
         punish = Sequence.getInstance().getCheckConfig().isPunish(nameLowerCase, subNameLowerCase);
+    }
+
+
+
+    protected boolean isExempt(ExemptType exemptType) {
+        return playerData.getExemptProcessor().isExempt(exemptType);
+    }
+
+    protected boolean isExempt(ExemptType... exemptTypes) {
+        return playerData.getExemptProcessor().isExempt(exemptTypes);
     }
 
     protected void flag(String info) {

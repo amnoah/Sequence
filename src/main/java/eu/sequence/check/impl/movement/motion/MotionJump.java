@@ -5,17 +5,19 @@ import eu.sequence.check.CheckInfo;
 import eu.sequence.data.PlayerData;
 import eu.sequence.data.processors.MovementProcessor;
 import eu.sequence.data.processors.RotationProcessor;
+
+
+import eu.sequence.exempt.ExemptType;
+
 import eu.sequence.packet.Packet;
 import eu.sequence.utilities.MathUtils;
 import eu.sequence.utilities.PlayerUtils;
-import io.github.retrooper.packetevents.packetwrappers.NMSPacket;
-import io.github.retrooper.packetevents.packetwrappers.play.in.flying.WrappedPacketInFlying;
+
 import org.bukkit.Bukkit;
 import org.bukkit.potion.PotionEffectType;
 
 @CheckInfo(name = "Motion", subName = "Jump")
 public class MotionJump extends Check {
-
 
 
     /**
@@ -42,33 +44,35 @@ public class MotionJump extends Check {
             MovementProcessor movementProcessor = playerData.getMovementProcessor();
 
 
-            double deltaX = movementProcessor.getDeltaX();
             double deltaY = movementProcessor.getDeltaY();
-            double deltaZ = movementProcessor.getDeltaZ();
-
 
 
             double predictionY = 0.42F + (double) ((float) (PlayerUtils.getPotionLevel(playerData.getPlayer(),
                     PotionEffectType.JUMP) + 1) * 0.1F);
 
-                boolean invalidY = deltaY > predictionY;
 
-                boolean exempt = movementProcessor.isOnClimbable() || movementProcessor.isInLiquid() ||
-                        movementProcessor.isNearStairs() || movementProcessor.isNearSlabs();
+            boolean invalidY = deltaY > predictionY;
 
-                if (exempt) return;
+            final boolean exempt = isExempt(ExemptType.CLIMBABLE, ExemptType.WEB, ExemptType.SLIME);
 
-                if(movementProcessor.getAirTicks() > 1) {
-                    if(invalidY) {
-                        flag("deltaY=" + deltaY + " max=" + predictionY);
-                    }
+
+            if (exempt) return;
+
+
+            if (movementProcessor.getAirTicks() > 1) {
+                if (invalidY) {
+                    flag("deltaY=" + deltaY + " max=" + predictionY);
                 }
-
-
-
             }
+
+
+        }
+
+
     }
 
-
-
 }
+
+
+
+

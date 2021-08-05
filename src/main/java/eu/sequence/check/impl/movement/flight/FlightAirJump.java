@@ -4,7 +4,9 @@ import eu.sequence.check.Check;
 import eu.sequence.check.CheckInfo;
 import eu.sequence.data.PlayerData;
 import eu.sequence.data.processors.MovementProcessor;
-import eu.sequence.exempt.Exempt;
+
+import eu.sequence.exempt.ExemptType;
+
 import eu.sequence.packet.Packet;
 
 @CheckInfo(name = "Flight", subName = "AirJump")
@@ -32,10 +34,7 @@ public class FlightAirJump extends Check {
 
             this.lastDeltaY = deltaY;
 
-            final Exempt exemptClass = new Exempt(playerData);
-
-            final boolean exempt = exemptClass.climbable() || exemptClass.web() || exemptClass.liquid() || exemptClass.notInAir();
-
+            final boolean exempt = isExempt(ExemptType.CLIMBABLE,ExemptType.WEB,ExemptType.LIQUID,ExemptType.NOTINAIR);
 
 
 

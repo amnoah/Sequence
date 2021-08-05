@@ -65,6 +65,9 @@ public class BukkitListener implements Listener {
         Sequence.getInstance().getPlayerDataManager().remove(e.getPlayer());
     }
 
+
+    /**
+>>>>>>> Stashed changes
     @EventHandler
     public void onEDBE(EntityDamageByEntityEvent e) {
         if(e.getEntity() instanceof Player) {
@@ -73,4 +76,8 @@ public class BukkitListener implements Listener {
             data.getVelocityProcessor().handleEDBE(e);
         }
     }
+<<<<<<< Updated upstream
+=======
+    **/
+
 }
