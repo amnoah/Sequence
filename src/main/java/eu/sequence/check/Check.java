@@ -6,6 +6,7 @@ import eu.sequence.packet.Packet;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -49,6 +50,10 @@ public abstract class Check {
     }
 
     protected void flag() {
+
+        if(this.playerData.getPlayer().getGameMode() == GameMode.CREATIVE
+                || this.playerData.getPlayer().getAllowFlight()
+                || this.playerData.getPlayer().getGameMode() == GameMode.SPECTATOR) return;
         vl++;
         if (subName.equalsIgnoreCase("")) {
             sendToStaff(ChatColor.translateAlternateColorCodes('&', "&7[&eSequence&7] " +

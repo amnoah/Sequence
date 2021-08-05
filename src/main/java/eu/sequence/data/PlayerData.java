@@ -6,6 +6,7 @@ import eu.sequence.data.processors.ClickingProcessor;
 import eu.sequence.data.processors.MovementProcessor;
 import eu.sequence.data.processors.RotationProcessor;
 import eu.sequence.data.processors.VelocityProcessor;
+import eu.sequence.exempt.ExemptProcessor;
 import eu.sequence.packet.Packet;
 import org.bukkit.entity.Player;
 
@@ -17,6 +18,7 @@ public class PlayerData {
     private final MovementProcessor movementProcessor;
     private final ClickingProcessor clickingProcessor;
     private final VelocityProcessor velocityProcessor;
+    private final ExemptProcessor exemptProcessor;
 
 
     public PlayerData(final Player player) {
@@ -32,6 +34,7 @@ public class PlayerData {
         this.movementProcessor = new MovementProcessor(this);
         this.clickingProcessor = new ClickingProcessor(this);
         this.velocityProcessor = new VelocityProcessor(this);
+        this.exemptProcessor = new ExemptProcessor(this);
     }
 
     public void handle(Packet packet) {
@@ -69,7 +72,7 @@ public class PlayerData {
     public ClickingProcessor getClickingProcessor() {
         return clickingProcessor;
     }
-    
+
     public VelocityProcessor getVelocityProcessor() {
         return velocityProcessor;
     }
