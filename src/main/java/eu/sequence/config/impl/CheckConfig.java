@@ -18,14 +18,14 @@ public class CheckConfig extends Config {
     }
 
     public boolean isEnabled(String name, String subName) {
-        return config.getBoolean(name + "." + subName + ".enabled");
+        return config.getBoolean("checks." + name + "." + subName + ".enabled");
     }
 
     public boolean isPunish(String name, String subName) {
-        return config.getBoolean(name + "." + subName + ".punish");
+        return config.getBoolean("checks." + name + "." + subName + ".punish");
     }
 
     public double getMax(String name, String subName) {
-        return config.getDouble(name + "." + subName + ".max");
+        return config.getDouble("checks." + name + "." + subName + ".max");
     }
 }
