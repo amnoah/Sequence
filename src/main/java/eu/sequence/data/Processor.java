@@ -1,7 +1,7 @@
 package eu.sequence.data;
 
-import eu.sequence.event.PacketEvent;
 import eu.sequence.packet.Packet;
+import org.bukkit.event.Event;
 
 public abstract class Processor {
 
@@ -10,4 +10,6 @@ public abstract class Processor {
      **/
 
     public abstract void handle(Packet packet);
+
+
 }

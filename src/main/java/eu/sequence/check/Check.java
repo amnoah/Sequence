@@ -2,11 +2,11 @@ package eu.sequence.check;
 
 import eu.sequence.Sequence;
 import eu.sequence.data.PlayerData;
-import eu.sequence.event.PacketEvent;
 import eu.sequence.packet.Packet;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public abstract class Check {
@@ -50,13 +50,14 @@ public abstract class Check {
 
     protected void flag() {
         vl++;
-        /* TODO: add actual alerts */
         if (subName.equalsIgnoreCase("")) {
-            Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', "&7[&eSequence&7] " +
-                    "&e" + playerData.getPlayer().getName() + "&f failed &e" + name + " &8(&ex" + ((int) Math.round(vl)) + "&8)"));
+            sendToStaff(ChatColor.translateAlternateColorCodes('&', "&7[&eSequence&7] " +
+                    "&e" + playerData.getPlayer().getName() + "&f failed &e" + name  +
+                    " &8(&ex" + ((int) Math.round(vl)) + "&8)"));
         } else {
-            Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', "&7[&eSequence&7] " +
-                    "&e" + playerData.getPlayer().getName() + "&f failed &e" + name + "&f(&e" + this.subName + "&f)" +
+
+            sendToStaff(ChatColor.translateAlternateColorCodes('&', "&7[&eSequence&7] " +
+                    "&e" + playerData.getPlayer().getName() + "&f failed &e" + name + " &f(&e" + this.subName + "&f)" +
                     " &8(&ex" + ((int) Math.round(vl)) + "&8)"));
         }
         if (Math.floor(vl + 1) > max) {
@@ -76,6 +77,15 @@ public abstract class Check {
     }
 
     public abstract void handle(Packet packet);
+
+    private void sendToStaff(String toSend) {
+        for(Player player : Bukkit.getOnlinePlayers()) {
+            if(player.hasPermission(Sequence.getInstance().getPlugin().getConfig().getString("alert-permission"))) {
+                player.sendMessage(toSend);
+            }
+        }
+
+    }
 
     protected long now() {
         return System.currentTimeMillis();

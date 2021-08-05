@@ -33,21 +33,22 @@ public class MotionGravity extends Check {
 
             this.lastDeltaY = deltaY;
             double predictionY = (lastDeltaY - 0.08) * 0.9800000190734863D; //EntityLivingBase lines 1666 and 1669
-            if (predictionY < 0.005) {
+            if (Math.abs(predictionY) < 0.005) {
                 predictionY = 0;
             }
 
             double difference = Math.abs(deltaY - predictionY);
 
-            boolean exempt = movementProcessor.getAirTicks() < 5 || movementProcessor.isInLiquid() ||
-                    movementProcessor.isInWeb() || movementProcessor.isOnClimbable() ;
+            boolean exempt = movementProcessor.getAirTicks() < 15 || movementProcessor.isInLiquid() ||
+                    movementProcessor.isInWeb() || movementProcessor.isOnClimbable() || movementProcessor.isOnGround()
+                    || movementProcessor.isAtTheEdgeOfABlock();
 
             if (!exempt && difference > 0.01) {
                 if (++this.preVL > 2) {
                     flag();
                 }
 
-            } else this.preVL -= this.preVL > 0 ? 0.05 : 0;
+            } else this.preVL -= this.preVL > 0 ? 0.5 : 0;
         }
     }
 }

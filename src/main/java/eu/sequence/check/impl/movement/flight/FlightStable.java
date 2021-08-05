@@ -27,32 +27,25 @@ public class FlightStable extends Check {
     public void handle(Packet packet) {
         if (packet.isPosition()) {
 
-            MovementProcessor movementProcessor = playerData.getMovementProcessor();
-            int streakY = 0, streakDeltaY = 0;
+            final MovementProcessor movementProcessor = playerData.getMovementProcessor();
+            final boolean exempt = movementProcessor.getAirTicks() < 5 || movementProcessor.isInLiquid() ||
+                    movementProcessor.isInWeb() || movementProcessor.isOnClimbable() || movementProcessor.
+                    isAtTheEdgeOfABlock() || movementProcessor.isOnGround();
 
-            boolean exempt = movementProcessor.getAirTicks() < 5 || movementProcessor.isInLiquid() ||
-                    movementProcessor.isInWeb() || movementProcessor.isOnClimbable();
-            if (exempt) return;
 
-            if (movementProcessor.getLastY() == movementProcessor.getY()) {
-                streakY++;
-
-            } else streakY = 0;
-
-            double deltaY = movementProcessor.getDeltaY();
-            double lastDeltaY = this.lastDeltaY;
+            final double deltaY = movementProcessor.getDeltaY();
+            final double lastDeltaY = this.lastDeltaY;
 
             this.lastDeltaY = deltaY;
+            final double accelerationYAxis = Math.abs(deltaY - lastDeltaY);
 
-            if (deltaY == lastDeltaY) {
-                streakDeltaY++;
-            } else streakDeltaY = 0;
-
-            if (streakDeltaY > 6 || streakY > 11) {
-                if (++vl > 4) {
+            if (accelerationYAxis < 0.001 && !exempt) {
+                if (++this.vl > 4)
                     flag();
-                }
-            } else vl -= vl > 0 ? 0.05 : 0;
+            }else this.vl -= this.vl > 0 ? 0.05 : 0;
+
+
         }
     }
 }
+
