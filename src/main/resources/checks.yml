@@ -1,4 +1,4 @@
-punish-command: 'ban %player% // Sequence'
+punish-command: 'ban %player% Unfair Advantage // Sequence'
 
 checks:
   #MOVMEMENT
