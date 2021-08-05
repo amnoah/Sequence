@@ -1,9 +1,12 @@
 package eu.sequence.listener;
 
 import eu.sequence.Sequence;
+import eu.sequence.data.PlayerData;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -60,5 +63,14 @@ public class BukkitListener implements Listener {
     public void onQuit(PlayerQuitEvent e)
     {
         Sequence.getInstance().getPlayerDataManager().remove(e.getPlayer());
+    }
+
+    @EventHandler
+    public void onEDBE(EntityDamageByEntityEvent e) {
+        if(e.getEntity() instanceof Player) {
+
+            final PlayerData data = Sequence.getInstance().getPlayerDataManager().getPlayerData((Player) e.getEntity());
+            data.getVelocityProcessor().handleEDBE(e);
+        }
     }
 }
