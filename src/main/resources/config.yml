@@ -20,6 +20,9 @@ checks:
     airjump:
       max: 10
       enabled: true
+    velocity:
+      max: 20
+      enabled: true
   step:
     height:
       max: 10

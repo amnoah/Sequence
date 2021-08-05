@@ -2,6 +2,7 @@ package eu.sequence.utilities;
 
 import lombok.experimental.UtilityClass;
 
+import java.util.Collection;
 import java.util.Random;
 
 @UtilityClass
@@ -46,5 +47,88 @@ public class MathUtils {
 
     public double gcd(final double limit, final double a, final double b) {
         return b <= limit ? a : MathUtils.gcd(limit, b, a % b);
+    }
+
+    public double deviationSquared(final Iterable<? extends Number> numbers) {
+        double total = 0.0;
+        int i = 0;
+        for (final Number number : numbers) {
+            total += number.doubleValue();
+            ++i;
+        }
+        final double average = total / (double) i;
+        double deviation = 0.0;
+        for (final Number number : numbers) {
+            deviation += Math.pow(number.doubleValue() - average, 2.0);
+        }
+        return deviation / (double) (i - 1);
+    }
+
+    public double deviation(final Iterable<? extends Number> numbers) {
+        return Math.sqrt(MathUtils.deviationSquared(numbers));
+    }
+
+
+
+
+
+
+    public double getStandardDeviation(final Collection<? extends Number> data) {
+        final double variance = getVariance(data);
+
+        // The standard deviation is the square root of variance. (sqrt(s^2))
+        return Math.sqrt(variance);
+    }
+
+    public double getVariance(final Collection<? extends Number> data) {
+        int count = 0;
+
+        double sum = 0.0;
+        double variance = 0.0;
+
+        final double average;
+
+        // Increase the sum and the count to find the average and the standard deviation
+        for (final Number number : data) {
+            sum += number.doubleValue();
+            ++count;
+        }
+
+        average = sum / count;
+
+        // Run the standard deviation formula
+        for (final Number number : data) {
+            variance += Math.pow(number.doubleValue() - average, 2.0);
+        }
+
+        return variance;
+    }
+
+    public double getKurtosis(final Collection<? extends Number> data) {
+        double sum = 0.0;
+        int count = 0;
+
+        for (final Number number : data) {
+            sum += number.doubleValue();
+            ++count;
+        }
+
+        if (count < 3.0) {
+            return 0.0;
+        }
+
+        final double efficiencyFirst = count * (count + 1.0) / ((count - 1.0) * (count - 2.0) * (count - 3.0));
+        final double efficiencySecond = 3.0 * Math.pow(count - 1.0, 2.0) / ((count - 2.0) * (count - 3.0));
+        final double average = sum / count;
+
+        double variance = 0.0;
+        double varianceSquared = 0.0;
+
+        for (final Number number : data) {
+            variance += Math.pow(average - number.doubleValue(), 2.0);
+            varianceSquared += Math.pow(average - number.doubleValue(), 4.0);
+        }
+
+        return efficiencyFirst * (varianceSquared / Math.pow(variance / sum, 2.0)) - efficiencySecond;
     }
 }

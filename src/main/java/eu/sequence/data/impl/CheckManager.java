@@ -8,6 +8,7 @@ import eu.sequence.check.impl.combat.aura.AuraPost;
 import eu.sequence.check.impl.combat.aura.AuraSwing;
 import eu.sequence.check.impl.movement.flight.FlightAirJump;
 import eu.sequence.check.impl.movement.flight.FlightStable;
+import eu.sequence.check.impl.movement.flight.FlightVelocity;
 import eu.sequence.check.impl.movement.motion.MotionGravity;
 import eu.sequence.check.impl.movement.motion.MotionJump;
 import eu.sequence.check.impl.movement.step.StepHeight;
@@ -28,6 +29,7 @@ public class CheckManager {
                // MOVEMENT
                new FlightStable(playerData),
                new FlightAirJump(playerData),
+               new FlightVelocity(playerData),
                new MotionJump(playerData),
                new MotionGravity(playerData),
                new SpeedHorizontal(playerData),
