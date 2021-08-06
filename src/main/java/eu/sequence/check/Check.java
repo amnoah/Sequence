@@ -101,9 +101,9 @@ public abstract class Check {
                         new HoverEvent(
                                 HoverEvent.Action.SHOW_TEXT,
                                 new ComponentBuilder(
-                                        replace(
+                                       ChatColor.translateAlternateColorCodes('&', replace(
                                                 Sequence.getInstance().getMainConfig().getHoverInfo(), info
-                                        )
+                                        ))
                                 ).create()
                         )
                 );
@@ -137,9 +137,9 @@ public abstract class Check {
             public void run() {
                 Bukkit.dispatchCommand(
                         Bukkit.getConsoleSender(),
-                        Sequence.getInstance().getCheckConfig().getPunishCommand().replaceAll(
+                      ChatColor.translateAlternateColorCodes('&' , Sequence.getInstance().getCheckConfig().getPunishCommand().replaceAll(
                                 "%player%",
-                                playerData.getPlayer().getName()
+                                playerData.getPlayer().getName())
                         )
                 );
             }

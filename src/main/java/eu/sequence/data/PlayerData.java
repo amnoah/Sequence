@@ -3,10 +3,7 @@ package eu.sequence.data;
 import eu.sequence.Sequence;
 import eu.sequence.check.Check;
 import eu.sequence.data.impl.CheckManager;
-import eu.sequence.data.processors.ClickingProcessor;
-import eu.sequence.data.processors.MovementProcessor;
-import eu.sequence.data.processors.RotationProcessor;
-import eu.sequence.data.processors.VelocityProcessor;
+import eu.sequence.data.processors.*;
 import eu.sequence.exempt.ExemptProcessor;
 import eu.sequence.packet.Packet;
 import io.github.retrooper.packetevents.PacketEvents;
@@ -24,6 +21,7 @@ public class PlayerData {
     private final RotationProcessor rotationProcessor;
     private final MovementProcessor movementProcessor;
     private final ClickingProcessor clickingProcessor;
+    private final CombatProcessor combatProcessor;
     private final VelocityProcessor velocityProcessor;
     private final ExemptProcessor exemptProcessor;
     private final ClientVersion clientVersion;
@@ -42,6 +40,7 @@ public class PlayerData {
         this.movementProcessor = new MovementProcessor(this);
         this.clickingProcessor = new ClickingProcessor(this);
         this.velocityProcessor = new VelocityProcessor(this);
+        this.combatProcessor = new CombatProcessor(this);
 
         this.clientVersion = PacketEvents.get().getPlayerUtils().getClientVersion(player);
         this.channel = (Channel) PacketEvents.get().getPlayerUtils().getChannel(player);
@@ -61,6 +60,7 @@ public class PlayerData {
         rotationProcessor.handle(packet);
         clickingProcessor.handle(packet);
         velocityProcessor.handle(packet);
+        combatProcessor.handle(packet);
 
 
         for (Check check : checkManager.getChecks()) {

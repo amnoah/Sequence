@@ -1,4 +1,4 @@
-punish-command: 'ban %player% Unfair Advantage // Sequence'
+punish-command: 'ban %player% &7You are banned from this Server you were banned for &cUnfair Advantage'
 
 checks:
   #MOVMEMENT
@@ -65,5 +65,9 @@ checks:
       punish: true
     abilitiesflying:
       max: 3
+      enabled: true
+      punish: true
+    pitch:
+      max: 2
       enabled: true
       punish: true

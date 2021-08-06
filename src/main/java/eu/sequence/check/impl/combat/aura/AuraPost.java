@@ -24,11 +24,11 @@ public class AuraPost extends Check {
 
             if (wrappedPacket.getAction() == WrappedPacketInUseEntity.EntityUseAction.ATTACK) {
 
-                final long delta = now() - this.lastFlyingPacketSent;
+                final long elapsed = now() - this.lastFlyingPacketSent;
 
-                if(delta < 10L) {
+                if(elapsed < 25L) {
                     if(++this.vl > 7) {
-                        flag("delta=" + delta);
+                        flag("elapsed=" + elapsed);
                     }
                 }else this.vl = 0;
             }

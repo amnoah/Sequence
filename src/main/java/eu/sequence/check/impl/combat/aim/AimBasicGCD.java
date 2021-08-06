@@ -30,16 +30,16 @@ public class AimBasicGCD extends Check {
             final double absLastDeltaPitch = Math.abs(rotationProcessor.getLastDeltaPitch());
 
             final double to = rotationProcessor.getPitch();
-            final double gcd = MathUtils.gcd(0x4000, (absDeltaPitch * MathUtils.EXPANDER), (absLastDeltaPitch * Math.pow(2.0, 24.0)));
+            final double gcd = MathUtils.gcd(0x4000, (absDeltaPitch * MathUtils.EXPANDER), (absLastDeltaPitch * MathUtils.EXPANDER));
 
 
             // TODO : EXEMPT FROM CINEMATIC
             if (Math.min(this.last, Math.atan(to)) == this.result && gcd < 0x20000 && gcd > 0) {
                 if (this.vl < 15) this.vl++;
 
-                if (this.vl > 1.05)
+                if (this.vl > 0.75)
                     flag("gcd=" + gcd);
-            }else this.vl -= this.vl > 0 ? 0.075 : 0;
+            }else this.vl -= this.vl > 0 ? 0.05 : 0;
 
 
             this.result = Math.min(this.last, Math.atan(to));

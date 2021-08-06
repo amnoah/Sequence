@@ -25,7 +25,7 @@ public class AimSensivityGCD extends Check {
             final double absDeltaPitch = Math.abs(rotationProcessor.getDeltaPitch());
             final double absLastDeltaPitch = Math.abs(rotationProcessor.getLastDeltaPitch());
 
-            final double gcd = MathUtils.gcd(0x4000, (absDeltaPitch * MathUtils.EXPANDER), (absLastDeltaPitch * Math.pow(2.0, 24.0)));
+            final double gcd = MathUtils.gcd(0x4000, (absDeltaPitch * MathUtils.EXPANDER), (absLastDeltaPitch * MathUtils.EXPANDER));
 
             if (gcd < 131072L && absDeltaPitch != 0.0 && absLastDeltaPitch != 0.0) {
                 if (++this.vl > 10) {
