@@ -31,16 +31,16 @@ public class AimSigma extends Check {
             /**
              *
              The logic behind this check is :
-             a human cannot make a perfect straight line while moving,
+             a human cannot make a perfect straight line while rotating,
              so we check that.
 
              **/
 
-            if (deltaPitch == 0.0D && yawAcceleration > 29.5D) {
-                if (++this.vl > 8) {
+            if (deltaPitch == 0.0D && yawAcceleration > 31.5D) {
+                if (++this.vl > 11) {
                     flag("deltaPitch= " + deltaPitch + " acceleration=" + yawAcceleration);
                 }
-            } else this.vl -= this.vl > 0 ? 0.25 : 0;
+            } else this.vl -= this.vl > 0 ? 0.75 : 0;
         }
     }
 }

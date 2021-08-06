@@ -29,7 +29,8 @@ public class InvalidPacketsMathGround extends Check {
               **/
             final boolean isFlyingPacketGround = movementProcessor.isOnGround();
 
-            if(isFlyingPacketGround && !isMathGround && movementProcessor.getAirTicks() > 10 && !movementProcessor.isAtTheEdgeOfABlock()) {
+            if(isFlyingPacketGround && !isMathGround && movementProcessor.getAirTicks() > 10 && !movementProcessor.
+                    isAtTheEdgeOfABlock() && playerData.getPlayer().getLocation().add(0.3,-2,0.3).getBlock().isEmpty()) {
                 flag("packet=" + isFlyingPacketGround + " math=" + isMathGround);
             }
         }

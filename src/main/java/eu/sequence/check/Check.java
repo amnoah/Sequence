@@ -77,15 +77,20 @@ public abstract class Check {
     }
 
     protected void flag(String info) {
+        final Player player = this.playerData.getPlayer();
+
+        if(player.getGameMode() == GameMode.CREATIVE || player.getGameMode() == GameMode.SPECTATOR ||  player.getAllowFlight()) return;
 
         vl++;
 
         int tick = Sequence.getInstance().getTickProcessor().getTick();
 
+
         if (tick - lastAlert >= Sequence.getInstance().getMainConfig().getAlertDelay()) {
             lastAlert = tick;
 
-            if (subName.equalsIgnoreCase("")) {
+
+
                 TextComponent alert = new TextComponent();
 
                 alert.setText(
@@ -114,8 +119,10 @@ public abstract class Check {
 
                 Sequence.getInstance().getAlerting().forEach(data
                         -> data.getPlayer().spigot().sendMessage(alert));
+
+
             }
-        }
+
 
         if (Math.floor(vl + 1) > max) {
             vl = 0;

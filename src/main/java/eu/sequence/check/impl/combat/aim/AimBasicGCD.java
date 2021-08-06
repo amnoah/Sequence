@@ -37,9 +37,9 @@ public class AimBasicGCD extends Check {
             if (Math.min(this.last, Math.atan(to)) == this.result && gcd < 0x20000 && gcd > 0) {
                 if (this.vl < 15) this.vl++;
 
-                if (this.vl > 0.75)
+                if (this.vl > 1.05)
                     flag("gcd=" + gcd);
-            }else this.vl -= this.vl > 0 ? 0.05 : 0;
+            }else this.vl -= this.vl > 0 ? 0.075 : 0;
 
 
             this.result = Math.min(this.last, Math.atan(to));

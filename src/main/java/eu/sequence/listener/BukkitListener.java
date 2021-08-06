@@ -57,6 +57,10 @@ public class BukkitListener implements Listener {
     public void onJoin(PlayerJoinEvent e)
     {
         Sequence.getInstance().getPlayerDataManager().add(e.getPlayer());
+        if(e.getPlayer().hasPermission(Sequence.getInstance().getMainConfig().getAlertPermission())) {
+            PlayerData pD = Sequence.getInstance().getPlayerDataManager().getPlayerData(e.getPlayer());
+            Sequence.getInstance().getAlerting().add(pD);
+        }
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
