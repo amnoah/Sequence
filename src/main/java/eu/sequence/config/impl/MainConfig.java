@@ -1,6 +1,6 @@
 package eu.sequence.config.impl;
 
-import eu.sequence.config.api.Config;
+import eu.sequence.config.Config;
 import eu.sequence.utilities.StringUtils;
 import lombok.Getter;
 import org.bukkit.ChatColor;

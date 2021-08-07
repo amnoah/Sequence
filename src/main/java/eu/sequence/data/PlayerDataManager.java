@@ -28,4 +28,8 @@ public class PlayerDataManager {
     public Collection<PlayerData> getAllData() {
         return playerDataMap.values();
     }
+
+    public int getSize() {
+        return playerDataMap.size();
+    }
 }

@@ -26,5 +26,7 @@ public class TickProcessor implements Runnable {
     @Override
     public void run() {
         ++tick;
+
+        // TODO: change thread pool size every second or so
     }
 }

@@ -1,5 +1,6 @@
 package eu.sequence;
 
+import eu.sequence.command.CommandManager;
 import eu.sequence.config.impl.CheckConfig;
 import eu.sequence.config.impl.MainConfig;
 import eu.sequence.data.PlayerData;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 @Getter
 public class Sequence {
@@ -25,12 +27,16 @@ public class Sequence {
     private SequencePlugin plugin;
 
     private final PlayerDataManager playerDataManager = new PlayerDataManager();
+    private final CommandManager commandManager = new CommandManager();
 
     private MainConfig mainConfig;
     private CheckConfig checkConfig;
+
     private final TickProcessor tickProcessor = new TickProcessor();
 
     private final List<PlayerData> alerting = new ConcurrentList<>();
+
+    private final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(2);
 
     public static void createInstance() {
         instance = new Sequence();
@@ -58,6 +64,8 @@ public class Sequence {
         mainConfig = new MainConfig();
         checkConfig = new CheckConfig();
 
+        commandManager.setup();
+
         tickProcessor.setup();
 
         PacketEvents.get().init();
@@ -72,6 +80,7 @@ public class Sequence {
     public void stop() {
 
         //doing that for preventing memory leaks
+        executor.shutdown();
 
         this.plugin = null;
         instance = null;
