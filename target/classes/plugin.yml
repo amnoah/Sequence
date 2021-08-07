@@ -1,9 +1,0 @@
-name: Sequence
-main: eu.sequence.SequencePlugin
-authors: [SalersFR, Steviebeenz, ExDiggers]
-version: 0.1
-description: A minecraft anticheat
-
-commands:
-  sequence:
-    description: command
