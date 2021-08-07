@@ -1,4 +1,4 @@
-package eu.sequence.config.api;
+package eu.sequence.config;
 
 import eu.sequence.Sequence;
 import lombok.Getter;

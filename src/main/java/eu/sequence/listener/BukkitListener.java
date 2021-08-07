@@ -38,6 +38,4 @@ public class BukkitListener implements Listener {
             data.getVelocityProcessor().handleEDBE(e);
         }
     }
-
-
 }
