@@ -3,6 +3,7 @@ package eu.sequence.check.impl.movement.speed;
 import eu.sequence.check.Check;
 import eu.sequence.check.CheckInfo;
 import eu.sequence.data.PlayerData;
+import eu.sequence.exempt.ExemptType;
 import eu.sequence.packet.Packet;
 import eu.sequence.utilities.PlayerUtils;
 import net.minecraft.server.v1_8_R3.BlockPosition;
@@ -78,8 +79,10 @@ public class SpeedHorizontal extends Check {
                 prediction += landMovementFactor * 1.25;
 
 
+
+
             // flag
-            if (deltaXZ > prediction) {
+            if (deltaXZ > prediction ) {
                 if(this.vl++ > 3)
                 flag("deltaXZ=" + deltaXZ + " max=" + prediction);
             }else this.vl -= this.vl > 0 ? 0.025 : 0;

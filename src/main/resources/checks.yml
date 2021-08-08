@@ -57,6 +57,10 @@ checks:
       max: 5
       enabled: true
       punish: true
+    multi:
+      max: 5
+      enabled: true
+      punish: true
   #OTHERS
   invalidpackets:
     mathground:

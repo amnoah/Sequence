@@ -4,13 +4,14 @@ import eu.sequence.check.Check;
 import eu.sequence.check.CheckInfo;
 import eu.sequence.data.PlayerData;
 import eu.sequence.data.processors.MovementProcessor;
+import eu.sequence.exempt.ExemptType;
 import eu.sequence.packet.Packet;
 
-@CheckInfo(name = "InvalidPackets",subName = "MathGround")
-public class InvalidPacketsMathGround extends Check {
+@CheckInfo(name = "InvalidPackets",subName = "NearGround")
+public class InvalidPacketsNearGround extends Check {
 
 
-    public InvalidPacketsMathGround(PlayerData playerData) {
+    public InvalidPacketsNearGround(PlayerData playerData) {
         super(playerData);
     }
 
@@ -19,20 +20,26 @@ public class InvalidPacketsMathGround extends Check {
         if(packet.isFlying()) {
 
             final MovementProcessor movementProcessor = playerData.getMovementProcessor();
-            final double groundYExpander = 1 / 64; //0.15625 from EntityLivingBase
 
-            final boolean isMathGround = movementProcessor.getY() % groundYExpander < 0.0001; //can be spoofed but hardly
+            final int airTicks = movementProcessor.getAirTicks();
 
             /**
              * as it is from the PacketPlayInFlying ground
              * which is set by the client it can be spoofed
               **/
+
             final boolean isFlyingPacketGround = movementProcessor.isOnGround();
 
-            if(isFlyingPacketGround && !isMathGround && movementProcessor.getAirTicks() > 10 && !movementProcessor.
-                    isAtTheEdgeOfABlock() && playerData.getPlayer().getLocation().add(0.3,-2,0.3).getBlock().isEmpty()) {
-                flag("packet=" + isFlyingPacketGround + " math=" + isMathGround);
+            final boolean spoofingGround = airTicks > 3 && isFlyingPacketGround;
+
+            final boolean exempt = isExempt(ExemptType.NOTINAIR);
+
+            if(spoofingGround && !exempt) {
+                flag("airTicks=" + airTicks);
             }
+
+
+
         }
     }
 }

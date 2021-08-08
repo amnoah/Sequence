@@ -6,6 +6,7 @@ import eu.sequence.data.PlayerData;
 import eu.sequence.data.processors.RotationProcessor;
 import eu.sequence.packet.Packet;
 import eu.sequence.utilities.MathUtils;
+import org.bukkit.Bukkit;
 
 @CheckInfo(name = "Aim", subName = "SensivityGCD")
 public class AimSensivityGCD extends Check {
@@ -26,6 +27,7 @@ public class AimSensivityGCD extends Check {
             final double absLastDeltaPitch = Math.abs(rotationProcessor.getLastDeltaPitch());
 
             final double gcd = MathUtils.gcd(0x4000, (absDeltaPitch * MathUtils.EXPANDER), (absLastDeltaPitch * MathUtils.EXPANDER));
+
 
             if (gcd < 131072L && absDeltaPitch != 0.0 && absLastDeltaPitch != 0.0) {
                 if (++this.vl > 10) {

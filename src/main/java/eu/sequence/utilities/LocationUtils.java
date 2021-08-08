@@ -158,7 +158,7 @@ public class LocationUtils {
     }
 
     public boolean blockNearHead(final Location location) {
-        if (getBlockAsync(location.clone().add(0, 0.5001, 0)).getType() != Material.AIR) {
+        if (getBlockAsync(location.clone().add(0, 0.999, 0)).getType() != Material.AIR) {
             return true;
 
         }

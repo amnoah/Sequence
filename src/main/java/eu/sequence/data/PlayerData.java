@@ -24,6 +24,7 @@ public class PlayerData {
     private final CombatProcessor combatProcessor;
     private final VelocityProcessor velocityProcessor;
     private final ExemptProcessor exemptProcessor;
+    private final ActionProcessor actionProcessor;
     private final ClientVersion clientVersion;
     private final Channel channel;
 
@@ -41,6 +42,7 @@ public class PlayerData {
         this.clickingProcessor = new ClickingProcessor(this);
         this.velocityProcessor = new VelocityProcessor(this);
         this.combatProcessor = new CombatProcessor(this);
+        this.actionProcessor = new ActionProcessor(this);
 
         this.clientVersion = PacketEvents.get().getPlayerUtils().getClientVersion(player);
         this.channel = (Channel) PacketEvents.get().getPlayerUtils().getChannel(player);
@@ -61,6 +63,7 @@ public class PlayerData {
         clickingProcessor.handle(packet);
         velocityProcessor.handle(packet);
         combatProcessor.handle(packet);
+        actionProcessor.handle(packet);
 
 
         for (Check check : checkManager.getChecks()) {

@@ -18,6 +18,7 @@ public class AimSigma extends Check {
     @Override
     public void handle(Packet packet) {
         if (packet.isRotation()) {
+
             final RotationProcessor rotationProcessor = playerData.getRotationProcessor();
 
             final double deltaPitch = rotationProcessor.getDeltaPitch();
@@ -36,7 +37,7 @@ public class AimSigma extends Check {
 
              **/
 
-            if (deltaPitch == 0.0D && yawAcceleration > 31.5D) {
+            if (deltaPitch == 0.0D && yawAcceleration > 31.5D )
                 if (++this.vl > 11) {
                     flag("deltaPitch= " + deltaPitch + " acceleration=" + yawAcceleration);
                 }
