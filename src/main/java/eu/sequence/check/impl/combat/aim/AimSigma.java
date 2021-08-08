@@ -44,4 +44,4 @@ public class AimSigma extends Check {
             } else this.vl -= this.vl > 0 ? 0.75 : 0;
         }
     }
-}
+
