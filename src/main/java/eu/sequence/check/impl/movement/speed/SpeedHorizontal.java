@@ -14,7 +14,7 @@ import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.NumberConversions;
 
-@CheckInfo(name = "Speed", subName = "Horizontal")
+@CheckInfo(name = "Speed", subName = "Horizontal",configPath = "speed.horizontal")
 public class SpeedHorizontal extends Check {
 
     // TODO: exempt on teleport & velocity because those aren't handled

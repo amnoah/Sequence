@@ -11,7 +11,7 @@ import net.minecraft.server.v1_8_R3.EntityPlayer;
 
 // Call this fly coz it is a fly check
 
-@CheckInfo(name = "Motion",subName = "Gravity",experimental = true)
+@CheckInfo(name = "Motion",subName = "Gravity",experimental = true,configPath = "motion.gravity")
 public class MotionGravity extends Check {
 
     private double lastDeltaY;

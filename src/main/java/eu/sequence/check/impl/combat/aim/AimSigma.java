@@ -6,7 +6,7 @@ import eu.sequence.data.PlayerData;
 import eu.sequence.data.processors.RotationProcessor;
 import eu.sequence.packet.Packet;
 
-@CheckInfo(name = "Aim", subName = "Sigma")
+@CheckInfo(name = "Aim", subName = "Sigma",configPath = "aim.sigma")
 public class AimSigma extends Check {
 
     private double lastDeltaYaw, vl;

@@ -8,7 +8,7 @@ import eu.sequence.exempt.ExemptType;
 import eu.sequence.packet.Packet;
 import org.bukkit.Bukkit;
 
-@CheckInfo(name = "Flight",subName = "Velocity")
+@CheckInfo(name = "Flight",subName = "Velocity",configPath = "flight.velocity")
 public class FlightVelocity extends Check {
 
 

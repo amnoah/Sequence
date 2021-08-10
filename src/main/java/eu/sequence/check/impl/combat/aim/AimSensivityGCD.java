@@ -8,7 +8,7 @@ import eu.sequence.packet.Packet;
 import eu.sequence.utilities.MathUtils;
 import org.bukkit.Bukkit;
 
-@CheckInfo(name = "Aim", subName = "SensivityGCD")
+@CheckInfo(name = "Aim", subName = "SensivityGCD",configPath = "aim.sensivitygcd")
 public class AimSensivityGCD extends Check {
 
     private int vl;

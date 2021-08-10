@@ -8,7 +8,7 @@ import eu.sequence.packet.Packet;
 import eu.sequence.utilities.MathUtils;
 import org.bukkit.Bukkit;
 
-@CheckInfo(name = "Aim", subName = "BasicGCD")
+@CheckInfo(name = "Aim", subName = "BasicGCD",configPath = "aim.basicgcd")
 public class AimBasicGCD extends Check {
 
     //totally not from me, a friend helped me - Salers

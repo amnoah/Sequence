@@ -5,7 +5,7 @@ import eu.sequence.check.CheckInfo;
 import eu.sequence.data.PlayerData;
 import eu.sequence.packet.Packet;
 
-@CheckInfo(name = "Inventory",subName = "Move")
+@CheckInfo(name = "Inventory",subName = "Move",configPath = "inventory.move")
 public class InventoryMove extends Check {
 
     public InventoryMove(PlayerData playerData) {

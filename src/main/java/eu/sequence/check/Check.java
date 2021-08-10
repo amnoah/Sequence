@@ -30,7 +30,9 @@ public abstract class Check {
     protected final boolean experimental;
     @Getter
     protected double max;
-    private final String subName;
+    @Getter
+    private  String subName,path;
+
     private final String description;
     private double lastAlert;
 
@@ -50,6 +52,7 @@ public abstract class Check {
             this.subName = checkInfo.subName();
             this.experimental = checkInfo.experimental();
             this.description = checkInfo.description();
+            this.path = checkInfo.configPath();
         } else {
             Bukkit.getConsoleSender().sendMessage("No CheckInfo annotation found in class " + this.getClass().getSimpleName());
             this.name = this.getClass().getSimpleName();

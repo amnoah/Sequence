@@ -16,7 +16,7 @@ import eu.sequence.utilities.PlayerUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.potion.PotionEffectType;
 
-@CheckInfo(name = "Motion", subName = "Jump")
+@CheckInfo(name = "Motion", subName = "Jump",configPath = "motion.jump")
 public class MotionJump extends Check {
 
 

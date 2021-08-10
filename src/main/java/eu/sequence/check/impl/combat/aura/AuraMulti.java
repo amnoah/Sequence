@@ -6,7 +6,7 @@ import eu.sequence.data.PlayerData;
 import eu.sequence.packet.Packet;
 import io.github.retrooper.packetevents.packetwrappers.play.in.useentity.WrappedPacketInUseEntity;
 
-@CheckInfo(name = "Aura",subName = "Multi")
+@CheckInfo(name = "Aura",subName = "Multi",configPath = "aura.multi")
 public class AuraMulti extends Check {
 
     private int ticks,lastID;

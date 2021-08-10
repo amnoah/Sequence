@@ -24,7 +24,9 @@ import java.util.Arrays;
 import java.util.List;
 
 public class CheckManager {
-    private final List<Check> checks;
+
+
+    public static List<Check> checks;
 
     public CheckManager(final PlayerData playerData) {
        checks = Arrays.asList(

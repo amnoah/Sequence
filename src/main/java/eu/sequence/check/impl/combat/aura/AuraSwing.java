@@ -6,7 +6,7 @@ import eu.sequence.data.PlayerData;
 import eu.sequence.packet.Packet;
 import io.github.retrooper.packetevents.packetwrappers.play.in.useentity.WrappedPacketInUseEntity;
 
-@CheckInfo(name = "Aura",subName = "Swing")
+@CheckInfo(name = "Aura",subName = "Swing",configPath = "aura.swing")
 public class AuraSwing extends Check {
 
     private int packetsSent;

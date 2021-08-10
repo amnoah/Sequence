@@ -6,7 +6,7 @@ import eu.sequence.data.PlayerData;
 import eu.sequence.packet.Packet;
 import io.github.retrooper.packetevents.packetwrappers.play.in.useentity.WrappedPacketInUseEntity;
 
-@CheckInfo(name = "Aura", subName = "Post")
+@CheckInfo(name = "Aura", subName = "Post",configPath = "aura.post")
 public class AuraPost extends Check {
 
     private long lastFlyingPacketSent;

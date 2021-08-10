@@ -9,7 +9,7 @@ import eu.sequence.exempt.ExemptType;
 
 import eu.sequence.packet.Packet;
 
-@CheckInfo(name = "Flight", subName = "AirJump")
+@CheckInfo(name = "Flight", subName = "AirJump",configPath = "flight.airjump")
 public class FlightAirJump extends Check {
 
     private int vl;

@@ -10,7 +10,7 @@ import eu.sequence.exempt.ExemptType;
 import eu.sequence.packet.Packet;
 
 
-@CheckInfo(name = "Flight", subName = "Stable")
+@CheckInfo(name = "Flight", subName = "Stable",configPath = "flight.stable")
 public class FlightStable extends Check {
 
     //dumbass check but efficient

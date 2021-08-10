@@ -7,7 +7,7 @@ import eu.sequence.data.processors.MovementProcessor;
 import eu.sequence.exempt.ExemptType;
 import eu.sequence.packet.Packet;
 
-@CheckInfo(name = "InvalidPackets",subName = "NearGround")
+@CheckInfo(name = "InvalidPackets",subName = "NearGround",configPath = "invalidpackets.nearground")
 public class InvalidPacketsNearGround extends Check {
 
 
