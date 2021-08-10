@@ -11,7 +11,7 @@ import org.bukkit.Bukkit;
 @CheckInfo(name = "Aim", subName = "SensivityGCD",configPath = "aim.sensivitygcd")
 public class AimSensivityGCD extends Check {
 
-    private int vl;
+
 
     public AimSensivityGCD(PlayerData playerData) {
         super(playerData);
@@ -30,11 +30,11 @@ public class AimSensivityGCD extends Check {
 
 
             if (gcd < 131072L && absDeltaPitch != 0.0 && absLastDeltaPitch != 0.0) {
-                if (++this.vl > 10) {
+                if (++this.preVL > 10) {
                     flag("gcd=" + gcd);
                 }
 
-            } else this.vl -= this.vl > 0 ? 1 : 0;
+            } else this.preVL -= this.preVL > 0 ? 1 : 0;
         }
 
 

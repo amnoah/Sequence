@@ -10,7 +10,7 @@ import io.github.retrooper.packetevents.packetwrappers.play.in.useentity.Wrapped
 public class AuraPost extends Check {
 
     private long lastFlyingPacketSent;
-    private int vl;
+
 
     public AuraPost(PlayerData playerData) {
         super(playerData);
@@ -27,10 +27,10 @@ public class AuraPost extends Check {
                 final long elapsed = now() - this.lastFlyingPacketSent;
 
                 if(elapsed < 25L) {
-                    if(++this.vl > 7) {
+                    if(++this.preVL > 7) {
                         flag("elapsed=" + elapsed);
                     }
-                }else this.vl = 0;
+                }else this.preVL = 0;
             }
 
 

@@ -12,7 +12,7 @@ import eu.sequence.packet.Packet;
 @CheckInfo(name = "Flight", subName = "AirJump",configPath = "flight.airjump")
 public class FlightAirJump extends Check {
 
-    private int vl;
+
     private double lastDeltaY;
 
     /**
@@ -39,10 +39,10 @@ public class FlightAirJump extends Check {
 
 
             if (!exempt && deltaY > lastDeltaY) {
-                if (++this.vl > 3) {
+                if (++this.preVL > 3) {
                     flag("delta=" + deltaY + " ldelta=" + lastDeltaY);
                 }
-            } else this.vl -= this.vl > 0 ? 0.05 : 0;
+            } else this.preVL -= this.preVL > 0 ? 0.05 : 0;
         }
     }
 }

@@ -1,12 +1,11 @@
 package eu.sequence.check;
 
 import eu.sequence.Sequence;
+import eu.sequence.config.impl.CheckConfig;
 import eu.sequence.data.PlayerData;
-
-
 import eu.sequence.exempt.ExemptType;
-
 import eu.sequence.packet.Packet;
+import eu.sequence.tick.TickEvent;
 import eu.sequence.utilities.MathUtils;
 import eu.sequence.utilities.ServerUtils;
 import lombok.Getter;
@@ -31,15 +30,12 @@ public abstract class Check {
     @Getter
     protected double max;
     @Getter
-    private  String subName,path;
+    private String subName, path;
 
     private final String description;
     private double lastAlert;
 
-    protected double vl = 0;
-
-
-
+    protected double preVL = 0,vl = 0;
 
 
     public Check(final PlayerData playerData) {
@@ -70,7 +66,6 @@ public abstract class Check {
     }
 
 
-
     protected boolean isExempt(ExemptType exemptType) {
         return playerData.getExemptProcessor().isExempt(exemptType);
     }
@@ -82,7 +77,8 @@ public abstract class Check {
     protected void flag(String info) {
         final Player player = this.playerData.getPlayer();
 
-        if(player.getGameMode() == GameMode.CREATIVE || player.getGameMode() == GameMode.SPECTATOR ||  player.getAllowFlight()) return;
+        if (player.getGameMode() == GameMode.CREATIVE || player.getGameMode() == GameMode.SPECTATOR || player.getAllowFlight())
+            return;
 
         vl++;
 
@@ -93,38 +89,37 @@ public abstract class Check {
             lastAlert = tick;
 
 
+            TextComponent alert = new TextComponent();
 
-                TextComponent alert = new TextComponent();
+            alert.setText(
+                    replace(Sequence.getInstance().getMainConfig().getAlertFormat(), info)
+            );
 
-                alert.setText(
-                        replace(Sequence.getInstance().getMainConfig().getAlertFormat(), info)
-                );
+            alert.setHoverEvent(
+                    new HoverEvent(
+                            HoverEvent.Action.SHOW_TEXT,
+                            new ComponentBuilder(
+                                    ChatColor.translateAlternateColorCodes('&', replace(
+                                            Sequence.getInstance().getMainConfig().getHoverInfo(), info
+                                    ))
+                            ).create()
+                    )
+            );
 
-                alert.setHoverEvent(
-                        new HoverEvent(
-                                HoverEvent.Action.SHOW_TEXT,
-                                new ComponentBuilder(
-                                       ChatColor.translateAlternateColorCodes('&', replace(
-                                                Sequence.getInstance().getMainConfig().getHoverInfo(), info
-                                        ))
-                                ).create()
-                        )
-                );
+            alert.setClickEvent(
+                    new ClickEvent(
+                            ClickEvent.Action.RUN_COMMAND,
+                            Sequence.getInstance().getMainConfig().getClickCommand().replaceAll(
+                                    "%player%", playerData.getPlayer().getName()
+                            )
+                    )
+            );
 
-                alert.setClickEvent(
-                        new ClickEvent(
-                                ClickEvent.Action.RUN_COMMAND,
-                                Sequence.getInstance().getMainConfig().getClickCommand().replaceAll(
-                                        "%player%", playerData.getPlayer().getName()
-                                )
-                        )
-                );
-
-                Sequence.getInstance().getAlerting().forEach(data
-                        -> data.getPlayer().spigot().sendMessage(alert));
+            Sequence.getInstance().getAlerting().forEach(data
+                    -> data.getPlayer().spigot().sendMessage(alert));
 
 
-            }
+        }
 
 
         if (Math.floor(vl + 1) > max) {
@@ -140,7 +135,7 @@ public abstract class Check {
             public void run() {
                 Bukkit.dispatchCommand(
                         Bukkit.getConsoleSender(),
-                      ChatColor.translateAlternateColorCodes('&' , Sequence.getInstance().getCheckConfig().getPunishCommand().replaceAll(
+                        ChatColor.translateAlternateColorCodes('&', Sequence.getInstance().getCheckConfig().getPunishCommand().replaceAll(
                                 "%player%",
                                 playerData.getPlayer().getName())
                         )
@@ -174,5 +169,33 @@ public abstract class Check {
         return str;
     }
 
+    public void onTick(TickEvent event) {
+    }
+
+    public void addExtraConfigValues(String name, Object object) {
+        CheckConfig config = new CheckConfig();
+        if(config.getConfig().get("checks." + this.path + "." + name) == null) {
+            config.getConfig().set("checks." + this.path + "." + name, object);
+        }else {
+            config.getConfig().set("checks." + this.path + "." + name, config.getConfig().get("checks." + this.path + "." + name));
+        }
+
+
+    }
+
+    public void increasePreVL() {
+        this.preVL++;
+    }
+
+    public void decreasePreVLBy(double decrease) {
+        this.preVL -= this.preVL > 0 ? decrease : 0;
+    }
+
+    public void decreasePreVL() {
+        this.preVL -= this.preVL > 0 ? 1 : 0;
+    }
 
 }
+
+
+

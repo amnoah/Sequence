@@ -15,11 +15,18 @@ import net.minecraft.server.v1_8_R3.EntityPlayer;
 public class MotionGravity extends Check {
 
     private double lastDeltaY;
-    private int preVL;
+
+
+    @Override
+    public void addExtraConfigValues(String name, Object object) {
+        super.addExtraConfigValues("precision", "0.01");
+    }
 
     /**
      * @author Salers
      **/
+
+
 
     public MotionGravity(PlayerData playerData) {
         super(playerData);

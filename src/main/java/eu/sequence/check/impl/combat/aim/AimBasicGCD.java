@@ -13,7 +13,7 @@ public class AimBasicGCD extends Check {
 
     //totally not from me, a friend helped me - Salers
 
-    private double last, result, vl;
+    private double last, result;
 
 
     public AimBasicGCD(PlayerData playerData) {
@@ -35,11 +35,11 @@ public class AimBasicGCD extends Check {
 
             // TODO : EXEMPT FROM CINEMATIC
             if (Math.min(this.last, Math.atan(to)) == this.result && gcd < 0x20000 && gcd > 0) {
-                if (this.vl < 15) this.vl++;
+                if (this.preVL < 15) this.preVL++;
 
-                if (this.vl > 0.75)
+                if (this.preVL++ > 0.75)
                     flag("gcd=" + gcd);
-            }else this.vl -= this.vl > 0 ? 0.05 : 0;
+            }else this.preVL -= this.preVL > 0 ? 0.05 : 0;
 
 
             this.result = Math.min(this.last, Math.atan(to));

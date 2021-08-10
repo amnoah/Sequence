@@ -9,7 +9,7 @@ import eu.sequence.packet.Packet;
 @CheckInfo(name = "Aim", subName = "Sigma",configPath = "aim.sigma")
 public class AimSigma extends Check {
 
-    private double lastDeltaYaw, vl;
+    private double lastDeltaYaw;
 
     public AimSigma(PlayerData playerData) {
         super(playerData);
@@ -38,10 +38,10 @@ public class AimSigma extends Check {
              **/
 
             if (deltaPitch == 0.0D && yawAcceleration > 31.5D )
-                if (++this.vl > 11) {
+                if (++this.preVL > 11) {
                     flag("deltaPitch= " + deltaPitch + " acceleration=" + yawAcceleration);
                 }
-            } else this.vl -= this.vl > 0 ? 0.75 : 0;
+            } else this.preVL -= this.preVL > 0 ? 0.75 : 0;
         }
     }
 
