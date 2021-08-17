@@ -6,11 +6,11 @@ import eu.sequence.data.PlayerData;
 import eu.sequence.packet.Packet;
 import io.github.retrooper.packetevents.packetwrappers.play.in.useentity.WrappedPacketInUseEntity;
 
-@CheckInfo(name = "Aura", subName = "Post",configPath = "aura.post")
+@CheckInfo(name = "Aura", subName = "Post")
 public class AuraPost extends Check {
 
     private long lastFlyingPacketSent;
-
+    private int vl;
 
     public AuraPost(PlayerData playerData) {
         super(playerData);
@@ -27,10 +27,10 @@ public class AuraPost extends Check {
                 final long elapsed = now() - this.lastFlyingPacketSent;
 
                 if(elapsed < 25L) {
-                    if(++this.preVL > 7) {
+                    if(++this.vl > 7) {
                         flag("elapsed=" + elapsed);
                     }
-                }else this.preVL = 0;
+                }else this.vl = 0;
             }
 
 

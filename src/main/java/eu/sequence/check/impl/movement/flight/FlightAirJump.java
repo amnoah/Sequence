@@ -9,10 +9,10 @@ import eu.sequence.exempt.ExemptType;
 
 import eu.sequence.packet.Packet;
 
-@CheckInfo(name = "Flight", subName = "AirJump",configPath = "flight.airjump")
+@CheckInfo(name = "Flight", subName = "AirJump")
 public class FlightAirJump extends Check {
 
-
+    private int vl;
     private double lastDeltaY;
 
     /**
@@ -39,10 +39,10 @@ public class FlightAirJump extends Check {
 
 
             if (!exempt && deltaY > lastDeltaY) {
-                if (++this.preVL > 3) {
+                if (++this.vl > 3) {
                     flag("delta=" + deltaY + " ldelta=" + lastDeltaY);
                 }
-            } else this.preVL -= this.preVL > 0 ? 0.05 : 0;
+            } else this.vl -= this.vl > 0 ? 0.05 : 0;
         }
     }
 }

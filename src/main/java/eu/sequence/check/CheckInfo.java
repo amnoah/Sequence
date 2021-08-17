@@ -12,7 +12,5 @@ public @interface CheckInfo {
 
     String description() default "";
 
-    String configPath() default "";
-
     boolean experimental() default false;
 }

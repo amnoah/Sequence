@@ -5,7 +5,7 @@ import eu.sequence.check.CheckInfo;
 import eu.sequence.data.PlayerData;
 import eu.sequence.packet.Packet;
 
-@CheckInfo(name = "InvalidPackets",subName = "Pitch",configPath = "invalidpackets.pitch")
+@CheckInfo(name = "InvalidPackets",subName = "Pitch")
 public class InvalidPacketsPitch extends Check {
 
     //dumbass check but needed

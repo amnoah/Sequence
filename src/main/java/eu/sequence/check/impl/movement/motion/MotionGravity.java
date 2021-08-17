@@ -7,26 +7,18 @@ import eu.sequence.data.processors.MovementProcessor;
 import eu.sequence.exempt.ExemptType;
 
 import eu.sequence.packet.Packet;
-import net.minecraft.server.v1_8_R3.EntityPlayer;
 
 // Call this fly coz it is a fly check
 
-@CheckInfo(name = "Motion",subName = "Gravity",experimental = true,configPath = "motion.gravity")
+@CheckInfo(name = "Motion",subName = "Gravity",experimental = true)
 public class MotionGravity extends Check {
 
     private double lastDeltaY;
-
-
-    @Override
-    public void addExtraConfigValues(String name, Object object) {
-        super.addExtraConfigValues("precision", "0.01");
-    }
+    private int preVL;
 
     /**
      * @author Salers
      **/
-
-
 
     public MotionGravity(PlayerData playerData) {
         super(playerData);
@@ -36,10 +28,10 @@ public class MotionGravity extends Check {
     public void handle(Packet packet) {
         if (packet.isPosition()) {
 
-            final MovementProcessor movementProcessor = playerData.getMovementProcessor();
+            MovementProcessor movementProcessor = playerData.getMovementProcessor();
 
-            final double deltaY = movementProcessor.getDeltaY();
-            final double lastDeltaY = this.lastDeltaY;
+            double deltaY = movementProcessor.getDeltaY();
+            double lastDeltaY = this.lastDeltaY;
 
             this.lastDeltaY = deltaY;
             double predictionY = (lastDeltaY - 0.08) * 0.9800000190734863D; //EntityLivingBase lines 1666 and 1669
@@ -47,7 +39,8 @@ public class MotionGravity extends Check {
                 predictionY = 0;
             }
 
-            final double difference = Math.abs(deltaY - predictionY);
+            double difference = Math.abs(deltaY - predictionY);
+
 
             final boolean exempt = isExempt(ExemptType.CLIMBABLE,ExemptType.WEB,ExemptType.LIQUID,ExemptType.NOTINAIR);
 

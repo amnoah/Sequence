@@ -5,7 +5,7 @@ import eu.sequence.check.CheckInfo;
 import eu.sequence.data.PlayerData;
 import eu.sequence.packet.Packet;
 
-@CheckInfo(name = "InvalidPackets",subName = "AbilitiesFlying",configPath = "invalidpackets.abilitiesflying")
+@CheckInfo(name = "InvalidPackets",subName = "AbilitiesFlying")
 public class InvalidPacketsAbilitiesFlying extends Check {
 
     public InvalidPacketsAbilitiesFlying(PlayerData playerData) {

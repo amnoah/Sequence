@@ -6,10 +6,10 @@ import eu.sequence.data.PlayerData;
 import eu.sequence.data.processors.RotationProcessor;
 import eu.sequence.packet.Packet;
 
-@CheckInfo(name = "Aim", subName = "Sigma",configPath = "aim.sigma")
+@CheckInfo(name = "Aim", subName = "Sigma")
 public class AimSigma extends Check {
 
-    private double lastDeltaYaw;
+    private double lastDeltaYaw, vl;
 
     public AimSigma(PlayerData playerData) {
         super(playerData);
@@ -18,7 +18,6 @@ public class AimSigma extends Check {
     @Override
     public void handle(Packet packet) {
         if (packet.isRotation()) {
-
             final RotationProcessor rotationProcessor = playerData.getRotationProcessor();
 
             final double deltaPitch = rotationProcessor.getDeltaPitch();
@@ -37,11 +36,11 @@ public class AimSigma extends Check {
 
              **/
 
-            if (deltaPitch == 0.0D && yawAcceleration > 31.5D )
-                if (++this.preVL > 11) {
+            if (deltaPitch == 0.0D && yawAcceleration > 31.5D) {
+                if (++this.vl > 11) {
                     flag("deltaPitch= " + deltaPitch + " acceleration=" + yawAcceleration);
                 }
-            } else this.preVL -= this.preVL > 0 ? 0.75 : 0;
+            } else this.vl -= this.vl > 0 ? 0.75 : 0;
         }
     }
-
+}

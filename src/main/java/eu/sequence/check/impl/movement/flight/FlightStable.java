@@ -10,7 +10,7 @@ import eu.sequence.exempt.ExemptType;
 import eu.sequence.packet.Packet;
 
 
-@CheckInfo(name = "Flight", subName = "Stable",configPath = "flight.stable")
+@CheckInfo(name = "Flight", subName = "Stable")
 public class FlightStable extends Check {
 
     //dumbass check but efficient
@@ -20,7 +20,7 @@ public class FlightStable extends Check {
      **/
 
     private double lastDeltaY;
-
+    private int vl;
 
     public FlightStable(PlayerData playerData) {
         super(playerData);
@@ -43,9 +43,9 @@ public class FlightStable extends Check {
             final double accelerationYAxis = Math.abs(deltaY - lastDeltaY);
 
             if (accelerationYAxis < 0.001 && !exempt) {
-                if (++this.preVL > 4)
+                if (++this.vl > 4)
                     flag("accel=" + accelerationYAxis);
-            }else this.preVL -= this.preVL > 0 ? 0.05 : 0;
+            }else this.vl -= this.vl > 0 ? 0.05 : 0;
 
 
         }

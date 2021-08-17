@@ -3,7 +3,6 @@ package eu.sequence.check.impl.movement.speed;
 import eu.sequence.check.Check;
 import eu.sequence.check.CheckInfo;
 import eu.sequence.data.PlayerData;
-import eu.sequence.exempt.ExemptType;
 import eu.sequence.packet.Packet;
 import eu.sequence.utilities.PlayerUtils;
 import net.minecraft.server.v1_8_R3.BlockPosition;
@@ -14,14 +13,14 @@ import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.NumberConversions;
 
-@CheckInfo(name = "Speed", subName = "Horizontal",configPath = "speed.horizontal")
+@CheckInfo(name = "Speed", subName = "Horizontal")
 public class SpeedHorizontal extends Check {
 
     // TODO: exempt on teleport & velocity because those aren't handled
 
     private float lastFriction, friction;
     private double lastDeltaXZ;
-    private int ground, air;
+    private int ground, air,vl;
 
     public SpeedHorizontal(PlayerData playerData) {
         super(playerData);
@@ -79,13 +78,11 @@ public class SpeedHorizontal extends Check {
                 prediction += landMovementFactor * 1.25;
 
 
-
-
             // flag
-            if (deltaXZ > prediction ) {
-                if(this.preVL++ > 3)
+            if (deltaXZ > prediction) {
+                if(this.vl++ > 3)
                 flag("deltaXZ=" + deltaXZ + " max=" + prediction);
-            }else this.preVL -= this.preVL > 0 ? 0.025 : 0;
+            }else this.vl -= this.vl > 0 ? 0.025 : 0;
 
 
 

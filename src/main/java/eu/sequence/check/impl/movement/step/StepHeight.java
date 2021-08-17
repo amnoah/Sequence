@@ -8,7 +8,7 @@ import eu.sequence.packet.Packet;
 import org.bukkit.Bukkit;
 import org.bukkit.util.Vector;
 
-@CheckInfo(name = "Step",subName = "Height",configPath = "step.height")
+@CheckInfo(name = "Step",subName = "Height")
 public class StepHeight extends Check {
 
     // TODO: exempt on teleport & velocity because those aren't handled
